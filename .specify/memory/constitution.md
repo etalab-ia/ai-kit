@@ -17,9 +17,11 @@ Added Sections:
   * Automated accessibility testing
   * Legal mandate and penalties
   * Assistive technology support
+  * Device-agnostic UX requirement (mobile, tablet, desktop)
 
 Modified Sections:
-- Principle VI (DSFR): Now explicitly references Principle V for accessibility inheritance
+- Principle V (RGAA): Added device-agnostic UX mandate
+- Principle VI (DSFR): Now explicitly references Principle V for accessibility inheritance and emphasizes responsive design
 
 Removed Sections: N/A
 
@@ -108,6 +110,7 @@ ai-kit MUST ensure all digital services comply with RGAA 4 (Référentiel Géné
 - Support assistive technologies (screen readers, keyboard navigation, etc.)
 - Provide accessibility audit tools and guidance for teams
 - Maintain accessibility declarations as required by law
+- Ensure device-agnostic UX: services MUST work on mobile, tablet, and desktop unless explicitly justified
 
 **Legal Context**:
 
@@ -115,21 +118,21 @@ ai-kit MUST ensure all digital services comply with RGAA 4 (Référentiel Géné
 - Non-compliance can result in legal penalties and service rejection
 - Accessibility is a fundamental right, not an optional feature
 
-**Rationale**: Accessibility ensures digital services are usable by all citizens, including those with disabilities. RGAA compliance is both a legal obligation and a moral imperative. Making accessibility a core principle ensures it's considered from day one, not retrofitted later.
+**Rationale**: Accessibility ensures digital services are usable by all citizens, including those with disabilities. RGAA compliance is both a legal obligation and a moral imperative. Making accessibility a core principle ensures it's considered from day one, not retrofitted later. Device-agnostic design is part of accessibility—citizens access services from whatever device they have available.
 
 ### VI. DSFR Design System Compliance
 
 ai-kit MUST provide components and templates that comply with the French Government Design System (DSFR - https://www.systeme-de-design.gouv.fr/version-courante/fr).
 
 **Requirements**:
-
 - Offer DSFR-compliant UI components (buttons, forms, navigation, etc.)
 - Provide layout templates that follow DSFR guidelines
-- Support responsive design patterns defined by DSFR
+- Support responsive design patterns defined by DSFR (mobile-first approach)
 - Enable theming and customization within DSFR constraints
 - Ensure DSFR components inherit RGAA accessibility compliance (Principle V)
+- Test UI components across device types (mobile, tablet, desktop)
 
-**Rationale**: DSFR compliance is mandatory for French Government digital services. Providing pre-built compliant components accelerates development and ensures visual consistency across government services. DSFR is built on top of accessibility requirements, making it complementary to Principle V.
+**Rationale**: DSFR compliance is mandatory for French Government digital services. Providing pre-built compliant components accelerates development and ensures visual consistency across government services. DSFR is built on top of accessibility requirements, making it complementary to Principle V. DSFR's responsive patterns ensure services work across all devices.
 
 ### VII. Extensibility and Innovation
 

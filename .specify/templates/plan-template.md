@@ -37,8 +37,8 @@ Verify compliance with ai-kit constitution principles:
 - [ ] **Streamlit-to-Production Bridge (Principle II)**: If using Streamlit, is there a migration path to Reflex? Are ProConnect and DSFR integrations planned?
 - [ ] **French Government AI Stack Integration (Principle III)**: Does the feature integrate with OpenGateLLM, EvalAP, or other government AI services where applicable?
 - [ ] **ProConnect Authentication (Principle IV)**: Is ProConnect authentication implemented for user-facing features?
-- [ ] **RGAA Accessibility Compliance (Principle V)**: Do all UI components meet RGAA 4 criteria? Is automated accessibility testing included?
-- [ ] **DSFR Design System Compliance (Principle VI)**: Do UI components comply with DSFR guidelines?
+- [ ] **RGAA Accessibility Compliance (Principle V)**: Do all UI components meet RGAA 4 criteria? Is automated accessibility testing included? Does the UX work on mobile, tablet, and desktop?
+- [ ] **DSFR Design System Compliance (Principle VI)**: Do UI components comply with DSFR guidelines? Are responsive design patterns implemented?
 - [ ] **Extensibility and Innovation (Principle VII)**: Is the implementation extensible? Does it avoid tight coupling to specific service versions?
 - [ ] **Developer Experience & Tooling (Principle VIII)**: Does the project use Turborepo, uv, ruff, and just? Is TypeScript usage (if any) justified for frontend integration points?
 
