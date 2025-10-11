@@ -1,23 +1,23 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: [INITIAL] → 1.0.0
-Rationale: Initial constitution establishing core principles for ai-kit framework
+Version Change: 1.0.0 → 1.1.0
+Rationale: MINOR version bump - Added new Principle VII (Developer Experience & Tooling Consistency)
 
-Modified Principles: N/A (initial creation)
+Modified Principles: N/A
 
 Added Sections:
-- Core Principles (6 principles)
-- French Government Integration Requirements
-- Development Workflow & Quality Standards
-- Governance
+- Principle VII: Developer Experience & Tooling Consistency
+  * Monorepo tooling standardization (Turborepo)
+  * Python ecosystem tooling (uv, ruff, just)
+  * Hybrid TypeScript/Python architecture guidance
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ plan-template.md: Constitution Check section will reference these principles
-- ✅ spec-template.md: Requirements section aligns with Python-first and DSFR compliance
-- ✅ tasks-template.md: Task categorization reflects Pythonic approach and integration needs
+- ✅ plan-template.md: Constitution Check section updated to include Principle VII
+- ✅ spec-template.md: Already aligned (no changes needed)
+- ✅ tasks-template.md: Already aligned (no changes needed)
 
 Follow-up TODOs: None
 -->
@@ -108,6 +108,30 @@ ai-kit MUST remain extensible to accommodate rapid innovation in the AI space, b
 - Maintain backward compatibility where feasible
 
 **Rationale**: The AI landscape evolves rapidly. ai-kit must enable teams to adopt new tools and techniques without being constrained by framework limitations.
+
+### VII. Developer Experience & Tooling Consistency
+
+ai-kit MUST standardize on modern, Python-ecosystem-native tooling to minimize cognitive load and maximize developer productivity across teams.
+
+**Monorepo Management**:
+- Use **Turborepo** (or equivalent monorepo orchestration tool) for managing multi-package codebases
+- Standardize build, test, and deployment pipelines across all packages
+- Enable efficient caching and parallel execution for CI/CD workflows
+- Support incremental builds to accelerate development cycles
+
+**Python Tooling Standards**:
+- **uv**: Package and dependency management (replaces pip, pip-tools, virtualenv)
+- **ruff**: Linting and code formatting (replaces flake8, black, isort)
+- **just**: Task runner for common development commands (replaces Makefiles)
+
+**Hybrid Architecture**:
+- Python remains the primary language (Principle I)
+- TypeScript is permitted for frontend integration points where it provides clear value
+- Backend services MUST be Python-based
+- Frontend components MAY use TypeScript when integrating with modern frameworks (e.g., Next.js for Reflex interop)
+- All TypeScript usage MUST be justified in Constitution Check
+
+**Rationale**: Tool proliferation fragments team knowledge and slows onboarding. Standardizing on modern, fast tools that respect Python-first culture enables teams to focus on domain problems rather than build system archaeology. Monorepo tooling prevents the "multiple disconnected repos" anti-pattern that complicates deployment of services with multiple running processes.
 
 ## French Government Integration Requirements
 
@@ -200,6 +224,7 @@ All feature specifications and implementation plans MUST include a Constitution 
 - ProConnect authentication (Principle IV)
 - DSFR compliance (Principle V)
 - Extensibility considerations (Principle VI)
+- Developer tooling standards and monorepo architecture (Principle VII)
 
 ### Complexity Justification
 
@@ -209,4 +234,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.0.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-11
+**Version**: 1.1.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-11
