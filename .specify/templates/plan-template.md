@@ -37,11 +37,10 @@ Verify compliance with ai-kit constitution principles:
 - [ ] **Streamlit-to-Production Bridge (Principle II)**: If using Streamlit, is there a migration path to Reflex? Are ProConnect and DSFR integrations planned?
 - [ ] **French Government AI Stack Integration (Principle III)**: Does the feature integrate with OpenGateLLM, EvalAP, or other government AI services where applicable?
 - [ ] **ProConnect Authentication (Principle IV)**: Is ProConnect authentication implemented for user-facing features?
-- [ ] **DSFR Design System Compliance (Principle V)**: Do UI components comply with DSFR guidelines and accessibility requirements?
-- [ ] **Extensibility and Innovation (Principle VI)**: Is the implementation extensible? Does it avoid tight coupling to specific service versions?
-- [ ] **Developer Experience & Tooling (Principle VII)**: Does the project use Turborepo, uv, ruff, and just? Is TypeScript usage (if any) justified for frontend integration points?
-- [ ] **User-Centered Iteration (Principle VIII)**: Is user research planned? Are there plans for MVP release, user testing, and iteration? Will analytics be implemented?
-- [ ] **Security & Privacy**: Are GDPR requirements addressed? Is data encryption planned? Are AI-specific security measures (rate limiting, prompt injection prevention) included? Is transparency/explainability provided for AI decisions?
+- [ ] **RGAA Accessibility Compliance (Principle V)**: Do all UI components meet RGAA 4 criteria? Is automated accessibility testing included?
+- [ ] **DSFR Design System Compliance (Principle VI)**: Do UI components comply with DSFR guidelines?
+- [ ] **Extensibility and Innovation (Principle VII)**: Is the implementation extensible? Does it avoid tight coupling to specific service versions?
+- [ ] **Developer Experience & Tooling (Principle VIII)**: Does the project use Turborepo, uv, ruff, and just? Is TypeScript usage (if any) justified for frontend integration points?
 
 **Violations Requiring Justification**: [List any principle violations with rationale, or state "None"]
 

@@ -1,35 +1,31 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.0.0 → 1.2.0
-Rationale: MINOR version bump - Added Principle VII, Principle VIII, and Security & Privacy Standards section
+Version Change: 1.1.0 → 1.2.0
+Rationale: MINOR version bump - Elevated accessibility to standalone Principle V (RGAA), renumbered subsequent principles
 
-Modified Principles: N/A
+Modified Principles:
+- Principle V: Split DSFR into two principles - RGAA Accessibility (new V) and DSFR Design System (now VI)
+- Former Principle V (DSFR) → now Principle VI (DSFR, with RGAA reference)
+- Former Principle VI (Extensibility) → now Principle VII
+- Former Principle VII (Developer Tooling) → now Principle VIII
 
 Added Sections:
-- Principle VII: Developer Experience & Tooling Consistency
-  * Monorepo tooling standardization (Turborepo - mandatory, no alternatives)
-  * Python ecosystem tooling (uv, ruff, just - mandatory)
-  * Hybrid TypeScript/Python architecture guidance
+- Principle V: RGAA Accessibility Compliance (NON-NEGOTIABLE)
+  * 106 RGAA 4 criteria compliance
+  * Accessible-by-default components
+  * Automated accessibility testing
+  * Legal mandate and penalties
+  * Assistive technology support
 
-- Principle VIII: User-Centered Iteration
-  * User research requirements (interviews, personas, journey maps)
-  * Iterative development (MVP, alpha/beta/production progression)
-  * Continuous validation (analytics, A/B testing, usability testing)
-  * Data-driven decisions (usage metrics, task completion rates)
-
-- Security & Privacy Standards section
-  * GDPR compliance (data minimization, RGPD rights, retention policies)
-  * AI-specific privacy (training data transparency, bias audits)
-  * Security requirements (ProConnect, RBAC, encryption, OWASP)
-  * AI security (rate limiting, prompt injection prevention, output filtering)
-  * Transparency & explainability for AI decisions
+Modified Sections:
+- Principle VI (DSFR): Now explicitly references Principle V for accessibility inheritance
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ plan-template.md: Constitution Check section updated with Principle VIII and Security checks
-- ✅ spec-template.md: Already aligned (user scenarios support Principle VIII)
+- ✅ plan-template.md: Constitution Check section updated with new principle numbering
+- ✅ spec-template.md: Already aligned (no changes needed)
 - ✅ tasks-template.md: Already aligned (no changes needed)
 
 Follow-up TODOs: None
@@ -60,6 +56,7 @@ ai-kit MUST provide a clear migration path from Streamlit prototypes to producti
 - Technical debt accumulates as experimental UIs face real-world demands
 
 **Implementation Requirements**:
+
 - Provide Reflex-based wrappers that can encapsulate Streamlit components
 - Offer pre-built integrations for ProConnect authentication
 - Include DSFR-compliant UI components and templates
@@ -77,6 +74,7 @@ ai-kit MUST provide first-class integrations with the emerging French Government
 - Future government-endorsed AI tools and services
 
 **Requirements**:
+
 - Provide SDK/client libraries for each integrated service
 - Include example implementations and quickstart templates
 - Document authentication, authorization, and compliance requirements
@@ -89,6 +87,7 @@ ai-kit MUST provide first-class integrations with the emerging French Government
 ai-kit MUST implement ProConnect (https://partenaires.proconnect.gouv.fr/docs/fournisseur-service) as the default authentication mechanism for government digital services.
 
 **Requirements**:
+
 - Provide ready-to-use ProConnect integration modules
 - Support both development/testing and production ProConnect environments
 - Include session management, token refresh, and logout flows
@@ -96,24 +95,48 @@ ai-kit MUST implement ProConnect (https://partenaires.proconnect.gouv.fr/docs/fo
 
 **Rationale**: ProConnect is the government-mandated authentication system. Providing turnkey integration removes a common blocker and ensures compliance from day one.
 
-### V. DSFR Design System Compliance
+### V. RGAA Accessibility Compliance (NON-NEGOTIABLE)
+
+ai-kit MUST ensure all digital services comply with RGAA 4 (Référentiel Général d'Amélioration de l'Accessibilité - https://accessibilite.numerique.gouv.fr/), the French Government accessibility standard.
+
+**Requirements**:
+
+- All UI components MUST meet RGAA 4 criteria (106 accessibility criteria based on WCAG)
+- Provide accessible-by-default components and patterns
+- Include automated accessibility testing in CI/CD pipelines
+- Document accessibility features and ARIA patterns for each component
+- Support assistive technologies (screen readers, keyboard navigation, etc.)
+- Provide accessibility audit tools and guidance for teams
+- Maintain accessibility declarations as required by law
+
+**Legal Context**:
+
+- RGAA compliance is legally mandated for French Government digital services
+- Non-compliance can result in legal penalties and service rejection
+- Accessibility is a fundamental right, not an optional feature
+
+**Rationale**: Accessibility ensures digital services are usable by all citizens, including those with disabilities. RGAA compliance is both a legal obligation and a moral imperative. Making accessibility a core principle ensures it's considered from day one, not retrofitted later.
+
+### VI. DSFR Design System Compliance
 
 ai-kit MUST provide components and templates that comply with the French Government Design System (DSFR - https://www.systeme-de-design.gouv.fr/version-courante/fr).
 
 **Requirements**:
+
 - Offer DSFR-compliant UI components (buttons, forms, navigation, etc.)
 - Provide layout templates that follow DSFR guidelines
-- Include accessibility (a11y) features as mandated by DSFR
 - Support responsive design patterns defined by DSFR
 - Enable theming and customization within DSFR constraints
+- Ensure DSFR components inherit RGAA accessibility compliance (Principle V)
 
-**Rationale**: DSFR compliance is mandatory for French Government digital services. Providing pre-built compliant components accelerates development and ensures consistency across government services.
+**Rationale**: DSFR compliance is mandatory for French Government digital services. Providing pre-built compliant components accelerates development and ensures visual consistency across government services. DSFR is built on top of accessibility requirements, making it complementary to Principle V.
 
-### VI. Extensibility and Innovation
+### VII. Extensibility and Innovation
 
 ai-kit MUST remain extensible to accommodate rapid innovation in the AI space, both within and outside the French Government ecosystem.
 
 **Requirements**:
+
 - Provide clear plugin/extension mechanisms
 - Document integration patterns for new AI services
 - Avoid tight coupling to specific versions of external services
@@ -122,22 +145,25 @@ ai-kit MUST remain extensible to accommodate rapid innovation in the AI space, b
 
 **Rationale**: The AI landscape evolves rapidly. ai-kit must enable teams to adopt new tools and techniques without being constrained by framework limitations.
 
-### VII. Developer Experience & Tooling Consistency
+### VIII. Developer Experience & Tooling Consistency
 
 ai-kit MUST standardize on modern, Python-ecosystem-native tooling to minimize cognitive load and maximize developer productivity across teams.
 
 **Monorepo Management**:
+
 - Use **Turborepo** for managing multi-package codebases
 - Standardize build, test, and deployment pipelines across all packages
 - Enable efficient caching and parallel execution for CI/CD workflows
 - Support incremental builds to accelerate development cycles
 
 **Python Tooling Standards**:
+
 - **uv**: Package and dependency management (replaces pip, pip-tools, virtualenv)
 - **ruff**: Linting and code formatting (replaces flake8, black, isort)
 - **just**: Task runner for common development commands (replaces Makefiles)
 
 **Hybrid Architecture**:
+
 - Python remains the primary language (Principle I)
 - TypeScript is permitted for frontend integration points where it provides clear value
 - Backend services MUST be Python-based
@@ -151,18 +177,21 @@ ai-kit MUST standardize on modern, Python-ecosystem-native tooling to minimize c
 ai-kit projects MUST adopt iterative, user-centered development practices to ensure services meet real user needs rather than assumptions.
 
 **User Research Requirements**:
+
 - Conduct user research before building features (interviews, observations, surveys)
 - Identify and validate user needs with actual users, not stakeholders alone
 - Document user personas and journey maps for key workflows
 - Test prototypes with representative users before full implementation
 
 **Iterative Development**:
+
 - Release minimum viable products (MVPs) early for user feedback
 - Follow alpha → beta → production progression with user testing at each stage
 - Iterate based on real user feedback, not internal assumptions
 - Be willing to pivot or discard features that don't meet validated user needs
 
 **Continuous Validation**:
+
 - Implement analytics and telemetry to understand actual usage patterns
 - Monitor user behavior post-launch to identify pain points
 - Conduct regular usability testing with real users
@@ -170,6 +199,7 @@ ai-kit projects MUST adopt iterative, user-centered development practices to ens
 - Collect and act on user feedback through multiple channels
 
 **Data-Driven Decisions**:
+
 - Base design and feature decisions on usage data, not hunches
 - Track key metrics: task completion rates, error rates, user satisfaction
 - Make analytics built-in, always-on, and accessible to the team
@@ -182,6 +212,7 @@ ai-kit projects MUST adopt iterative, user-centered development practices to ens
 ### Mandatory Integrations
 
 All ai-kit projects MUST support:
+
 - ProConnect authentication (Principle IV)
 - DSFR design system compliance (Principle V)
 - Structured logging compatible with government infrastructure
@@ -190,6 +221,7 @@ All ai-kit projects MUST support:
 ### Recommended Integrations
 
 ai-kit projects SHOULD integrate with:
+
 - OpenGateLLM for LLM access and RAG capabilities
 - EvalAP for AI evaluation and metrics
 - Government-approved data storage and processing services
@@ -198,6 +230,7 @@ ai-kit projects SHOULD integrate with:
 ### Integration Testing
 
 New integrations with government services MUST include:
+
 - Contract tests verifying API compatibility
 - Authentication/authorization flow tests
 - Error handling and fallback scenarios
@@ -210,6 +243,7 @@ New integrations with government services MUST include:
 All ai-kit projects MUST comply with French and European data protection regulations:
 
 **GDPR Compliance**:
+
 - Implement data minimization: collect only necessary data
 - Provide clear privacy notices and consent mechanisms
 - Enable user data access, correction, and deletion rights (RGPD rights)
@@ -217,6 +251,7 @@ All ai-kit projects MUST comply with French and European data protection regulat
 - Implement data retention policies with automatic deletion
 
 **AI-Specific Privacy**:
+
 - Document what data is used for AI model training vs. inference
 - Implement mechanisms to prevent sensitive data leakage in AI outputs
 - Provide transparency about AI decision-making processes
@@ -226,6 +261,7 @@ All ai-kit projects MUST comply with French and European data protection regulat
 ### Security Requirements
 
 **Authentication & Authorization**:
+
 - Use ProConnect for user authentication (Principle IV)
 - Implement role-based access control (RBAC) for internal users
 - Follow principle of least privilege for service accounts
@@ -233,6 +269,7 @@ All ai-kit projects MUST comply with French and European data protection regulat
 - Use secure session management with appropriate timeouts
 
 **Data Security**:
+
 - Encrypt data at rest and in transit (TLS 1.3+)
 - Use government-approved encryption standards
 - Implement secure key management practices
@@ -240,6 +277,7 @@ All ai-kit projects MUST comply with French and European data protection regulat
 - Protect against common vulnerabilities (OWASP Top 10)
 
 **AI Security**:
+
 - Implement rate limiting to prevent abuse of AI endpoints
 - Validate and sanitize prompts to prevent injection attacks
 - Monitor for adversarial inputs and model manipulation attempts
@@ -247,6 +285,7 @@ All ai-kit projects MUST comply with French and European data protection regulat
 - Document AI model provenance and supply chain security
 
 **Audit & Compliance**:
+
 - Maintain comprehensive audit logs for security-relevant events
 - Implement log retention per government requirements
 - Enable security monitoring and alerting
@@ -256,6 +295,7 @@ All ai-kit projects MUST comply with French and European data protection regulat
 ### Transparency & Explainability
 
 For AI-powered features:
+
 - Provide clear explanations of how AI decisions are made
 - Disclose when users are interacting with AI vs. humans
 - Document AI model limitations and known failure modes
@@ -267,6 +307,7 @@ For AI-powered features:
 ### Rapid Iteration Support
 
 ai-kit MUST support the iterative development workflow common in AI projects:
+
 - Enable quick prototyping with Streamlit or similar tools
 - Provide migration paths to production-ready implementations
 - Support A/B testing and experimentation
@@ -275,6 +316,7 @@ ai-kit MUST support the iterative development workflow common in AI projects:
 ### Testing Discipline
 
 While recognizing the experimental nature of AI development, ai-kit projects MUST:
+
 - Include integration tests for government service integrations
 - Test authentication and authorization flows
 - Validate DSFR compliance for UI components
@@ -283,6 +325,7 @@ While recognizing the experimental nature of AI development, ai-kit projects MUS
 ### Documentation Requirements
 
 All ai-kit features MUST include:
+
 - Quickstart guides for common use cases
 - Integration examples with government services
 - Troubleshooting guides for common issues
@@ -291,6 +334,7 @@ All ai-kit features MUST include:
 ### Code Quality
 
 ai-kit contributions MUST:
+
 - Follow Python community standards (PEP 8, type hints where appropriate)
 - Include docstrings for public APIs
 - Provide clear error messages and logging
@@ -305,6 +349,7 @@ This constitution supersedes all other development practices and guidelines for 
 ### Amendment Process
 
 Amendments to this constitution require:
+
 1. Documented rationale explaining the need for change
 2. Impact analysis on existing projects and integrations
 3. Migration plan for projects affected by breaking changes
@@ -314,6 +359,7 @@ Amendments to this constitution require:
 ### Versioning Policy
 
 Constitution versions follow semantic versioning (MAJOR.MINOR.PATCH):
+
 - **MAJOR**: Backward-incompatible changes to core principles or mandatory requirements
 - **MINOR**: New principles, sections, or material expansions of guidance
 - **PATCH**: Clarifications, wording improvements, non-semantic refinements
@@ -321,19 +367,20 @@ Constitution versions follow semantic versioning (MAJOR.MINOR.PATCH):
 ### Compliance Review
 
 All feature specifications and implementation plans MUST include a Constitution Check section verifying compliance with:
+
 - Python-first development (Principle I)
 - Streamlit-to-production support if applicable (Principle II)
 - Government AI stack integration requirements (Principle III)
 - ProConnect authentication (Principle IV)
-- DSFR compliance (Principle V)
-- Extensibility considerations (Principle VI)
-- Developer tooling standards and monorepo architecture (Principle VII)
-- User research and iterative development practices (Principle VIII)
-- Security & privacy standards (especially GDPR, AI security, transparency)
+- RGAA accessibility compliance (Principle V)
+- DSFR design system compliance (Principle VI)
+- Extensibility considerations (Principle VII)
+- Developer tooling standards and monorepo architecture (Principle VIII)
 
 ### Complexity Justification
 
 Any deviation from these principles MUST be documented with:
+
 - Specific technical or business rationale
 - Explanation of why compliant alternatives are insufficient
 - Plan to return to compliance if possible
