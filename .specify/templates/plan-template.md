@@ -31,7 +31,20 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Verify compliance with ai-kit constitution principles:
+
+- [ ] **Python-First Development (Principle I)**: Is Python the primary language? Are non-Python components justified?
+- [ ] **Streamlit-to-Production Bridge (Principle II)**: If using Streamlit, is there a migration path to Reflex? Are ProConnect and DSFR integrations planned?
+- [ ] **French Government AI Stack Integration (Principle III)**: Does the feature integrate with OpenGateLLM, EvalAP, or other government AI services where applicable?
+- [ ] **ProConnect Authentication (Principle IV)**: Is ProConnect authentication implemented for user-facing features?
+- [ ] **RGAA Accessibility Compliance (Principle V)**: Do all UI components meet RGAA 4 criteria? Is automated accessibility testing included? Does the UX work on mobile, tablet, and desktop?
+- [ ] **DSFR Design System Compliance (Principle VI)**: Do UI components comply with DSFR guidelines? Are responsive design patterns implemented?
+- [ ] **Extensibility and Innovation (Principle VII)**: Is the implementation extensible? Does it avoid tight coupling to specific service versions?
+- [ ] **Developer Experience & Tooling (Principle VIII)**: Does the project use Turborepo, uv, ruff, and just? Is TypeScript usage (if any) justified for frontend integration points?
+- [ ] **Open Source & Digital Commons (Principle IX)**: Is the code published under an open source license? Are open source and sovereign solutions privileged over proprietary alternatives?
+- [ ] **User-Centered Iteration (Principle X)**: Is user research planned? Are there plans for MVP release, user testing, and iteration? Will analytics be implemented?
+
+**Violations Requiring Justification**: [List any principle violations with rationale, or state "None"]
 
 ## Project Structure
 
