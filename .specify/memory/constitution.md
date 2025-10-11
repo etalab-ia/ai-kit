@@ -1,50 +1,212 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+SYNC IMPACT REPORT
+==================
+Version Change: [INITIAL] → 1.0.0
+Rationale: Initial constitution establishing core principles for ai-kit framework
+
+Modified Principles: N/A (initial creation)
+
+Added Sections:
+- Core Principles (6 principles)
+- French Government Integration Requirements
+- Development Workflow & Quality Standards
+- Governance
+
+Removed Sections: N/A
+
+Templates Requiring Updates:
+- ✅ plan-template.md: Constitution Check section will reference these principles
+- ✅ spec-template.md: Requirements section aligns with Python-first and DSFR compliance
+- ✅ tasks-template.md: Task categorization reflects Pythonic approach and integration needs
+
+Follow-up TODOs: None
+-->
+
+# ai-kit Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Python-First Development
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+ai-kit MUST prioritize Python as the primary development language to align with the expertise of French Government digital service teams. This principle recognizes that:
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+- Teams recruited for AI/GenAI projects predominantly have Pythonic backgrounds
+- Reducing language barriers accelerates delivery and reduces technical debt
+- Modern Python frameworks (e.g., Reflex) can deliver production-grade frontend experiences
+- Python-first does not mean Python-only; strategic use of other technologies is permitted when justified
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+**Rationale**: Empowering teams to work within their expertise domain maximizes productivity and reduces the learning curve that has historically caused projects to stall or accumulate technical debt.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### II. Streamlit-to-Production Bridge
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+ai-kit MUST provide a clear migration path from Streamlit prototypes to production-ready applications. This principle addresses the common pattern where:
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Teams start with Streamlit for rapid stakeholder iteration
+- Lack of frontend expertise causes Streamlit UIs to "stick" and become complex
+- Cross-cutting concerns (auth, design systems) are retrofitted poorly
+- Technical debt accumulates as experimental UIs face real-world demands
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+**Implementation Requirements**:
+- Provide Reflex-based wrappers that can encapsulate Streamlit components
+- Offer pre-built integrations for ProConnect authentication
+- Include DSFR-compliant UI components and templates
+- Enable incremental migration without full rewrites
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale**: By acknowledging and supporting the Streamlit-first workflow, ai-kit reduces friction and provides an escape hatch before technical debt becomes insurmountable.
+
+### III. French Government AI Stack Integration
+
+ai-kit MUST provide first-class integrations with the emerging French Government AI ecosystem, including but not limited to:
+
+- **OpenGateLLM**: Gateway for open-source and proprietary LLMs with RAG, vectorization, and transcription
+- **EvalAP**: Evaluation framework with RAG and other AI metrics
+- **L'assistant IA**: Chat experiences leveraging OpenGateLLM
+- Future government-endorsed AI tools and services
+
+**Requirements**:
+- Provide SDK/client libraries for each integrated service
+- Include example implementations and quickstart templates
+- Document authentication, authorization, and compliance requirements
+- Maintain compatibility as these services evolve
+
+**Rationale**: Standardizing on government-approved AI infrastructure ensures compliance, reduces duplication, and enables teams to focus on domain-specific value rather than infrastructure.
+
+### IV. ProConnect Authentication Standard
+
+ai-kit MUST implement ProConnect (https://partenaires.proconnect.gouv.fr/docs/fournisseur-service) as the default authentication mechanism for government digital services.
+
+**Requirements**:
+- Provide ready-to-use ProConnect integration modules
+- Support both development/testing and production ProConnect environments
+- Include session management, token refresh, and logout flows
+- Document compliance requirements and security best practices
+
+**Rationale**: ProConnect is the government-mandated authentication system. Providing turnkey integration removes a common blocker and ensures compliance from day one.
+
+### V. DSFR Design System Compliance
+
+ai-kit MUST provide components and templates that comply with the French Government Design System (DSFR - https://www.systeme-de-design.gouv.fr/version-courante/fr).
+
+**Requirements**:
+- Offer DSFR-compliant UI components (buttons, forms, navigation, etc.)
+- Provide layout templates that follow DSFR guidelines
+- Include accessibility (a11y) features as mandated by DSFR
+- Support responsive design patterns defined by DSFR
+- Enable theming and customization within DSFR constraints
+
+**Rationale**: DSFR compliance is mandatory for French Government digital services. Providing pre-built compliant components accelerates development and ensures consistency across government services.
+
+### VI. Extensibility and Innovation
+
+ai-kit MUST remain extensible to accommodate rapid innovation in the AI space, both within and outside the French Government ecosystem.
+
+**Requirements**:
+- Provide clear plugin/extension mechanisms
+- Document integration patterns for new AI services
+- Avoid tight coupling to specific versions of external services
+- Support experimentation without breaking core functionality
+- Maintain backward compatibility where feasible
+
+**Rationale**: The AI landscape evolves rapidly. ai-kit must enable teams to adopt new tools and techniques without being constrained by framework limitations.
+
+## French Government Integration Requirements
+
+### Mandatory Integrations
+
+All ai-kit projects MUST support:
+- ProConnect authentication (Principle IV)
+- DSFR design system compliance (Principle V)
+- Structured logging compatible with government infrastructure
+- Security and privacy standards per French Government guidelines
+
+### Recommended Integrations
+
+ai-kit projects SHOULD integrate with:
+- OpenGateLLM for LLM access and RAG capabilities
+- EvalAP for AI evaluation and metrics
+- Government-approved data storage and processing services
+- Centralized monitoring and observability platforms
+
+### Integration Testing
+
+New integrations with government services MUST include:
+- Contract tests verifying API compatibility
+- Authentication/authorization flow tests
+- Error handling and fallback scenarios
+- Documentation with example usage
+
+## Development Workflow & Quality Standards
+
+### Rapid Iteration Support
+
+ai-kit MUST support the iterative development workflow common in AI projects:
+- Enable quick prototyping with Streamlit or similar tools
+- Provide migration paths to production-ready implementations
+- Support A/B testing and experimentation
+- Enable stakeholder demos at any stage
+
+### Testing Discipline
+
+While recognizing the experimental nature of AI development, ai-kit projects MUST:
+- Include integration tests for government service integrations
+- Test authentication and authorization flows
+- Validate DSFR compliance for UI components
+- Document testing approaches for AI/ML components (recognizing non-determinism)
+
+### Documentation Requirements
+
+All ai-kit features MUST include:
+- Quickstart guides for common use cases
+- Integration examples with government services
+- Troubleshooting guides for common issues
+- Migration guides (e.g., Streamlit to Reflex)
+
+### Code Quality
+
+ai-kit contributions MUST:
+- Follow Python community standards (PEP 8, type hints where appropriate)
+- Include docstrings for public APIs
+- Provide clear error messages and logging
+- Avoid unnecessary complexity (YAGNI principle)
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+### Constitution Authority
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+This constitution supersedes all other development practices and guidelines for ai-kit. Any conflicts between this constitution and other documentation must be resolved in favor of the constitution.
+
+### Amendment Process
+
+Amendments to this constitution require:
+1. Documented rationale explaining the need for change
+2. Impact analysis on existing projects and integrations
+3. Migration plan for projects affected by breaking changes
+4. Approval from ai-kit maintainers
+5. Version bump following semantic versioning (see below)
+
+### Versioning Policy
+
+Constitution versions follow semantic versioning (MAJOR.MINOR.PATCH):
+- **MAJOR**: Backward-incompatible changes to core principles or mandatory requirements
+- **MINOR**: New principles, sections, or material expansions of guidance
+- **PATCH**: Clarifications, wording improvements, non-semantic refinements
+
+### Compliance Review
+
+All feature specifications and implementation plans MUST include a Constitution Check section verifying compliance with:
+- Python-first development (Principle I)
+- Streamlit-to-production support if applicable (Principle II)
+- Government AI stack integration requirements (Principle III)
+- ProConnect authentication (Principle IV)
+- DSFR compliance (Principle V)
+- Extensibility considerations (Principle VI)
+
+### Complexity Justification
+
+Any deviation from these principles MUST be documented with:
+- Specific technical or business rationale
+- Explanation of why compliant alternatives are insufficient
+- Plan to return to compliance if possible
+- Approval from project stakeholders
+
+**Version**: 1.0.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-11

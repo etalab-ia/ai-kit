@@ -31,7 +31,16 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Verify compliance with ai-kit constitution principles:
+
+- [ ] **Python-First Development (Principle I)**: Is Python the primary language? Are non-Python components justified?
+- [ ] **Streamlit-to-Production Bridge (Principle II)**: If using Streamlit, is there a migration path to Reflex? Are ProConnect and DSFR integrations planned?
+- [ ] **French Government AI Stack Integration (Principle III)**: Does the feature integrate with OpenGateLLM, EvalAP, or other government AI services where applicable?
+- [ ] **ProConnect Authentication (Principle IV)**: Is ProConnect authentication implemented for user-facing features?
+- [ ] **DSFR Design System Compliance (Principle V)**: Do UI components comply with DSFR guidelines and accessibility requirements?
+- [ ] **Extensibility and Innovation (Principle VI)**: Is the implementation extensible? Does it avoid tight coupling to specific service versions?
+
+**Violations Requiring Justification**: [List any principle violations with rationale, or state "None"]
 
 ## Project Structure
 
