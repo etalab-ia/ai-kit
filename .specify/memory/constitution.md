@@ -1,8 +1,8 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.1.0 → 1.2.0
-Rationale: MINOR version bump - Elevated accessibility to standalone Principle V (RGAA), renumbered subsequent principles
+Version Change: 1.1.0 → 1.4.0
+Rationale: MINOR version bump - Elevated accessibility to standalone Principle V (RGAA), added Principle IX (Open Source & Digital Commons), added Principle X (User-Centered Iteration), added device-agnostic UX requirements
 
 Modified Principles:
 - Principle V: Split DSFR into two principles - RGAA Accessibility (new V) and DSFR Design System (now VI)
@@ -18,6 +18,18 @@ Added Sections:
   * Legal mandate and penalties
   * Assistive technology support
   * Device-agnostic UX requirement (mobile, tablet, desktop)
+- Principle IX: Open Source & Digital Commons (NON-NEGOTIABLE)
+  * Mandatory open source licensing (MIT, Apache 2.0, or EUPL)
+  * Public repositories on government platforms
+  * Privilege open source and sovereign solutions
+  * Community contribution and reusability
+  * Aligned with DINUM digital strategy and beta.gouv standards
+- Principle X: User-Centered Iteration
+  * User research before building features
+  * MVP-first approach with alpha → beta → production progression
+  * Continuous validation with analytics and telemetry
+  * Data-driven decisions based on actual usage patterns
+  * Addresses "sticky Streamlit UI" problem
 
 Modified Sections:
 - Principle V (RGAA): Added device-agnostic UX mandate
@@ -175,26 +187,50 @@ ai-kit MUST standardize on modern, Python-ecosystem-native tooling to minimize c
 
 **Rationale**: Tool proliferation fragments team knowledge and slows onboarding. Standardizing on modern, fast tools that respect Python-first culture enables teams to focus on domain problems rather than build system archaeology. Monorepo tooling prevents the "multiple disconnected repos" anti-pattern that complicates deployment of services with multiple running processes.
 
-### VIII. User-Centered Iteration
+### IX. Open Source & Digital Commons (NON-NEGOTIABLE)
+
+ai-kit projects MUST produce open source code and privilege open source solutions and digital commons over proprietary alternatives, in accordance with the French Government's digital strategy.
+
+**Requirements**:
+- All ai-kit code MUST be published under an open source license (preferably MIT, Apache 2.0, or EUPL)
+- Project repositories MUST be public on government-approved platforms (e.g., GitHub, GitLab)
+- Privilege open source dependencies and tools over proprietary alternatives
+- Privilege sovereign (French/European) solutions when choosing external services
+- Document code clearly to enable reuse by other government teams
+- Contribute improvements back to upstream open source projects when possible
+- Publish reusable components as standalone libraries for the community
+
+**Exceptions**:
+- Security-sensitive configuration (credentials, API keys) MUST NOT be published
+- Proprietary solutions MAY be used only when:
+  - No suitable open source alternative exists
+  - The proprietary solution is legally mandated
+  - Exception is documented and justified in Constitution Check
+
+**Rationale**: Open source ensures technical autonomy, avoids vendor lock-in, enables cost-sharing across administrations, leverages collective expertise, and ensures transparency and reusability of public solutions. This aligns with DINUM's digital strategy and the beta.gouv.fr quality standards. Open source is not just a technical choice—it's a democratic principle for public services.
+
+**References**:
+- [DINUM Digital Strategy](https://www.numerique.gouv.fr/numerique-etat/)
+- [Pôle open source et communs numériques](https://code.gouv.fr/fr/)
+- [Beta.gouv Quality Standards](https://doc.incubateur.net/communaute/gerer-son-produit/readme-doc-incubateur-net/qualite-logicielle/l-open-source-et-les-communs-numeriques-sont-privilegies)
+
+### X. User-Centered Iteration
 
 ai-kit projects MUST adopt iterative, user-centered development practices to ensure services meet real user needs rather than assumptions.
 
 **User Research Requirements**:
-
 - Conduct user research before building features (interviews, observations, surveys)
 - Identify and validate user needs with actual users, not stakeholders alone
 - Document user personas and journey maps for key workflows
 - Test prototypes with representative users before full implementation
 
 **Iterative Development**:
-
 - Release minimum viable products (MVPs) early for user feedback
 - Follow alpha → beta → production progression with user testing at each stage
 - Iterate based on real user feedback, not internal assumptions
 - Be willing to pivot or discard features that don't meet validated user needs
 
 **Continuous Validation**:
-
 - Implement analytics and telemetry to understand actual usage patterns
 - Monitor user behavior post-launch to identify pain points
 - Conduct regular usability testing with real users
@@ -202,7 +238,6 @@ ai-kit projects MUST adopt iterative, user-centered development practices to ens
 - Collect and act on user feedback through multiple channels
 
 **Data-Driven Decisions**:
-
 - Base design and feature decisions on usage data, not hunches
 - Track key metrics: task completion rates, error rates, user satisfaction
 - Make analytics built-in, always-on, and accessible to the team
@@ -379,6 +414,8 @@ All feature specifications and implementation plans MUST include a Constitution 
 - DSFR design system compliance (Principle VI)
 - Extensibility considerations (Principle VII)
 - Developer tooling standards and monorepo architecture (Principle VIII)
+- Open source licensing and digital commons (Principle IX)
+- User-centered iteration and data-driven development (Principle X)
 
 ### Complexity Justification
 
@@ -389,4 +426,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.2.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-11
+**Version**: 1.4.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-11
