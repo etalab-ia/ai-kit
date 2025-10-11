@@ -1,8 +1,8 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.0.0 → 1.1.0
-Rationale: MINOR version bump - Added new Principle VII (Developer Experience & Tooling Consistency)
+Version Change: 1.0.0 → 1.2.0
+Rationale: MINOR version bump - Added Principle VII, Principle VIII, and Security & Privacy Standards section
 
 Modified Principles: N/A
 
@@ -12,11 +12,24 @@ Added Sections:
   * Python ecosystem tooling (uv, ruff, just - mandatory)
   * Hybrid TypeScript/Python architecture guidance
 
+- Principle VIII: User-Centered Iteration
+  * User research requirements (interviews, personas, journey maps)
+  * Iterative development (MVP, alpha/beta/production progression)
+  * Continuous validation (analytics, A/B testing, usability testing)
+  * Data-driven decisions (usage metrics, task completion rates)
+
+- Security & Privacy Standards section
+  * GDPR compliance (data minimization, RGPD rights, retention policies)
+  * AI-specific privacy (training data transparency, bias audits)
+  * Security requirements (ProConnect, RBAC, encryption, OWASP)
+  * AI security (rate limiting, prompt injection prevention, output filtering)
+  * Transparency & explainability for AI decisions
+
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ plan-template.md: Constitution Check section updated to include Principle VII
-- ✅ spec-template.md: Already aligned (no changes needed)
+- ✅ plan-template.md: Constitution Check section updated with Principle VIII and Security checks
+- ✅ spec-template.md: Already aligned (user scenarios support Principle VIII)
 - ✅ tasks-template.md: Already aligned (no changes needed)
 
 Follow-up TODOs: None
@@ -133,6 +146,37 @@ ai-kit MUST standardize on modern, Python-ecosystem-native tooling to minimize c
 
 **Rationale**: Tool proliferation fragments team knowledge and slows onboarding. Standardizing on modern, fast tools that respect Python-first culture enables teams to focus on domain problems rather than build system archaeology. Monorepo tooling prevents the "multiple disconnected repos" anti-pattern that complicates deployment of services with multiple running processes.
 
+### VIII. User-Centered Iteration
+
+ai-kit projects MUST adopt iterative, user-centered development practices to ensure services meet real user needs rather than assumptions.
+
+**User Research Requirements**:
+- Conduct user research before building features (interviews, observations, surveys)
+- Identify and validate user needs with actual users, not stakeholders alone
+- Document user personas and journey maps for key workflows
+- Test prototypes with representative users before full implementation
+
+**Iterative Development**:
+- Release minimum viable products (MVPs) early for user feedback
+- Follow alpha → beta → production progression with user testing at each stage
+- Iterate based on real user feedback, not internal assumptions
+- Be willing to pivot or discard features that don't meet validated user needs
+
+**Continuous Validation**:
+- Implement analytics and telemetry to understand actual usage patterns
+- Monitor user behavior post-launch to identify pain points
+- Conduct regular usability testing with real users
+- Use A/B testing for significant UX decisions when appropriate
+- Collect and act on user feedback through multiple channels
+
+**Data-Driven Decisions**:
+- Base design and feature decisions on usage data, not hunches
+- Track key metrics: task completion rates, error rates, user satisfaction
+- Make analytics built-in, always-on, and accessible to the team
+- Use data to prioritize improvements and validate hypotheses
+
+**Rationale**: The "sticky Streamlit UI" problem occurs when teams skip user research and iteration, building based on assumptions. Mandating user-centered practices prevents technical debt accumulation and ensures AI services actually solve user problems. This is especially critical for government services where users may be less tech-savvy or using services under stress.
+
 ## French Government Integration Requirements
 
 ### Mandatory Integrations
@@ -158,6 +202,65 @@ New integrations with government services MUST include:
 - Authentication/authorization flow tests
 - Error handling and fallback scenarios
 - Documentation with example usage
+
+## Security & Privacy Standards
+
+### Data Protection & Privacy
+
+All ai-kit projects MUST comply with French and European data protection regulations:
+
+**GDPR Compliance**:
+- Implement data minimization: collect only necessary data
+- Provide clear privacy notices and consent mechanisms
+- Enable user data access, correction, and deletion rights (RGPD rights)
+- Document data processing activities and legal bases
+- Implement data retention policies with automatic deletion
+
+**AI-Specific Privacy**:
+- Document what data is used for AI model training vs. inference
+- Implement mechanisms to prevent sensitive data leakage in AI outputs
+- Provide transparency about AI decision-making processes
+- Enable human review for high-stakes AI decisions
+- Audit AI systems for bias and fairness regularly
+
+### Security Requirements
+
+**Authentication & Authorization**:
+- Use ProConnect for user authentication (Principle IV)
+- Implement role-based access control (RBAC) for internal users
+- Follow principle of least privilege for service accounts
+- Rotate credentials and API keys regularly
+- Use secure session management with appropriate timeouts
+
+**Data Security**:
+- Encrypt data at rest and in transit (TLS 1.3+)
+- Use government-approved encryption standards
+- Implement secure key management practices
+- Sanitize and validate all user inputs
+- Protect against common vulnerabilities (OWASP Top 10)
+
+**AI Security**:
+- Implement rate limiting to prevent abuse of AI endpoints
+- Validate and sanitize prompts to prevent injection attacks
+- Monitor for adversarial inputs and model manipulation attempts
+- Implement output filtering to prevent harmful content generation
+- Document AI model provenance and supply chain security
+
+**Audit & Compliance**:
+- Maintain comprehensive audit logs for security-relevant events
+- Implement log retention per government requirements
+- Enable security monitoring and alerting
+- Conduct regular security assessments and penetration testing
+- Document incident response procedures
+
+### Transparency & Explainability
+
+For AI-powered features:
+- Provide clear explanations of how AI decisions are made
+- Disclose when users are interacting with AI vs. humans
+- Document AI model limitations and known failure modes
+- Enable users to understand and challenge AI decisions
+- Maintain transparency about data sources and training methods
 
 ## Development Workflow & Quality Standards
 
@@ -225,6 +328,8 @@ All feature specifications and implementation plans MUST include a Constitution 
 - DSFR compliance (Principle V)
 - Extensibility considerations (Principle VI)
 - Developer tooling standards and monorepo architecture (Principle VII)
+- User research and iterative development practices (Principle VIII)
+- Security & privacy standards (especially GDPR, AI security, transparency)
 
 ### Complexity Justification
 
@@ -234,4 +339,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.1.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-11
+**Version**: 1.2.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-11

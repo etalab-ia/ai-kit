@@ -40,6 +40,8 @@ Verify compliance with ai-kit constitution principles:
 - [ ] **DSFR Design System Compliance (Principle V)**: Do UI components comply with DSFR guidelines and accessibility requirements?
 - [ ] **Extensibility and Innovation (Principle VI)**: Is the implementation extensible? Does it avoid tight coupling to specific service versions?
 - [ ] **Developer Experience & Tooling (Principle VII)**: Does the project use Turborepo, uv, ruff, and just? Is TypeScript usage (if any) justified for frontend integration points?
+- [ ] **User-Centered Iteration (Principle VIII)**: Is user research planned? Are there plans for MVP release, user testing, and iteration? Will analytics be implemented?
+- [ ] **Security & Privacy**: Are GDPR requirements addressed? Is data encryption planned? Are AI-specific security measures (rate limiting, prompt injection prevention) included? Is transparency/explainability provided for AI decisions?
 
 **Violations Requiring Justification**: [List any principle violations with rationale, or state "None"]
 
