@@ -39,7 +39,7 @@ Verify compliance with ai-kit constitution principles:
 - [ ] **ProConnect Authentication (Principle IV)**: Is ProConnect authentication implemented for user-facing features?
 - [ ] **DSFR Design System Compliance (Principle V)**: Do UI components comply with DSFR guidelines and accessibility requirements?
 - [ ] **Extensibility and Innovation (Principle VI)**: Is the implementation extensible? Does it avoid tight coupling to specific service versions?
-- [ ] **Developer Experience & Tooling (Principle VII)**: Does the project use Turborepo (or equivalent), uv, ruff, and just? Is TypeScript usage (if any) justified for frontend integration points?
+- [ ] **Developer Experience & Tooling (Principle VII)**: Does the project use Turborepo, uv, ruff, and just? Is TypeScript usage (if any) justified for frontend integration points?
 
 **Violations Requiring Justification**: [List any principle violations with rationale, or state "None"]
 

@@ -8,8 +8,8 @@ Modified Principles: N/A
 
 Added Sections:
 - Principle VII: Developer Experience & Tooling Consistency
-  * Monorepo tooling standardization (Turborepo)
-  * Python ecosystem tooling (uv, ruff, just)
+  * Monorepo tooling standardization (Turborepo - mandatory, no alternatives)
+  * Python ecosystem tooling (uv, ruff, just - mandatory)
   * Hybrid TypeScript/Python architecture guidance
 
 Removed Sections: N/A
@@ -114,7 +114,7 @@ ai-kit MUST remain extensible to accommodate rapid innovation in the AI space, b
 ai-kit MUST standardize on modern, Python-ecosystem-native tooling to minimize cognitive load and maximize developer productivity across teams.
 
 **Monorepo Management**:
-- Use **Turborepo** (or equivalent monorepo orchestration tool) for managing multi-package codebases
+- Use **Turborepo** for managing multi-package codebases
 - Standardize build, test, and deployment pipelines across all packages
 - Enable efficient caching and parallel execution for CI/CD workflows
 - Support incremental builds to accelerate development cycles
