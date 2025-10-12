@@ -32,38 +32,43 @@
 ## Validation Results
 
 ### Content Quality Assessment
-✅ **PASS** - Specification focuses on WHAT (tooling setup, developer experience) and WHY (consistency, efficiency, compliance with Principle IX) without specifying HOW to implement. Uses tools by name (uv, ruff, just, Turborepo) as requirements, not implementation details, which is appropriate for this infrastructure feature.
+✅ **PASS** - Specification focuses on WHAT (tooling setup, developer experience, monorepo structure) and WHY (consistency, efficiency, compliance with Principle IX, Python-first approach) without specifying HOW to implement. Uses tools by name (uv, ruff, just, Turborepo) as requirements, not implementation details, which is appropriate for this infrastructure feature.
 
-✅ **PASS** - Clearly focused on developer value: faster onboarding, consistent development practices, efficient CI/CD, reduced friction.
+✅ **PASS** - Clearly focused on developer value: faster onboarding, consistent development practices, efficient CI/CD, reduced friction, single shared virtual environment, clear separation of apps vs packages.
 
-✅ **PASS** - Written in plain language accessible to project managers and stakeholders. Technical tool names are necessary context but explained through their purpose.
+✅ **PASS** - Written in plain language accessible to project managers and stakeholders. Technical tool names are necessary context but explained through their purpose. The hybrid uv + Turborepo approach is justified with research findings.
 
 ✅ **PASS** - All mandatory sections (User Scenarios, Requirements, Success Criteria) are complete.
 
 ### Requirement Completeness Assessment
 ✅ **PASS** - No [NEEDS CLARIFICATION] markers present. All requirements are concrete and specific.
 
-✅ **PASS** - All functional requirements are testable:
-- FR-001-003: Can verify by checking configuration files
-- FR-004-005: Can verify by examining repository structure and turbo.json
-- FR-006-007: Can verify by running linting/formatting checks
-- FR-008-015: Can verify through CI pipeline execution and documentation review
+✅ **PASS** - All functional requirements are testable and organized by priority:
+- FR-001-005 (Python Tooling): Can verify by checking uv configuration, `.venv` existence, ruff config, justfile
+- FR-006-010 (Monorepo Structure): Can verify by examining `apps/` and `packages/` folders, `pyproject.toml` and `package.json` files
+- FR-011-014 (Turborepo Integration): Can verify by checking `turbo.json`, running Turborepo tasks, verifying caching
+- FR-015-017 (Code Quality): Can verify by running linting/formatting checks and pre-commit hooks
+- FR-018-021 (CI/CD): Can verify through CI pipeline execution and package-specific syncing
+- FR-022-025 (Documentation): Can verify by reviewing documentation completeness and justfile commands
 
 ✅ **PASS** - All success criteria are measurable with specific metrics:
 - SC-001: 10 minutes setup time
-- SC-002: 30 seconds for lint/format
-- SC-003: 50% CI build time reduction
-- SC-004: 100% code compliance
-- SC-005: 5 minutes CI completion
-- SC-006: Zero environment issues (qualitative but verifiable)
-- SC-007: Single-command execution (verifiable)
-- SC-008: Positive feedback from 3+ contributors (measurable)
+- SC-002: Single shared `.venv` at root (verifiable)
+- SC-003: 30 seconds for lint/format
+- SC-004: 50% CI build time reduction
+- SC-005: 100% code compliance
+- SC-006: 5 minutes CI completion
+- SC-007: Zero environment issues (qualitative but verifiable)
+- SC-008: CI catches undeclared dependencies (verifiable through package-specific syncing)
+- SC-009: Single-command execution (verifiable)
+- SC-010: Positive feedback from 3+ contributors (measurable)
+- SC-011: Clear apps vs packages separation (verifiable through folder structure)
 
 ✅ **PASS** - Success criteria focus on outcomes (setup time, check speed, cache effectiveness) without specifying implementation approaches.
 
 ✅ **PASS** - All 4 user stories have complete acceptance scenarios with Given/When/Then format.
 
-✅ **PASS** - Edge cases section identifies 6 relevant scenarios covering version conflicts, platform differences, cache corruption, and network failures.
+✅ **PASS** - Edge cases section identifies 9 relevant scenarios covering version conflicts, platform differences, cache corruption, network failures, undeclared dependencies in shared `.venv`, hybrid Python/Node.js packages, and workspace configuration conflicts.
 
 ✅ **PASS** - Scope is clearly bounded to developer tooling setup for ai-kit itself. Explicitly excludes end-user tooling or application features.
 
@@ -71,10 +76,12 @@
 
 ### Feature Readiness Assessment
 ✅ **PASS** - Each functional requirement maps to acceptance scenarios in user stories. For example:
-- FR-001-003 (uv, ruff, just) → User Story 1 acceptance scenarios
-- FR-004-005 (Turborepo) → User Story 2 acceptance scenarios
-- FR-008-009 (CI) → User Story 3 acceptance scenarios
-- FR-010 (documentation) → User Story 4 acceptance scenarios
+- FR-001-005 (Python Tooling) → User Story 1 acceptance scenarios
+- FR-006-010 (Monorepo Structure) → User Story 2 acceptance scenarios (updated with `apps/` and `packages/` structure)
+- FR-011-014 (Turborepo Integration) → User Story 2 acceptance scenarios (Turborepo orchestration)
+- FR-015-017 (Code Quality) → User Story 1 acceptance scenarios (linting/formatting)
+- FR-018-021 (CI/CD) → User Story 3 acceptance scenarios
+- FR-022-025 (Documentation) → User Story 4 acceptance scenarios
 
 ✅ **PASS** - Four prioritized user stories cover:
 - P1: Core tooling setup (foundational)
@@ -83,10 +90,11 @@
 - P3: Developer documentation (enables onboarding)
 
 ✅ **PASS** - Success criteria align with user story outcomes:
-- SC-001, SC-008 → User Story 4 (documentation/onboarding)
-- SC-002, SC-004, SC-007 → User Story 1 (tooling efficiency)
-- SC-003 → User Story 2 (monorepo caching)
-- SC-005, SC-006 → User Story 3 (CI/CD effectiveness)
+- SC-001, SC-010 → User Story 4 (documentation/onboarding)
+- SC-002, SC-011 → User Story 2 (monorepo structure with single `.venv` and clear separation)
+- SC-003, SC-005, SC-009 → User Story 1 (tooling efficiency)
+- SC-004 → User Story 2 (Turborepo caching)
+- SC-006, SC-007, SC-008 → User Story 3 (CI/CD effectiveness and consistency)
 
 ✅ **PASS** - Specification maintains technology-agnostic language in outcomes while appropriately naming required tools (uv, ruff, just, Turborepo) as mandated by Principle IX.
 
@@ -102,10 +110,19 @@ This specification is complete and ready for `/speckit.plan`. All quality criter
 
 **Key Strengths**:
 - Directly addresses Constitution Principle IX (Developer Experience & Tooling Consistency)
+- **Research-backed hybrid approach**: Combines uv workspaces (Python-native) with Turborepo (task orchestration) based on real-world examples
+- **Single shared `.venv`**: Maintains Python-first simplicity while enabling monorepo benefits
+- **Clear structure**: `apps/` and `packages/` folders align with both Python and Turborepo conventions
+- **Implementation precedence**: Python tooling first, then Turborepo integration (addresses user's precedence concern)
 - Clear prioritization enables incremental delivery (P1 → P2 → P3)
 - Each user story is independently testable and delivers standalone value
 - Success criteria are specific and measurable
-- Edge cases anticipate common developer environment issues
+- Edge cases anticipate common developer environment issues including shared `.venv` challenges
+
+**Research Findings Incorporated**:
+- Turborepo works with Python via minimal `package.json` per package (verified from GitHub examples)
+- uv monorepos use `apps/` and `packages/` structure with single root `.venv` (postmodern-mono, uv-monorepo examples)
+- CI should sync only specific packages to catch undeclared dependencies (best practice from carderne/postmodern-mono)
 
 **Next Steps**:
 - Proceed to `/speckit.plan` to generate implementation plan
