@@ -1,30 +1,55 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.5.0 → 1.6.0
-Rationale: MINOR version bump - Added Principle XII (Security Homologation) as mandatory requirement for production deployment of French Government digital services
+Version Change: 1.6.0 → 1.6.1
+Rationale: PATCH version bump - Reorganized principles from general/regulatory to specific/technical concerns for improved clarity and logical flow
 
-Modified Principles: N/A
+Modified Principles: All principles renumbered for better organization
+- Old I (Python-First) → New X
+- Old II (Streamlit Bridge) → New XII
+- Old III (AI Stack) → New XI
+- Old IV (ProConnect) → New VI
+- Old V (RGAA) → New II
+- Old VI (DSFR) → New V
+- Old VII (Extensibility) → New VIII
+- Old VIII (Developer Tooling) → New IX
+- Old IX (Open Source) → New IV
+- Old X (User-Centered) → New VII
+- Old XI (EU AI Act) → New I
+- Old XII (Security Homologation) → New III
 
-Added Sections:
-- Principle XII: Security Homologation (NON-NEGOTIABLE)
-  * RGS and Decree n°2022-513 regulatory framework
-  * Formal decision process by homologation authority
-  * Comprehensive risk assessment requirements (confidentiality, integrity, availability, traceability)
-  * Homologation dossier preparation and documentation
-  * Maximum 3-year validity period
-  * Legal consequences of non-homologation (cannot deploy to production)
-  * ai-kit responsibilities for facilitating homologation process
-  * Integration with EU AI Act (Principle XI) and other security principles
-  * References to ANSSI official guide (April 2025)
+New Ordering Logic:
+**Tier 1: Legal & Regulatory Compliance (I-IV)**
+- I: EU AI Act Compliance
+- II: RGAA Accessibility Compliance
+- III: Security Homologation
+- IV: Open Source & Digital Commons
+
+**Tier 2: Government Standards & Integration (V-VI)**
+- V: DSFR Design System Compliance
+- VI: ProConnect Authentication Standard
+
+**Tier 3: Development Philosophy & User Focus (VII-VIII)**
+- VII: User-Centered Iteration
+- VIII: Extensibility and Innovation
+
+**Tier 4: Technical Implementation (IX-XII)**
+- IX: Developer Experience & Tooling Consistency
+- X: Python-First Development
+- XI: French Government AI Stack Integration
+- XII: Streamlit-to-Production Bridge
+
+Added Sections: N/A
 
 Modified Sections:
-- Compliance Review: Added Principle XII check for security homologation preparation
+- Compliance Review: Updated with new principle numbering
+- French Government Integration Requirements: Updated cross-references to new principle numbers
+- Security Homologation cross-references: Updated to reference new principle numbers
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ plan-template.md: Constitution Check section updated with Principle XII checkbox
+- ✅ plan-template.md: Constitution Check section updated with new principle numbering
 - ✅ spec-template.md: Already aligned (no changes needed)
 - ✅ tasks-template.md: Already aligned (no changes needed)
 
@@ -39,203 +64,7 @@ Follow-up TODOs:
 
 ## Core Principles
 
-### I. Python-First Development
-
-ai-kit MUST prioritize Python as the primary development language to align with the expertise of French Government digital service teams. This principle recognizes that:
-
-- Teams recruited for AI/GenAI projects predominantly have Pythonic backgrounds
-- Reducing language barriers accelerates delivery and reduces technical debt
-- Modern Python frameworks (e.g., Reflex) can deliver production-grade frontend experiences
-- Python-first does not mean Python-only; strategic use of other technologies is permitted when justified
-
-**Rationale**: Empowering teams to work within their expertise domain maximizes productivity and reduces the learning curve that has historically caused projects to stall or accumulate technical debt.
-
-### II. Streamlit-to-Production Bridge
-
-ai-kit MUST provide a clear migration path from Streamlit prototypes to production-ready applications. This principle addresses the common pattern where:
-
-- Teams start with Streamlit for rapid stakeholder iteration
-- Lack of frontend expertise causes Streamlit UIs to "stick" and become complex
-- Cross-cutting concerns (auth, design systems) are retrofitted poorly
-- Technical debt accumulates as experimental UIs face real-world demands
-
-**Implementation Requirements**:
-
-- Provide Reflex-based wrappers that can encapsulate Streamlit components
-- Offer pre-built integrations for ProConnect authentication
-- Include DSFR-compliant UI components and templates
-- Enable incremental migration without full rewrites
-
-**Rationale**: By acknowledging and supporting the Streamlit-first workflow, ai-kit reduces friction and provides an escape hatch before technical debt becomes insurmountable.
-
-### III. French Government AI Stack Integration
-
-ai-kit MUST provide first-class integrations with the emerging French Government AI ecosystem, including but not limited to:
-
-- **OpenGateLLM**: Gateway for open-source and proprietary LLMs with RAG, vectorization, and transcription
-- **EvalAP**: Evaluation framework with RAG and other AI metrics
-- **L'assistant IA**: Chat experiences leveraging OpenGateLLM
-- Future government-endorsed AI tools and services
-
-**Requirements**:
-
-- Provide SDK/client libraries for each integrated service
-- Include example implementations and quickstart templates
-- Document authentication, authorization, and compliance requirements
-- Maintain compatibility as these services evolve
-
-**Rationale**: Standardizing on government-approved AI infrastructure ensures compliance, reduces duplication, and enables teams to focus on domain-specific value rather than infrastructure.
-
-### IV. ProConnect Authentication Standard
-
-ai-kit MUST implement ProConnect (https://partenaires.proconnect.gouv.fr/docs/fournisseur-service) as the default authentication mechanism for government digital services.
-
-**Requirements**:
-
-- Provide ready-to-use ProConnect integration modules
-- Support both development/testing and production ProConnect environments
-- Include session management, token refresh, and logout flows
-- Document compliance requirements and security best practices
-
-**Rationale**: ProConnect is the government-mandated authentication system. Providing turnkey integration removes a common blocker and ensures compliance from day one.
-
-### V. RGAA Accessibility Compliance (NON-NEGOTIABLE)
-
-ai-kit MUST ensure all digital services comply with RGAA 4 (Référentiel Général d'Amélioration de l'Accessibilité - https://accessibilite.numerique.gouv.fr/), the French Government accessibility standard.
-
-**Requirements**:
-
-- All UI components MUST meet RGAA 4 criteria (106 accessibility criteria based on WCAG)
-- Provide accessible-by-default components and patterns
-- Include automated accessibility testing in CI/CD pipelines
-- Document accessibility features and ARIA patterns for each component
-- Support assistive technologies (screen readers, keyboard navigation, etc.)
-- Provide accessibility audit tools and guidance for teams
-- Maintain accessibility declarations as required by law
-- Ensure device-agnostic UX: services MUST work on mobile, tablet, and desktop unless explicitly justified
-
-**Legal Context**:
-
-- RGAA compliance is legally mandated for French Government digital services
-- Non-compliance can result in legal penalties and service rejection
-- Accessibility is a fundamental right, not an optional feature
-
-**Rationale**: Accessibility ensures digital services are usable by all citizens, including those with disabilities. RGAA compliance is both a legal obligation and a moral imperative. Making accessibility a core principle ensures it's considered from day one, not retrofitted later. Device-agnostic design is part of accessibility—citizens access services from whatever device they have available.
-
-### VI. DSFR Design System Compliance
-
-ai-kit MUST provide components and templates that comply with the French Government Design System (DSFR - https://www.systeme-de-design.gouv.fr/version-courante/fr).
-
-**Requirements**:
-- Offer DSFR-compliant UI components (buttons, forms, navigation, etc.)
-- Provide layout templates that follow DSFR guidelines
-- Support responsive design patterns defined by DSFR (mobile-first approach)
-- Enable theming and customization within DSFR constraints
-- Ensure DSFR components inherit RGAA accessibility compliance (Principle V)
-- Test UI components across device types (mobile, tablet, desktop)
-
-**Rationale**: DSFR compliance is mandatory for French Government digital services. Providing pre-built compliant components accelerates development and ensures visual consistency across government services. DSFR is built on top of accessibility requirements, making it complementary to Principle V. DSFR's responsive patterns ensure services work across all devices.
-
-### VII. Extensibility and Innovation
-
-ai-kit MUST remain extensible to accommodate rapid innovation in the AI space, both within and outside the French Government ecosystem.
-
-**Requirements**:
-
-- Provide clear plugin/extension mechanisms
-- Document integration patterns for new AI services
-- Avoid tight coupling to specific versions of external services
-- Support experimentation without breaking core functionality
-- Maintain backward compatibility where feasible
-
-**Rationale**: The AI landscape evolves rapidly. ai-kit must enable teams to adopt new tools and techniques without being constrained by framework limitations.
-
-### VIII. Developer Experience & Tooling Consistency
-
-ai-kit MUST standardize on modern, Python-ecosystem-native tooling to minimize cognitive load and maximize developer productivity across teams.
-
-**Monorepo Management**:
-
-- Use **Turborepo** for managing multi-package codebases
-- Standardize build, test, and deployment pipelines across all packages
-- Enable efficient caching and parallel execution for CI/CD workflows
-- Support incremental builds to accelerate development cycles
-
-**Python Tooling Standards**:
-
-- **uv**: Package and dependency management (replaces pip, pip-tools, virtualenv)
-- **ruff**: Linting and code formatting (replaces flake8, black, isort)
-- **just**: Task runner for common development commands (replaces Makefiles)
-
-**Hybrid Architecture**:
-
-- Python remains the primary language (Principle I)
-- TypeScript is permitted for frontend integration points where it provides clear value
-- Backend services MUST be Python-based
-- Frontend components MAY use TypeScript when integrating with modern frameworks (e.g., Next.js for Reflex interop)
-- All TypeScript usage MUST be justified in Constitution Check
-
-**Rationale**: Tool proliferation fragments team knowledge and slows onboarding. Standardizing on modern, fast tools that respect Python-first culture enables teams to focus on domain problems rather than build system archaeology. Monorepo tooling prevents the "multiple disconnected repos" anti-pattern that complicates deployment of services with multiple running processes.
-
-### IX. Open Source & Digital Commons (NON-NEGOTIABLE)
-
-ai-kit projects MUST produce open source code and privilege open source solutions and digital commons over proprietary alternatives, in accordance with the French Government's digital strategy.
-
-**Requirements**:
-- All ai-kit code MUST be published under an open source license (preferably MIT, Apache 2.0, or EUPL)
-- Project repositories MUST be public on government-approved platforms (e.g., GitHub, GitLab)
-- Privilege open source dependencies and tools over proprietary alternatives
-- Privilege sovereign (French/European) solutions when choosing external services
-- Document code clearly to enable reuse by other government teams
-- Contribute improvements back to upstream open source projects when possible
-- Publish reusable components as standalone libraries for the community
-
-**Exceptions**:
-- Security-sensitive configuration (credentials, API keys) MUST NOT be published
-- Proprietary solutions MAY be used only when:
-  - No suitable open source alternative exists
-  - The proprietary solution is legally mandated
-  - Exception is documented and justified in Constitution Check
-
-**Rationale**: Open source ensures technical autonomy, avoids vendor lock-in, enables cost-sharing across administrations, leverages collective expertise, and ensures transparency and reusability of public solutions. This aligns with DINUM's digital strategy and the beta.gouv.fr quality standards. Open source is not just a technical choice—it's a democratic principle for public services.
-
-**References**:
-- [DINUM Digital Strategy](https://www.numerique.gouv.fr/numerique-etat/)
-- [Pôle open source et communs numériques](https://code.gouv.fr/fr/)
-- [Beta.gouv Quality Standards](https://doc.incubateur.net/communaute/gerer-son-produit/readme-doc-incubateur-net/qualite-logicielle/l-open-source-et-les-communs-numeriques-sont-privilegies)
-
-### X. User-Centered Iteration
-
-ai-kit projects MUST adopt iterative, user-centered development practices to ensure services meet real user needs rather than assumptions.
-
-**User Research Requirements**:
-- Conduct user research before building features (interviews, observations, surveys)
-- Identify and validate user needs with actual users, not stakeholders alone
-- Document user personas and journey maps for key workflows
-- Test prototypes with representative users before full implementation
-
-**Iterative Development**:
-- Release minimum viable products (MVPs) early for user feedback
-- Follow alpha → beta → production progression with user testing at each stage
-- Iterate based on real user feedback, not internal assumptions
-- Be willing to pivot or discard features that don't meet validated user needs
-
-**Continuous Validation**:
-- Implement analytics and telemetry to understand actual usage patterns
-- Monitor user behavior post-launch to identify pain points
-- Conduct regular usability testing with real users
-- Use A/B testing for significant UX decisions when appropriate
-- Collect and act on user feedback through multiple channels
-
-**Data-Driven Decisions**:
-- Base design and feature decisions on usage data, not hunches
-- Track key metrics: task completion rates, error rates, user satisfaction
-- Make analytics built-in, always-on, and accessible to the team
-- Use data to prioritize improvements and validate hypotheses
-
-**Rationale**: The "sticky Streamlit UI" problem occurs when teams skip user research and iteration, building based on assumptions. Mandating user-centered practices prevents technical debt accumulation and ensures AI services actually solve user problems. This is especially critical for government services where users may be less tech-savvy or using services under stress.
-
-### XI. EU AI Act Compliance (NON-NEGOTIABLE)
+### I. EU AI Act Compliance (NON-NEGOTIABLE)
 
 ai-kit projects MUST comply with the EU Artificial Intelligence Act, the first comprehensive AI regulation by a major regulator, which applies to AI systems placed on the EU market or whose output is used in the EU.
 
@@ -280,7 +109,30 @@ ai-kit projects MUST comply with the EU Artificial Intelligence Act, the first c
 - [AI Act Compliance Checker](https://artificialintelligenceact.eu/assessment/eu-ai-act-compliance-checker/)
 - [The AI Act Full Text](https://artificialintelligenceact.eu/the-act/)
 
-### XII. Security Homologation (NON-NEGOTIABLE)
+### II. RGAA Accessibility Compliance (NON-NEGOTIABLE)
+
+ai-kit MUST ensure all digital services comply with RGAA 4 (Référentiel Général d'Amélioration de l'Accessibilité - https://accessibilite.numerique.gouv.fr/), the French Government accessibility standard.
+
+**Requirements**:
+
+- All UI components MUST meet RGAA 4 criteria (106 accessibility criteria based on WCAG)
+- Provide accessible-by-default components and patterns
+- Include automated accessibility testing in CI/CD pipelines
+- Document accessibility features and ARIA patterns for each component
+- Support assistive technologies (screen readers, keyboard navigation, etc.)
+- Provide accessibility audit tools and guidance for teams
+- Maintain accessibility declarations as required by law
+- Ensure device-agnostic UX: services MUST work on mobile, tablet, and desktop unless explicitly justified
+
+**Legal Context**:
+
+- RGAA compliance is legally mandated for French Government digital services
+- Non-compliance can result in legal penalties and service rejection
+- Accessibility is a fundamental right, not an optional feature
+
+**Rationale**: Accessibility ensures digital services are usable by all citizens, including those with disabilities. RGAA compliance is both a legal obligation and a moral imperative. Making accessibility a core principle ensures it's considered from day one, not retrofitted later. Device-agnostic design is part of accessibility—citizens access services from whatever device they have available.
+
+### III. Security Homologation (NON-NEGOTIABLE)
 
 ai-kit projects MUST obtain security homologation (homologation de sécurité) before production deployment, as mandated by ANSSI and French government regulations for all public digital services.
 
@@ -321,11 +173,11 @@ Security homologation is a formal decision by an authority (autorité d'homologa
 - Facilitate preparation of homologation documentation throughout development lifecycle
 
 **Integration with Other Principles**:
-- Complements EU AI Act compliance (Principle XI) for AI-specific security risks
+- Complements EU AI Act compliance (Principle I) for AI-specific security risks
 - Builds on Security & Privacy Standards section requirements
-- Requires secure ProConnect authentication implementation (Principle IV)
-- Supports RGAA accessibility security requirements (Principle V)
-- Aligns with open source transparency (Principle IX) for security auditing
+- Requires secure ProConnect authentication implementation (Principle VI)
+- Supports RGAA accessibility security requirements (Principle II)
+- Aligns with open source transparency (Principle IV) for security auditing
 
 **Rationale**: Security homologation is a legal obligation for French Government digital services, mandated by RGS and extended by the 2022 decree. It ensures that cyber risks are properly identified, managed, and accepted at the appropriate authority level before production deployment. Non-compliance prevents legal operation of digital services. ai-kit must facilitate this mandatory governance process from the start of development to enable teams to deploy compliant, secure services.
 
@@ -335,13 +187,186 @@ Security homologation is a formal decision by an authority (autorité d'homologa
 - [RGS - Référentiel Général de Sécurité](https://cyber.gouv.fr/le-referentiel-general-de-securite-rgs)
 - [Decree n°2022-513](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045570774)
 
+### IV. Open Source & Digital Commons (NON-NEGOTIABLE)
+
+ai-kit projects MUST produce open source code and privilege open source solutions and digital commons over proprietary alternatives, in accordance with the French Government's digital strategy.
+
+**Requirements**:
+- All ai-kit code MUST be published under an open source license (preferably MIT, Apache 2.0, or EUPL)
+- Project repositories MUST be public on government-approved platforms (e.g., GitHub, GitLab)
+- Privilege open source dependencies and tools over proprietary alternatives
+- Privilege sovereign (French/European) solutions when choosing external services
+- Document code clearly to enable reuse by other government teams
+- Contribute improvements back to upstream open source projects when possible
+- Publish reusable components as standalone libraries for the community
+
+**Exceptions**:
+- Security-sensitive configuration (credentials, API keys) MUST NOT be published
+- Proprietary solutions MAY be used only when:
+  - No suitable open source alternative exists
+  - The proprietary solution is legally mandated
+  - Exception is documented and justified in Constitution Check
+
+**Rationale**: Open source ensures technical autonomy, avoids vendor lock-in, enables cost-sharing across administrations, leverages collective expertise, and ensures transparency and reusability of public solutions. This aligns with DINUM's digital strategy and the beta.gouv.fr quality standards. Open source is not just a technical choice—it's a democratic principle for public services.
+
+**References**:
+- [DINUM Digital Strategy](https://www.numerique.gouv.fr/numerique-etat/)
+- [Pôle open source et communs numériques](https://code.gouv.fr/fr/)
+- [Beta.gouv Quality Standards](https://doc.incubateur.net/communaute/gerer-son-produit/readme-doc-incubateur-net/qualite-logicielle/l-open-source-et-les-communs-numeriques-sont-privilegies)
+
+### V. DSFR Design System Compliance
+
+ai-kit MUST provide components and templates that comply with the French Government Design System (DSFR - https://www.systeme-de-design.gouv.fr/version-courante/fr).
+
+**Requirements**:
+- Offer DSFR-compliant UI components (buttons, forms, navigation, etc.)
+- Provide layout templates that follow DSFR guidelines
+- Support responsive design patterns defined by DSFR (mobile-first approach)
+- Enable theming and customization within DSFR constraints
+- Ensure DSFR components inherit RGAA accessibility compliance (Principle II)
+- Test UI components across device types (mobile, tablet, desktop)
+
+**Rationale**: DSFR compliance is mandatory for French Government digital services. Providing pre-built compliant components accelerates development and ensures visual consistency across government services. DSFR is built on top of accessibility requirements, making it complementary to Principle II. DSFR's responsive patterns ensure services work across all devices.
+
+### VI. ProConnect Authentication Standard
+
+ai-kit MUST implement ProConnect (https://partenaires.proconnect.gouv.fr/docs/fournisseur-service) as the default authentication mechanism for government digital services.
+
+**Requirements**:
+
+- Provide ready-to-use ProConnect integration modules
+- Support both development/testing and production ProConnect environments
+- Include session management, token refresh, and logout flows
+- Document compliance requirements and security best practices
+
+**Rationale**: ProConnect is the government-mandated authentication system. Providing turnkey integration removes a common blocker and ensures compliance from day one.
+
+### VII. User-Centered Iteration
+
+ai-kit projects MUST adopt iterative, user-centered development practices to ensure services meet real user needs rather than assumptions.
+
+**User Research Requirements**:
+- Conduct user research before building features (interviews, observations, surveys)
+- Identify and validate user needs with actual users, not stakeholders alone
+- Document user personas and journey maps for key workflows
+- Test prototypes with representative users before full implementation
+
+**Iterative Development**:
+- Release minimum viable products (MVPs) early for user feedback
+- Follow alpha → beta → production progression with user testing at each stage
+- Iterate based on real user feedback, not internal assumptions
+- Be willing to pivot or discard features that don't meet validated user needs
+
+**Continuous Validation**:
+- Implement analytics and telemetry to understand actual usage patterns
+- Monitor user behavior post-launch to identify pain points
+- Conduct regular usability testing with real users
+- Use A/B testing for significant UX decisions when appropriate
+- Collect and act on user feedback through multiple channels
+
+**Data-Driven Decisions**:
+- Base design and feature decisions on usage data, not hunches
+- Track key metrics: task completion rates, error rates, user satisfaction
+- Make analytics built-in, always-on, and accessible to the team
+- Use data to prioritize improvements and validate hypotheses
+
+**Rationale**: The "sticky Streamlit UI" problem occurs when teams skip user research and iteration, building based on assumptions. Mandating user-centered practices prevents technical debt accumulation and ensures AI services actually solve user problems. This is especially critical for government services where users may be less tech-savvy or using services under stress.
+
+### VIII. Extensibility and Innovation
+
+ai-kit MUST remain extensible to accommodate rapid innovation in the AI space, both within and outside the French Government ecosystem.
+
+**Requirements**:
+
+- Provide clear plugin/extension mechanisms
+- Document integration patterns for new AI services
+- Avoid tight coupling to specific versions of external services
+- Support experimentation without breaking core functionality
+- Maintain backward compatibility where feasible
+
+**Rationale**: The AI landscape evolves rapidly. ai-kit must enable teams to adopt new tools and techniques without being constrained by framework limitations.
+
+### IX. Developer Experience & Tooling Consistency
+
+ai-kit MUST standardize on modern, Python-ecosystem-native tooling to minimize cognitive load and maximize developer productivity across teams.
+
+**Monorepo Management**:
+
+- Use **Turborepo** for managing multi-package codebases
+- Standardize build, test, and deployment pipelines across all packages
+- Enable efficient caching and parallel execution for CI/CD workflows
+- Support incremental builds to accelerate development cycles
+
+**Python Tooling Standards**:
+
+- **uv**: Package and dependency management (replaces pip, pip-tools, virtualenv)
+- **ruff**: Linting and code formatting (replaces flake8, black, isort)
+- **just**: Task runner for common development commands (replaces Makefiles)
+
+**Hybrid Architecture**:
+
+- Python remains the primary language (Principle X)
+- TypeScript is permitted for frontend integration points where it provides clear value
+- Backend services MUST be Python-based
+- Frontend components MAY use TypeScript when integrating with modern frameworks (e.g., Next.js for Reflex interop)
+- All TypeScript usage MUST be justified in Constitution Check
+
+**Rationale**: Tool proliferation fragments team knowledge and slows onboarding. Standardizing on modern, fast tools that respect Python-first culture enables teams to focus on domain problems rather than build system archaeology. Monorepo tooling prevents the "multiple disconnected repos" anti-pattern that complicates deployment of services with multiple running processes.
+
+### X. Python-First Development
+
+ai-kit MUST prioritize Python as the primary development language to align with the expertise of French Government digital service teams. This principle recognizes that:
+
+- Teams recruited for AI/GenAI projects predominantly have Pythonic backgrounds
+- Reducing language barriers accelerates delivery and reduces technical debt
+- Modern Python frameworks (e.g., Reflex) can deliver production-grade frontend experiences
+- Python-first does not mean Python-only; strategic use of other technologies is permitted when justified
+
+**Rationale**: Empowering teams to work within their expertise domain maximizes productivity and reduces the learning curve that has historically caused projects to stall or accumulate technical debt.
+
+### XI. French Government AI Stack Integration
+
+ai-kit MUST provide first-class integrations with the emerging French Government AI ecosystem, including but not limited to:
+
+- **OpenGateLLM**: Gateway for open-source and proprietary LLMs with RAG, vectorization, and transcription
+- **EvalAP**: Evaluation framework with RAG and other AI metrics
+- **L'assistant IA**: Chat experiences leveraging OpenGateLLM
+- Future government-endorsed AI tools and services
+
+**Requirements**:
+
+- Provide SDK/client libraries for each integrated service
+- Include example implementations and quickstart templates
+- Document authentication, authorization, and compliance requirements
+- Maintain compatibility as these services evolve
+
+**Rationale**: Standardizing on government-approved AI infrastructure ensures compliance, reduces duplication, and enables teams to focus on domain-specific value rather than infrastructure.
+
+### XII. Streamlit-to-Production Bridge
+
+ai-kit MUST provide a clear migration path from Streamlit prototypes to production-ready applications. This principle addresses the common pattern where:
+
+- Teams start with Streamlit for rapid stakeholder iteration
+- Lack of frontend expertise causes Streamlit UIs to "stick" and become complex
+- Cross-cutting concerns (auth, design systems) are retrofitted poorly
+- Technical debt accumulates as experimental UIs face real-world demands
+
+**Implementation Requirements**:
+
+- Provide Reflex-based wrappers that can encapsulate Streamlit components
+- Offer pre-built integrations for ProConnect authentication
+- Include DSFR-compliant UI components and templates
+- Enable incremental migration without full rewrites
+
+**Rationale**: By acknowledging and supporting the Streamlit-first workflow, ai-kit reduces friction and provides an escape hatch before technical debt becomes insurmountable.
+
 ## French Government Integration Requirements
 
 ### Mandatory Integrations
 
 All ai-kit projects MUST support:
 
-- ProConnect authentication (Principle IV)
+- ProConnect authentication (Principle VI)
 - DSFR design system compliance (Principle V)
 - Structured logging compatible with government infrastructure
 - Security and privacy standards per French Government guidelines
@@ -496,18 +521,18 @@ Constitution versions follow semantic versioning (MAJOR.MINOR.PATCH):
 
 All feature specifications and implementation plans MUST include a Constitution Check section verifying compliance with:
 
-- Python-first development (Principle I)
-- Streamlit-to-production support if applicable (Principle II)
-- Government AI stack integration requirements (Principle III)
-- ProConnect authentication (Principle IV)
-- RGAA accessibility compliance (Principle V)
-- DSFR design system compliance (Principle VI)
-- Extensibility considerations (Principle VII)
-- Developer tooling standards and monorepo architecture (Principle VIII)
-- Open source licensing and digital commons (Principle IX)
-- User-centered iteration and data-driven development (Principle X)
-- EU AI Act compliance and risk classification (Principle XI)
-- Security homologation preparation and requirements (Principle XII)
+- EU AI Act compliance and risk classification (Principle I)
+- RGAA accessibility compliance (Principle II)
+- Security homologation preparation and requirements (Principle III)
+- Open source licensing and digital commons (Principle IV)
+- DSFR design system compliance (Principle V)
+- ProConnect authentication (Principle VI)
+- User-centered iteration and data-driven development (Principle VII)
+- Extensibility considerations (Principle VIII)
+- Developer tooling standards and monorepo architecture (Principle IX)
+- Python-first development (Principle X)
+- Government AI stack integration requirements (Principle XI)
+- Streamlit-to-production support if applicable (Principle XII)
 
 ### Complexity Justification
 
@@ -518,4 +543,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.6.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-12
+**Version**: 1.6.1 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-12
