@@ -1,34 +1,38 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.4.0 → 1.5.0
-Rationale: MINOR version bump - Added Principle XI (EU AI Act Compliance) as mandatory requirement for all French Government AI services
+Version Change: 1.5.0 → 1.6.0
+Rationale: MINOR version bump - Added Principle XII (Security Homologation) as mandatory requirement for production deployment of French Government digital services
 
 Modified Principles: N/A
 
 Added Sections:
-- Principle XI: EU AI Act Compliance (NON-NEGOTIABLE)
-  * Risk classification framework (Prohibited, High-Risk, Limited Risk, Minimal Risk)
-  * Requirements for high-risk AI systems (risk management, data governance, documentation, human oversight)
-  * General Purpose AI (GPAI) requirements including systemic risk provisions
-  * Provider vs. Deployer obligations
-  * Documentation and transparency requirements
-  * Penalty framework (up to €35M or 7% global turnover)
-  * References to EU AI Act official resources
+- Principle XII: Security Homologation (NON-NEGOTIABLE)
+  * RGS and Decree n°2022-513 regulatory framework
+  * Formal decision process by homologation authority
+  * Comprehensive risk assessment requirements (confidentiality, integrity, availability, traceability)
+  * Homologation dossier preparation and documentation
+  * Maximum 3-year validity period
+  * Legal consequences of non-homologation (cannot deploy to production)
+  * ai-kit responsibilities for facilitating homologation process
+  * Integration with EU AI Act (Principle XI) and other security principles
+  * References to ANSSI official guide (April 2025)
 
 Modified Sections:
-- Compliance Review: Added Principle XI check for EU AI Act compliance and risk classification
+- Compliance Review: Added Principle XII check for security homologation preparation
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ plan-template.md: Constitution Check section updated with Principle XI checkbox
+- ✅ plan-template.md: Constitution Check section updated with Principle XII checkbox
 - ✅ spec-template.md: Already aligned (no changes needed)
 - ✅ tasks-template.md: Already aligned (no changes needed)
 
 Follow-up TODOs:
-- Consider adding EU AI Act risk assessment template for high-risk systems
-- Consider adding EU AI Act compliance documentation template
+- Consider adding security homologation dossier template
+- Consider adding risk assessment template aligned with ANSSI requirements
+- Consider adding security documentation checklist for homologation
+- Consider adding homologation workflow guide
 -->
 
 # ai-kit Constitution
@@ -276,6 +280,61 @@ ai-kit projects MUST comply with the EU Artificial Intelligence Act, the first c
 - [AI Act Compliance Checker](https://artificialintelligenceact.eu/assessment/eu-ai-act-compliance-checker/)
 - [The AI Act Full Text](https://artificialintelligenceact.eu/the-act/)
 
+### XII. Security Homologation (NON-NEGOTIABLE)
+
+ai-kit projects MUST obtain security homologation (homologation de sécurité) before production deployment, as mandated by ANSSI and French government regulations for all public digital services.
+
+**Regulatory Framework**:
+- **RGS (Référentiel Général de Sécurité)**: Mandates security homologation for all online public services in France
+- **Decree n°2022-513 (April 8, 2022)**: Extends homologation obligation to all information and communication systems for State entities and public establishments
+- **Applies to**: State entities, public establishments, local authorities (collectivités territoriales)
+
+**What is Security Homologation**:
+Security homologation is a formal decision by an authority (autorité d'homologation) that:
+- Certifies that cyber risks related to an information system are clearly identified, treated, and accepted at the highest organizational level
+- Authorizes the deployment and maintenance in service of an information system
+- Attests that implemented security measures are sufficient to face common cyber risks and specific identified risks
+- Takes the form of a written decision (administrative note, signed document, or electronic decision)
+- Has a maximum validity period of 3 years
+
+**Homologation Process Requirements**:
+- Conduct comprehensive risk assessment of the information system
+- Identify and document all cyber risks (confidentiality, integrity, availability, traceability)
+- Implement appropriate security measures to mitigate identified risks
+- Document residual risks and obtain formal acceptance by homologation authority
+- Prepare homologation dossier with technical and organizational security documentation
+- Obtain formal written decision from homologation authority before production deployment
+- Plan for periodic review and re-homologation (maximum 3 years)
+
+**Consequences of Non-Homologation**:
+- An information system without homologation decision is deemed unable to be deployed or maintained in service
+- Absence of homologation means the system cannot legally operate in production
+- Unfavorable opinion from homologation authority prevents deployment until risks are adequately addressed
+
+**ai-kit Responsibilities**:
+- Provide security documentation templates aligned with ANSSI and RGS requirements
+- Include security risk assessment tools and methodologies
+- Support homologation process workflows (risk identification, treatment, acceptance)
+- Maintain comprehensive audit trails and security logs required for homologation dossier
+- Enable security monitoring and incident response capabilities
+- Document security architecture, measures, and controls for homologation dossier
+- Facilitate preparation of homologation documentation throughout development lifecycle
+
+**Integration with Other Principles**:
+- Complements EU AI Act compliance (Principle XI) for AI-specific security risks
+- Builds on Security & Privacy Standards section requirements
+- Requires secure ProConnect authentication implementation (Principle IV)
+- Supports RGAA accessibility security requirements (Principle V)
+- Aligns with open source transparency (Principle IX) for security auditing
+
+**Rationale**: Security homologation is a legal obligation for French Government digital services, mandated by RGS and extended by the 2022 decree. It ensures that cyber risks are properly identified, managed, and accepted at the appropriate authority level before production deployment. Non-compliance prevents legal operation of digital services. ai-kit must facilitate this mandatory governance process from the start of development to enable teams to deploy compliant, secure services.
+
+**References**:
+- [ANSSI - L'homologation de sécurité](https://cyber.gouv.fr/lhomologation-de-securite)
+- [ANSSI - Guide de l'homologation de sécurité (April 2025)](ressources/guide-homologation-securite-web-04-2025.pdf)
+- [RGS - Référentiel Général de Sécurité](https://cyber.gouv.fr/le-referentiel-general-de-securite-rgs)
+- [Decree n°2022-513](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045570774)
+
 ## French Government Integration Requirements
 
 ### Mandatory Integrations
@@ -448,6 +507,7 @@ All feature specifications and implementation plans MUST include a Constitution 
 - Open source licensing and digital commons (Principle IX)
 - User-centered iteration and data-driven development (Principle X)
 - EU AI Act compliance and risk classification (Principle XI)
+- Security homologation preparation and requirements (Principle XII)
 
 ### Complexity Justification
 
@@ -458,4 +518,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.5.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-12
+**Version**: 1.6.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-12
