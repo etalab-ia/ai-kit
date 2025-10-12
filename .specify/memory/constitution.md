@@ -1,48 +1,38 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.1.0 → 1.4.0
-Rationale: MINOR version bump - Elevated accessibility to standalone Principle V (RGAA), added Principle IX (Open Source & Digital Commons), added Principle X (User-Centered Iteration), added device-agnostic UX requirements
+Version Change: 1.5.0 → 1.6.0
+Rationale: MINOR version bump - Added Principle XII (Security Homologation) as mandatory requirement for production deployment of French Government digital services
 
-Modified Principles:
-- Principle V: Split DSFR into two principles - RGAA Accessibility (new V) and DSFR Design System (now VI)
-- Former Principle V (DSFR) → now Principle VI (DSFR, with RGAA reference)
-- Former Principle VI (Extensibility) → now Principle VII
-- Former Principle VII (Developer Tooling) → now Principle VIII
+Modified Principles: N/A
 
 Added Sections:
-- Principle V: RGAA Accessibility Compliance (NON-NEGOTIABLE)
-  * 106 RGAA 4 criteria compliance
-  * Accessible-by-default components
-  * Automated accessibility testing
-  * Legal mandate and penalties
-  * Assistive technology support
-  * Device-agnostic UX requirement (mobile, tablet, desktop)
-- Principle IX: Open Source & Digital Commons (NON-NEGOTIABLE)
-  * Mandatory open source licensing (MIT, Apache 2.0, or EUPL)
-  * Public repositories on government platforms
-  * Privilege open source and sovereign solutions
-  * Community contribution and reusability
-  * Aligned with DINUM digital strategy and beta.gouv standards
-- Principle X: User-Centered Iteration
-  * User research before building features
-  * MVP-first approach with alpha → beta → production progression
-  * Continuous validation with analytics and telemetry
-  * Data-driven decisions based on actual usage patterns
-  * Addresses "sticky Streamlit UI" problem
+- Principle XII: Security Homologation (NON-NEGOTIABLE)
+  * RGS and Decree n°2022-513 regulatory framework
+  * Formal decision process by homologation authority
+  * Comprehensive risk assessment requirements (confidentiality, integrity, availability, traceability)
+  * Homologation dossier preparation and documentation
+  * Maximum 3-year validity period
+  * Legal consequences of non-homologation (cannot deploy to production)
+  * ai-kit responsibilities for facilitating homologation process
+  * Integration with EU AI Act (Principle XI) and other security principles
+  * References to ANSSI official guide (April 2025)
 
 Modified Sections:
-- Principle V (RGAA): Added device-agnostic UX mandate
-- Principle VI (DSFR): Now explicitly references Principle V for accessibility inheritance and emphasizes responsive design
+- Compliance Review: Added Principle XII check for security homologation preparation
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ plan-template.md: Constitution Check section updated with new principle numbering
+- ✅ plan-template.md: Constitution Check section updated with Principle XII checkbox
 - ✅ spec-template.md: Already aligned (no changes needed)
 - ✅ tasks-template.md: Already aligned (no changes needed)
 
-Follow-up TODOs: None
+Follow-up TODOs:
+- Consider adding security homologation dossier template
+- Consider adding risk assessment template aligned with ANSSI requirements
+- Consider adding security documentation checklist for homologation
+- Consider adding homologation workflow guide
 -->
 
 # ai-kit Constitution
@@ -245,6 +235,106 @@ ai-kit projects MUST adopt iterative, user-centered development practices to ens
 
 **Rationale**: The "sticky Streamlit UI" problem occurs when teams skip user research and iteration, building based on assumptions. Mandating user-centered practices prevents technical debt accumulation and ensures AI services actually solve user problems. This is especially critical for government services where users may be less tech-savvy or using services under stress.
 
+### XI. EU AI Act Compliance (NON-NEGOTIABLE)
+
+ai-kit projects MUST comply with the EU Artificial Intelligence Act, the first comprehensive AI regulation by a major regulator, which applies to AI systems placed on the EU market or whose output is used in the EU.
+
+**Risk Classification**:
+- **Prohibited AI**: Systems creating unacceptable risk (e.g., social scoring, manipulative AI) are banned
+- **High-Risk AI**: Systems listed in Annex III or used as safety components require strict compliance
+- **Limited Risk AI**: Transparency obligations (e.g., chatbots must disclose they are AI)
+- **Minimal Risk**: Unregulated (e.g., spam filters, AI-enabled games)
+
+**Requirements for High-Risk AI Systems**:
+- Establish risk management system throughout the AI system's lifecycle
+- Conduct data governance ensuring training/validation/testing datasets are representative, error-free, and complete
+- Draw up technical documentation to demonstrate compliance
+- Design for automatic record-keeping of events relevant for identifying risks
+- Provide instructions for use to enable deployer compliance
+- Design for human oversight capabilities
+- Achieve appropriate levels of accuracy, robustness, and cybersecurity
+- Establish quality management system
+
+**General Purpose AI (GPAI) Requirements**:
+- Provide technical documentation and instructions for use
+- Comply with EU Copyright Directive
+- Publish summary of content used for training
+- For GPAI with systemic risk: conduct model evaluations, adversarial testing, track serious incidents, ensure cybersecurity protections
+
+**Provider vs. Deployer Obligations**:
+- **Providers** (developers): Bear majority of obligations if placing high-risk AI on EU market
+- **Deployers** (users): Have lighter obligations when using high-risk AI in professional capacity
+- Both EU and third-country providers/deployers are covered if AI output is used in EU
+
+**Documentation Requirements**:
+- Maintain technical documentation demonstrating compliance
+- Document risk assessments for systems that may be high-risk
+- Keep records of AI system lifecycle events
+- Provide transparency about AI capabilities and limitations
+
+**Rationale**: The EU AI Act is becoming a global standard for AI governance, similar to GDPR for data protection. French Government AI services must comply as they operate within the EU. Compliance ensures AI systems are safe, transparent, and respect fundamental rights. Non-compliance can result in significant penalties (up to €35M or 7% of global turnover for prohibited AI). Proactive compliance protects citizens and builds trust in government AI services.
+
+**References**:
+- [EU AI Act Official Site](https://artificialintelligenceact.eu/)
+- [High-Level Summary](https://artificialintelligenceact.eu/high-level-summary/)
+- [AI Act Compliance Checker](https://artificialintelligenceact.eu/assessment/eu-ai-act-compliance-checker/)
+- [The AI Act Full Text](https://artificialintelligenceact.eu/the-act/)
+
+### XII. Security Homologation (NON-NEGOTIABLE)
+
+ai-kit projects MUST obtain security homologation (homologation de sécurité) before production deployment, as mandated by ANSSI and French government regulations for all public digital services.
+
+**Regulatory Framework**:
+- **RGS (Référentiel Général de Sécurité)**: Mandates security homologation for all online public services in France
+- **Decree n°2022-513 (April 8, 2022)**: Extends homologation obligation to all information and communication systems for State entities and public establishments
+- **Applies to**: State entities, public establishments, local authorities (collectivités territoriales)
+
+**What is Security Homologation**:
+Security homologation is a formal decision by an authority (autorité d'homologation) that:
+- Certifies that cyber risks related to an information system are clearly identified, treated, and accepted at the highest organizational level
+- Authorizes the deployment and maintenance in service of an information system
+- Attests that implemented security measures are sufficient to face common cyber risks and specific identified risks
+- Takes the form of a written decision (administrative note, signed document, or electronic decision)
+- Has a maximum validity period of 3 years
+
+**Homologation Process Requirements**:
+- Conduct comprehensive risk assessment of the information system
+- Identify and document all cyber risks (confidentiality, integrity, availability, traceability)
+- Implement appropriate security measures to mitigate identified risks
+- Document residual risks and obtain formal acceptance by homologation authority
+- Prepare homologation dossier with technical and organizational security documentation
+- Obtain formal written decision from homologation authority before production deployment
+- Plan for periodic review and re-homologation (maximum 3 years)
+
+**Consequences of Non-Homologation**:
+- An information system without homologation decision is deemed unable to be deployed or maintained in service
+- Absence of homologation means the system cannot legally operate in production
+- Unfavorable opinion from homologation authority prevents deployment until risks are adequately addressed
+
+**ai-kit Responsibilities**:
+- Provide security documentation templates aligned with ANSSI and RGS requirements
+- Include security risk assessment tools and methodologies
+- Support homologation process workflows (risk identification, treatment, acceptance)
+- Maintain comprehensive audit trails and security logs required for homologation dossier
+- Enable security monitoring and incident response capabilities
+- Document security architecture, measures, and controls for homologation dossier
+- Facilitate preparation of homologation documentation throughout development lifecycle
+
+**Integration with Other Principles**:
+- Complements EU AI Act compliance (Principle XI) for AI-specific security risks
+- Builds on Security & Privacy Standards section requirements
+- Requires secure ProConnect authentication implementation (Principle IV)
+- Supports RGAA accessibility security requirements (Principle V)
+- Aligns with open source transparency (Principle IX) for security auditing
+
+**Rationale**: Security homologation is a legal obligation for French Government digital services, mandated by RGS and extended by the 2022 decree. It ensures that cyber risks are properly identified, managed, and accepted at the appropriate authority level before production deployment. Non-compliance prevents legal operation of digital services. ai-kit must facilitate this mandatory governance process from the start of development to enable teams to deploy compliant, secure services.
+
+**References**:
+- [ANSSI - L'homologation de sécurité](https://cyber.gouv.fr/lhomologation-de-securite)
+- [ANSSI - Guide de l'homologation de sécurité (April 2025)](ressources/guide-homologation-securite-web-04-2025.pdf)
+- [RGS - Référentiel Général de Sécurité](https://cyber.gouv.fr/le-referentiel-general-de-securite-rgs)
+- [Decree n°2022-513](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045570774)
+
 ## French Government Integration Requirements
 
 ### Mandatory Integrations
@@ -416,6 +506,8 @@ All feature specifications and implementation plans MUST include a Constitution 
 - Developer tooling standards and monorepo architecture (Principle VIII)
 - Open source licensing and digital commons (Principle IX)
 - User-centered iteration and data-driven development (Principle X)
+- EU AI Act compliance and risk classification (Principle XI)
+- Security homologation preparation and requirements (Principle XII)
 
 ### Complexity Justification
 
@@ -426,4 +518,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.4.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-11
+**Version**: 1.6.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-12

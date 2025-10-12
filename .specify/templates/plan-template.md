@@ -43,6 +43,8 @@ Verify compliance with ai-kit constitution principles:
 - [ ] **Developer Experience & Tooling (Principle VIII)**: Does the project use Turborepo, uv, ruff, and just? Is TypeScript usage (if any) justified for frontend integration points?
 - [ ] **Open Source & Digital Commons (Principle IX)**: Is the code published under an open source license? Are open source and sovereign solutions privileged over proprietary alternatives?
 - [ ] **User-Centered Iteration (Principle X)**: Is user research planned? Are there plans for MVP release, user testing, and iteration? Will analytics be implemented?
+- [ ] **EU AI Act Compliance (Principle XI)**: Has the AI system been classified according to EU AI Act risk categories? Are requirements for high-risk AI systems addressed (risk management, data governance, documentation, human oversight)?
+- [ ] **Security Homologation (Principle XII)**: Is security risk assessment planned? Are homologation dossier requirements addressed? Is the homologation authority identified? Are security measures documented for RGS compliance?
 
 **Violations Requiring Justification**: [List any principle violations with rationale, or state "None"]
 
