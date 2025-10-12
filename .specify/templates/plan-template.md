@@ -41,7 +41,7 @@ Verify compliance with ai-kit constitution principles:
 - [ ] **ProConnect Authentication (Principle VI)**: Is ProConnect authentication implemented for user-facing features?
 - [ ] **User-Centered Iteration (Principle VII)**: Is user research planned? Are there plans for MVP release, user testing, and iteration? Will analytics be implemented?
 - [ ] **Extensibility and Innovation (Principle VIII)**: Is the implementation extensible? Does it avoid tight coupling to specific service versions?
-- [ ] **Developer Experience & Tooling (Principle IX)**: Does the project use Turborepo, uv, ruff, and just? Is TypeScript usage (if any) justified for frontend integration points?
+- [ ] **Developer Experience & Tooling (Principle IX)**: Does the project use Turborepo, uv, ruff, just, and pnpm? Is TypeScript usage (if any) justified for frontend integration points?
 - [ ] **Python-First Development (Principle X)**: Is Python the primary language? Are non-Python components justified?
 - [ ] **French Government AI Stack Integration (Principle XI)**: Does the feature integrate with OpenGateLLM, EvalAP, or other government AI services where applicable?
 - [ ] **Streamlit-to-Production Bridge (Principle XII)**: If using Streamlit, is there a migration path to Reflex? Are ProConnect and DSFR integrations planned?
