@@ -176,23 +176,25 @@ Pin: Python 3.12+, Node 22.14.0, pnpm 10.14.0, Turborepo ^2.5.8, ruff v0.14.0
 
 ### T030: Add platform-specific setup [P]
 **File**: `/docs/setup-platform-specific.md` | **Story**: Polish  
-Guides for: macOS, Linux, Windows, Docker
+Guides for: macOS, Linux, Windows, Docker. Address edge cases: older Python versions, tool conflicts (pip/virtualenv vs uv), platform-specific binary dependencies.
 
 ### T031: Document .venv edge cases [P]
 **File**: `/docs/troubleshooting-venv.md` | **Story**: Polish  
-Sections: Conflicting Dependencies, Import Errors, Version Conflicts, Corrupted .venv, Platform Issues
+Sections: Conflicting Dependencies, Import Errors (undeclared dependencies in shared .venv), Version Conflicts, Corrupted .venv (recovery steps), Platform Issues (binary dependencies). Explicitly address edge case: importing packages available in shared .venv but not declared in package's pyproject.toml.
 
 ### T032: Document Turborepo cache recovery [P]
 **File**: `/docs/troubleshooting-turborepo.md` | **Story**: Polish  
-Sections: Cache Corruption, Cache Misses, Slow Builds, add `cache-clear` to justfile
+Sections: Cache Corruption (detection and recovery), Cache Misses (debugging cache configuration), Slow Builds (optimizing cache keys), add `cache-clear` to justfile. Address edge case: Turborepo cache becomes corrupted or outdated.
 
 ### T033: Document dependency updates [P]
 **File**: `/docs/updating-dependencies.md` | **Story**: Polish  
 Sections: Python Dependencies, Node Dependencies, Tool Versions, Testing, Rollback
 
-### T034: Validate all success criteria
+### T034: Validate all success criteria and functional requirements
 **Story**: Polish  
-Verify all 12 SC pass: SC-001 (setup <10min), SC-002 (single .venv), SC-003 (lint <30s), SC-004 (cache ≥50%), SC-005 (100% ruff), SC-006 (CI <5min), SC-007 (no "works on my machine"), SC-008 (catches undeclared deps), SC-009 (just commands), SC-010 (positive feedback), SC-011 (clear structure), SC-012 (auto version switching)
+**Success Criteria**: Verify all 12 SC pass: SC-001 (setup <10min), SC-002 (single .venv), SC-003 (lint <30s), SC-004 (cache ≥50%), SC-005 (100% ruff), SC-006 (CI <5min), SC-007 (no "works on my machine"), SC-008 (catches undeclared deps), SC-009 (just commands), SC-010 (positive feedback), SC-011 (clear structure), SC-012 (auto version switching)
+
+**Functional Requirements**: Verify documentation FRs implemented: FR-022 (setup instructions in README/CONTRIBUTING), FR-023 (apps vs packages explained), FR-024 (commands + troubleshooting documented), FR-025 (justfile has all required commands)
 
 ### T035: Final documentation review
 **Files**: All docs | **Story**: Polish  

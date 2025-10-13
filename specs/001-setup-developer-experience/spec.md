@@ -27,10 +27,10 @@ As an ai-kit core contributor, I need the repository configured with standardize
 
 **Acceptance Scenarios**:
 
-1. **Given** a fresh clone of the ai-kit repository, **When** a developer runs the setup command, **Then** uv installs all dependencies and creates a working development environment
-2. **Given** the development environment is set up, **When** a developer runs the lint command, **Then** ruff checks all Python code for style violations and reports results
-3. **Given** code with formatting issues, **When** a developer runs the format command, **Then** ruff automatically fixes formatting to match project standards
-4. **Given** the repository is configured, **When** a developer runs `just --list`, **Then** all available development tasks are displayed with descriptions
+1. **Given** a fresh clone of the ai-kit repository, **When** a developer runs the setup command, **Then** uv installs all dependencies and creates a working development environment (implements FR-001, FR-002)
+2. **Given** the development environment is set up, **When** a developer runs the lint command, **Then** ruff checks all Python code for style violations and reports results (implements FR-003, FR-015)
+3. **Given** code with formatting issues, **When** a developer runs the format command, **Then** ruff automatically fixes formatting to match project standards (implements FR-003, FR-016)
+4. **Given** the repository is configured, **When** a developer runs `just --list`, **Then** all available development tasks are displayed with descriptions (implements FR-004, FR-025)
 
 ---
 
@@ -140,6 +140,12 @@ As a new ai-kit contributor, I need clear documentation on how to set up my deve
 - **FR-028**: pnpm MUST be managed via Corepack using the `packageManager` field in package.json for version consistency
 - **FR-029**: Repository MUST include both `volta` and `packageManager` fields in root package.json to enable automatic Node.js and package manager version management
 
+**Version Pinning Strategy**
+- Specifications use version ranges (e.g., "3.12+", "22.x LTS") to allow flexibility
+- Implementation tasks pin exact versions (e.g., "22.14.0") for reproducibility
+- Pinned versions are latest stable at time of implementation (2025-10-13)
+- Version updates follow documented process (see tasks.md T033)
+
 **Documentation**
 - **FR-022**: Developer documentation MUST include setup instructions for the hybrid uv + Turborepo structure
 - **FR-023**: Developer documentation MUST explain the `apps/` vs `packages/` distinction
@@ -175,6 +181,6 @@ As a new ai-kit contributor, I need clear documentation on how to set up my deve
 - **SC-007**: Zero "works on my machine" issues due to environment differences between local and CI
 - **SC-008**: CI catches undeclared dependencies by syncing only the package being tested
 - **SC-009**: All common development tasks (setup, sync, lint, format, test) are executable via single just commands
-- **SC-010**: Developer documentation receives positive feedback from at least 3 new contributors during onboarding
+- **SC-010**: Developer documentation receives positive feedback from at least 3 new contributors during onboarding (measured within first 3 months of release via onboarding surveys or GitHub discussions)
 - **SC-011**: Repository structure clearly separates deployable apps from importable packages
 - **SC-012**: Developers can switch between ai-kit and other projects with different Node.js versions without manual intervention (automatic via Volta)
