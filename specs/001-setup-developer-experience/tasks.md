@@ -14,11 +14,11 @@ Tasks organized by user story for independent implementation and testing. Each p
 
 ## Phase 1: Setup & Prerequisites
 
-### T001: Update .gitignore for Python + Node.js [P]
+### T001: Update .gitignore for Python + Node.js [P] ✅
 **File**: `/.gitignore` | **Story**: Setup  
 Add Python patterns (`.venv/`, `__pycache__/`, `*.pyc`, `dist/`, `.pytest_cache/`, `.ruff_cache/`, `uv.lock`) and Node.js patterns (`node_modules/`, `pnpm-lock.yaml`, `.turbo/`, `*.log`)
 
-### T002: Create repository folder structure [P]
+### T002: Create repository folder structure [P] ✅
 **Files**: `/apps/`, `/packages/` | **Story**: Setup  
 Create folders with `.gitkeep` and README.md explaining purpose
 
@@ -30,35 +30,35 @@ Create folders with `.gitkeep` and README.md explaining purpose
 
 **Test Criteria**: Clone repo → `just setup` <10min → `just lint/format` works → pre-commit hooks run
 
-### T003: Create root pyproject.toml
+### T003: Create root pyproject.toml ✅
 **File**: `/pyproject.toml` | **Story**: US1  
 Configure uv workspace (members=["apps/*", "packages/*"]), ruff (line-length=100, target="py312"), requires-python=">=3.12"
 
-### T004: Create justfile
+### T004: Create justfile ✅
 **File**: `/justfile` | **Story**: US1  
 Add commands: setup, sync, lint, format, test, build, clean with descriptions
 
-### T005: Create .pre-commit-config.yaml
+### T005: Create .pre-commit-config.yaml ✅
 **File**: `/.pre-commit-config.yaml` | **Story**: US1  
 Configure ruff hooks (lint + format) with fail_fast=true
 
-### T006: Create root package.json
+### T006: Create root package.json ✅
 **File**: `/package.json` | **Story**: US1  
 Configure Volta (node=22.14.0), packageManager (pnpm@10.14.0), workspaces, Turborepo devDep
 
-### T007: Create pnpm-workspace.yaml
+### T007: Create pnpm-workspace.yaml ✅
 **File**: `/pnpm-workspace.yaml` | **Story**: US1  
 Mirror uv workspace: packages=["apps/*", "packages/*"]
 
-### T008: Initialize uv workspace
+### T008: Initialize uv workspace ✅
 **Command**: `uv sync --all-packages` | **Story**: US1  
 Create `.venv/` at root, generate `uv.lock`, commit lockfile
 
-### T009: Install Node.js dependencies
+### T009: Install Node.js dependencies ✅
 **Command**: `corepack enable && pnpm install` | **Story**: US1  
 Install Turborepo, generate `pnpm-lock.yaml`
 
-### T010: Install pre-commit hooks
+### T010: Install pre-commit hooks ✅
 **Command**: `pre-commit install` | **Story**: US1  
 Install hooks, test with intentional formatting issues
 
