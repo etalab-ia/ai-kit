@@ -124,6 +124,13 @@ This specification is complete and ready for `/speckit.plan`. All quality criter
 - uv monorepos use `apps/` and `packages/` structure with single root `.venv` (postmodern-mono, uv-monorepo examples)
 - CI should sync only specific packages to catch undeclared dependencies (best practice from carderne/postmodern-mono)
 
+**Clarifications Completed** (2025-10-13):
+- ✅ Minimum Python version: 3.12+
+- ✅ pnpm version: 10.x+ (latest stable)
+- ✅ Pre-commit hooks: Mandatory installation
+- ✅ CI package syncing: All jobs use strict isolation (maximum safety exemplar)
+- ✅ Minimum Node.js version: 22.x LTS
+
 **Next Steps**:
 - Proceed to `/speckit.plan` to generate implementation plan
-- No clarifications or spec updates required
+- All critical ambiguities resolved

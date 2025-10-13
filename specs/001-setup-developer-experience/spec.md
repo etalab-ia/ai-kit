@@ -5,6 +5,16 @@
 **Status**: Draft  
 **Input**: User description: "I'd like to address principle IX so that we can setup the developer experience and tooling we expect of users of ai-kit for ai-kit itself."
 
+## Clarifications
+
+### Session 2025-10-13
+
+- Q: What is the minimum Python version required for ai-kit development? → A: Python 3.12+
+- Q: What is the minimum pnpm version required, and how should it be installed? → A: pnpm 10.x+ (latest stable)
+- Q: How should pre-commit hooks be provided to developers? → A: Mandatory installation (cannot be disabled)
+- Q: Should package-specific syncing apply to all CI jobs or only dependency validation? → A: All CI jobs sync only the specific package (strict isolation for maximum safety - ai-kit as exemplar)
+- Q: What is the minimum Node.js version required for ai-kit development? → A: Node.js 22.x LTS
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Core Developer Tooling Setup (Priority: P1)
@@ -98,7 +108,7 @@ As a new ai-kit contributor, I need clear documentation on how to set up my deve
 - **FR-002**: Repository MUST maintain a single shared `.venv` at the repository root for all Python packages
 - **FR-003**: Repository MUST use ruff for linting and code formatting with a shared configuration
 - **FR-004**: Repository MUST use just as the task runner with documented commands for common development tasks
-- **FR-005**: Repository MUST specify minimum Python version requirements in root `pyproject.toml`
+- **FR-005**: Repository MUST specify minimum Python version 3.12+ in root `pyproject.toml`
 
 **Monorepo Structure (Priority: Setup After Python Tooling)**
 - **FR-006**: Repository MUST follow the `apps/` and `packages/` folder structure
@@ -116,13 +126,18 @@ As a new ai-kit contributor, I need clear documentation on how to set up my deve
 **Code Quality**
 - **FR-015**: All Python code MUST pass ruff linting checks before merge
 - **FR-016**: All Python code MUST be formatted with ruff using project-standard configuration
-- **FR-017**: Repository MUST include pre-commit hooks for linting and formatting (optional for developers but recommended)
+- **FR-017**: Repository MUST include pre-commit hooks for linting and formatting that are installed automatically and cannot be disabled
 
 **CI/CD**
 - **FR-018**: CI pipeline MUST use the same tooling versions as local development (uv, ruff, just, Turborepo)
 - **FR-019**: CI pipeline MUST execute linting, formatting checks, tests, and builds on every pull request
 - **FR-020**: CI MUST fail fast on linting or formatting violations before running expensive tests
-- **FR-021**: CI MUST sync only the specific package being tested to catch undeclared dependencies
+- **FR-021**: CI MUST sync only the specific package being tested in ALL jobs (lint, test, build) to catch undeclared dependencies and demonstrate maximum safety practices
+
+**Node.js Tooling**
+- **FR-026**: Repository MUST require Node.js 22.x LTS or higher for Turborepo support
+- **FR-027**: Repository MUST require pnpm 10.x+ as the Node.js package manager
+- **FR-028**: pnpm SHOULD be managed via Corepack for version consistency
 
 **Documentation**
 - **FR-022**: Developer documentation MUST include setup instructions for the hybrid uv + Turborepo structure
@@ -132,7 +147,7 @@ As a new ai-kit contributor, I need clear documentation on how to set up my deve
 
 ### Key Entities
 
-- **Development Environment**: The local setup on a contributor's machine, including Python version, uv installation, Node.js (for Turborepo), and cloned repository with a single shared `.venv`
+- **Development Environment**: The local setup on a contributor's machine, including Python 3.12+, uv installation, Node.js 22.x LTS, pnpm 10.x+, and cloned repository with a single shared `.venv`
 - **App**: A deployable application in the `apps/` folder with entry points (e.g., CLI tool, API server) that can be run independently
 - **Package**: A shared library in the `packages/` folder without entry points (e.g., core library, templates, configs) that is imported by apps or other packages
 - **Workspace**: A uv workspace member defined in the root `pyproject.toml` that represents either an app or package
