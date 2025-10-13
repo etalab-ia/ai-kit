@@ -144,23 +144,23 @@ Validate: CI runs → checks execute → caching works → failures block → CI
 
 **Test Criteria**: New contributor follows docs → sets up environment → finds test commands → adds packages → troubleshoots CI
 
-### T024: Update root README.md
+### T024: Update root README.md ✅
 **File**: `/README.md` | **Story**: US4  
 Add: Getting Started, Quick Setup, Development Workflow, Monorepo Structure, Adding Packages, Troubleshooting
 
-### T025: Create CONTRIBUTING.md
+### T025: Create CONTRIBUTING.md ✅
 **File**: `/CONTRIBUTING.md` | **Story**: US4  
 Add: Environment Setup, Code Quality, Testing, PR Process, Monorepo Guidelines, Common Tasks, Troubleshooting, Getting Help
 
-### T026: Add inline documentation [P]
+### T026: Add inline documentation [P] ✅
 **Files**: `/pyproject.toml`, `/package.json`, `/turbo.json`, `/justfile` | **Story**: US4  
 Add explanatory comments to all config files
 
-### T027: Create CI troubleshooting guide [P]
+### T027: Create CI troubleshooting guide [P] ✅
 **File**: `/docs/troubleshooting-ci.md` | **Story**: US4  
 Sections: Linting Failures, Formatting, Tests, Undeclared Dependencies, Cache Issues, Environment Differences
 
-### T028: Test US4 acceptance scenarios
+### T028: Test US4 acceptance scenarios ✅
 **Story**: US4  
 Validate: new contributor follows docs → setup works → finds commands → adds packages → troubleshoots CI → collect feedback
 
