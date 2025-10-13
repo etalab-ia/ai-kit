@@ -53,3 +53,9 @@ clean:
     find . -type d -name "build" -exec rm -rf {} + 2>/dev/null || true
     find . -type d -name "*.egg-info" -exec rm -rf {} + 2>/dev/null || true
     @echo "✅ Clean complete!"
+
+# Clear Turborepo cache only
+cache-clear:
+    @echo "🧹 Clearing Turborepo cache..."
+    rm -rf .turbo
+    @echo "✅ Cache cleared!"
