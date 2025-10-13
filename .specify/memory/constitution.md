@@ -1,26 +1,35 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.7.0 → 1.7.1
-Rationale: PATCH version bump - Reorganized principle ordering by moving Specification-Driven Development (formerly XIII) to position XI, renumbering subsequent principles for better logical flow
+Version Change: 1.7.1 → 1.8.0
+Rationale: MINOR version bump - Added new Principle XIII: Jupyter Notebook Discipline to govern exploratory data science workflows in government AI projects, and swapped positions of Streamlit-to-Production Bridge (now XIV) and Jupyter Notebook Discipline (now XIII)
+
+Added Sections:
+- Principle XIII: Jupyter Notebook Discipline - Establishes governance for notebooks in top-level notebooks/ folder
+  * Notebook categorization (exploratory, documentation, production-adjacent)
+  * Security requirements (credential sanitization, .gitignore enforcement)
+  * Quality standards (reproducibility, documentation, version control)
+  * Integration with SpecKit workflow and EU AI Act compliance
+  * Tooling standards (nbstripout, nbconvert, papermill)
 
 Modified Principles:
-- Principle XI: Now "Specification-Driven Development with SpecKit" (formerly Principle XIII)
-- Principle XII: Now "French Government AI Stack Integration" (formerly Principle XI)
-- Principle XIII: Now "Streamlit-to-Production Bridge" (formerly Principle XII)
-
-Rationale for Reordering:
-- Specification-Driven Development (new XI) logically follows Python-First Development (X) as both are foundational development practices
-- French Government AI Stack Integration (new XII) and Streamlit-to-Production Bridge (new XIII) are more specific implementation concerns that build on the foundational principles
+- Principle XIII: Now "Jupyter Notebook Discipline" (new principle)
+- Principle XIV: Now "Streamlit-to-Production Bridge" (formerly Principle XIII)
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ plan-template.md: Updated principle numbers in Constitution Check
+- ✅ plan-template.md: Updated - Added Principle XIV checkbox to Constitution Check section
 - ✅ spec-template.md: Already aligned (no principle-specific references)
 - ✅ tasks-template.md: Already aligned (no principle-specific references)
 
 Follow-up TODOs:
+- Create feature spec for notebooks/ folder infrastructure (002-jupyter-notebook-support)
+- Add nbstripout to pre-commit hooks
+- Add notebooks/ to .gitignore patterns for output files
+- Create notebook templates (exploratory, documentation, production-adjacent)
+- Add notebook linting configuration for ruff
+- Document notebook-to-production migration patterns
 - Update feature spec 001-setup-developer-experience to reflect pnpm standardization
 - Consider adding security homologation dossier template
 - Consider adding risk assessment template aligned with ANSSI requirements
@@ -384,7 +393,97 @@ ai-kit MUST provide first-class integrations with the emerging French Government
 
 **Rationale**: Standardizing on government-approved AI infrastructure ensures compliance, reduces duplication, and enables teams to focus on domain-specific value rather than infrastructure.
 
-### XIII. Streamlit-to-Production Bridge
+### XIII. Jupyter Notebook Discipline
+
+ai-kit projects MUST maintain Jupyter notebooks in a top-level `notebooks/` directory with clear governance to balance exploratory data science workflows with security, reproducibility, and compliance requirements.
+
+**Notebook Categories**:
+
+Notebooks MUST be organized by purpose to clarify their role in the development lifecycle:
+
+- **Exploratory** (`notebooks/exploratory/`): Rapid experimentation, hypothesis testing, data exploration
+  - Not subject to SpecKit workflow requirements
+  - May contain incomplete or experimental code
+  - MUST NOT contain production credentials or sensitive data
+  - Should be cleaned up or archived when insights are productionized
+
+- **Documentation** (`notebooks/documentation/`): Tutorials, examples, architectural explanations
+  - Subject to documentation quality standards
+  - MUST be reproducible and well-documented
+  - Should be reviewed as part of feature specifications
+  - Serve as living documentation for complex AI workflows
+
+- **Production-Adjacent** (`notebooks/production-adjacent/`): Notebooks that inform production decisions
+  - Model evaluation, performance benchmarking, compliance reporting
+  - MUST be reproducible and version-controlled
+  - MUST document data sources, model versions, and evaluation criteria
+  - Subject to EU AI Act documentation requirements for high-risk AI systems
+
+**Security Requirements (NON-NEGOTIABLE)**:
+
+- Notebooks MUST NOT contain hardcoded credentials, API keys, or sensitive data
+- Use environment variables or secure configuration management for secrets
+- Implement `nbstripout` or equivalent to remove notebook outputs before commit
+- Add `notebooks/**/*.ipynb` output patterns to `.gitignore` (keep source, ignore execution artifacts)
+- Conduct security review before publishing notebooks to public repositories
+- Document data sources and ensure compliance with GDPR and data protection regulations
+
+**Quality Standards**:
+
+- **Reproducibility**: Notebooks MUST include dependency specifications (requirements.txt, environment.yml, or uv workspace)
+- **Documentation**: Each notebook MUST include:
+  - Purpose and context (what question does this answer?)
+  - Author and date
+  - Data sources and versions
+  - Expected runtime and resource requirements
+  - Known limitations or assumptions
+- **Version Control**: Notebooks MUST be committed with outputs stripped (use `nbstripout` pre-commit hook)
+- **Code Quality**: Notebook code SHOULD follow Python standards (ruff linting where practical)
+- **Cell Organization**: Use markdown cells to structure narrative, avoid monolithic code cells
+
+**Integration with SpecKit Workflow**:
+
+- **Exploratory notebooks**: Not required to follow SpecKit workflow, but insights MUST be captured in specifications when productionized
+- **Documentation notebooks**: Should be referenced in feature specifications (spec.md) and quickstart guides
+- **Production-adjacent notebooks**: MUST be documented in `plan.md` research section and referenced in compliance documentation
+
+**EU AI Act Compliance**:
+
+For high-risk AI systems, production-adjacent notebooks MUST:
+
+- Document model training data characteristics (representativeness, quality, completeness)
+- Record model evaluation metrics and validation results
+- Capture risk assessment findings and mitigation strategies
+- Provide audit trail for model selection and hyperparameter tuning decisions
+- Support technical documentation requirements for homologation dossier
+
+**Tooling Standards**:
+
+- **nbstripout**: Pre-commit hook to remove outputs before commit
+- **nbconvert**: Convert notebooks to scripts or documentation formats
+- **papermill**: Parameterize and execute notebooks programmatically for reproducible reporting
+- **ruff**: Lint notebook code cells (via `nbqa` or similar)
+- **uv**: Manage notebook dependencies within monorepo workspace
+
+**Migration to Production**:
+
+When notebook insights become production features:
+
+1. Extract reusable code into `packages/` or `apps/` with proper testing
+2. Document the notebook-to-production migration in feature specification
+3. Archive or move exploratory notebooks to `notebooks/archive/` to reduce clutter
+4. Retain production-adjacent notebooks for compliance and audit purposes
+5. Follow Principle XI (Specification-Driven Development) for production implementation
+
+**Rationale**: Jupyter notebooks are essential for AI/ML experimentation and data science workflows, but without governance they become security risks, compliance liabilities, and sources of technical debt. This principle acknowledges the exploratory nature of notebooks while establishing guardrails that prevent common pitfalls: credential leakage, irreproducible results, and undocumented model decisions. By categorizing notebooks and integrating them with SpecKit workflow, we enable rapid innovation while maintaining traceability for compliance and production migration.
+
+**References**:
+- [Jupyter Project](https://jupyter.org/)
+- [nbstripout](https://github.com/kynan/nbstripout)
+- [Papermill](https://papermill.readthedocs.io/)
+- [nbqa](https://github.com/nbQA-dev/nbQA)
+
+### XIV. Streamlit-to-Production Bridge
 
 ai-kit MUST provide a clear migration path from Streamlit prototypes to production-ready applications. This principle addresses the common pattern where:
 
@@ -575,7 +674,8 @@ All feature specifications and implementation plans MUST include a Constitution 
 - Python-first development (Principle X)
 - Specification-driven development with SpecKit workflows (Principle XI)
 - Government AI stack integration requirements (Principle XII)
-- Streamlit-to-production support if applicable (Principle XIII)
+- Jupyter notebook discipline and governance if applicable (Principle XIII)
+- Streamlit-to-production support if applicable (Principle XIV)
 
 ### Complexity Justification
 
@@ -586,4 +686,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.7.1 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-13
+**Version**: 1.8.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-13
