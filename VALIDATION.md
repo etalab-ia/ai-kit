@@ -141,7 +141,7 @@ uv run ruff format --check .
 - name: Install dependencies (strict package isolation)
   run: |
     if [ "${{ matrix.package }}" = "core" ]; then
-      uv sync --package ai-kit-core
+      uv sync --package ai-kit-core --group dev
     fi
 ```
 

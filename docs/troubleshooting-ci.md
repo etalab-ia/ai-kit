@@ -162,10 +162,22 @@ dependencies = [
 ai-kit-core = { workspace = true }
 ```
 
-#### 4. Sync and test
+#### 4. Test Strict Package Isolation
+
+```bash
+# Test core package isolation (with dev dependencies)
+uv sync --package ai-kit-core --group dev
+uv run --package ai-kit-core pytest packages/core/tests/
+
+# Test CLI package isolation (with dev dependencies)
+uv sync --package ai-kit-cli --group dev
+uv run --package ai-kit-cli pytest apps/cli/tests/
+```
+
+#### 5. Sync and test
 ```bash
 # Sync with strict isolation (like CI)
-uv sync --package ai-kit-cli
+uv sync --package ai-kit-cli --group dev
 
 # Test the package
 uv run --package ai-kit-cli pytest apps/cli/tests/
@@ -174,7 +186,7 @@ uv run --package ai-kit-cli pytest apps/cli/tests/
 ### Prevention
 - Test with strict isolation locally:
   ```bash
-  uv sync --package <your-package>
+  uv sync --package <your-package> --group dev
   ```
 - Declare all imports in `pyproject.toml`
 - Review dependency changes in PRs
