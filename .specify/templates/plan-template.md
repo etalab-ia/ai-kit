@@ -45,7 +45,8 @@ Verify compliance with ai-kit constitution principles:
 - [ ] **Python-First Development (Principle X)**: Is Python the primary language? Are non-Python components justified?
 - [ ] **Specification-Driven Development (Principle XI)**: Does this feature follow the SpecKit workflow (specify → plan → tasks → implement)? Are all design artifacts present in specs/[###-feature-name]/? Is traceability maintained from spec to implementation?
 - [ ] **French Government AI Stack Integration (Principle XII)**: Does the feature integrate with OpenGateLLM, EvalAP, or other government AI services where applicable?
-- [ ] **Streamlit-to-Production Bridge (Principle XIII)**: If using Streamlit, is there a migration path to Reflex? Are ProConnect and DSFR integrations planned?
+- [ ] **Jupyter Notebook Discipline (Principle XIII)**: If using notebooks, are they organized in notebooks/ with proper categorization (exploratory/documentation/production-adjacent)? Are security requirements met (no credentials, nbstripout configured)? Are quality standards followed (reproducibility, documentation)?
+- [ ] **Streamlit-to-Production Bridge (Principle XIV)**: If using Streamlit, is there a migration path to Reflex? Are ProConnect and DSFR integrations planned?
 
 **Violations Requiring Justification**: [List any principle violations with rationale, or state "None"]
 
