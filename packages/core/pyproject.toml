@@ -1,0 +1,17 @@
+[project]
+name = "ai-kit-core"
+version = "0.1.0"
+description = "Core library for ai-kit"
+requires-python = ">=3.12"
+readme = "README.md"
+license = { text = "MIT" }
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.14.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

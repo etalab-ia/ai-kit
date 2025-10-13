@@ -1,0 +1,165 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  setup-turborepo:
+    name: Setup Turborepo Cache
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Turborepo cache
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [core, cli]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies (strict package isolation)
+        run: |
+          if [ "${{ matrix.package }}" = "core" ]; then
+            uv sync --package ai-kit-core --group dev
+          elif [ "${{ matrix.package }}" = "cli" ]; then
+            uv sync --package ai-kit-cli --group dev
+          fi
+
+      - name: Run ruff check
+        run: |
+          if [ "${{ matrix.package }}" = "core" ]; then
+            uv run --package ai-kit-core ruff check packages/core/src/
+          elif [ "${{ matrix.package }}" = "cli" ]; then
+            uv run --package ai-kit-cli ruff check apps/cli/src/
+          fi
+
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [core, cli]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies (strict package isolation)
+        run: |
+          if [ "${{ matrix.package }}" = "core" ]; then
+            uv sync --package ai-kit-core --group dev
+          elif [ "${{ matrix.package }}" = "cli" ]; then
+            uv sync --package ai-kit-cli --group dev
+          fi
+
+      - name: Run ruff format check
+        run: |
+          if [ "${{ matrix.package }}" = "core" ]; then
+            uv run --package ai-kit-core ruff format --check packages/core/src/
+          elif [ "${{ matrix.package }}" = "cli" ]; then
+            uv run --package ai-kit-cli ruff format --check apps/cli/src/
+          fi
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [core, cli]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies (strict package isolation)
+        run: |
+          if [ "${{ matrix.package }}" = "core" ]; then
+            uv sync --package ai-kit-core --group dev
+          elif [ "${{ matrix.package }}" = "cli" ]; then
+            uv sync --package ai-kit-cli --group dev
+          fi
+
+      - name: Run tests
+        run: |
+          if [ "${{ matrix.package }}" = "core" ]; then
+            uv run --package ai-kit-core pytest packages/core/tests/
+          elif [ "${{ matrix.package }}" = "cli" ]; then
+            uv run --package ai-kit-cli pytest apps/cli/tests/
+          fi
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [lint, format-check, test]
+    strategy:
+      matrix:
+        package: [core, cli]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies (strict package isolation)
+        run: |
+          if [ "${{ matrix.package }}" = "core" ]; then
+            uv sync --package ai-kit-core
+          elif [ "${{ matrix.package }}" = "cli" ]; then
+            uv sync --package ai-kit-cli
+          fi
+
+      - name: Build package
+        run: |
+          if [ "${{ matrix.package }}" = "core" ]; then
+            cd packages/core && uv build
+          elif [ "${{ matrix.package }}" = "cli" ]; then
+            cd apps/cli && uv build
+          fi
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.package }}
+          path: |
+            packages/core/dist/
+            apps/cli/dist/
+          retention-days: 7

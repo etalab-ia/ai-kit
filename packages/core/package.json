@@ -1,0 +1,11 @@
+{
+  "name": "@ai-kit/core",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "lint": "uv run ruff check src/",
+    "format": "uv run ruff format src/",
+    "test": "uv run pytest",
+    "build": "uv build"
+  }
+}

@@ -1,59 +1,32 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.6.0 → 1.6.1
-Rationale: PATCH version bump - Reorganized principles from general/regulatory to specific/technical concerns for improved clarity and logical flow
+Version Change: 1.6.1 → 1.6.2
+Rationale: PATCH version bump - Added pnpm as standardized Node.js package manager to Principle IX (Developer Experience & Tooling Consistency)
 
-Modified Principles: All principles renumbered for better organization
-- Old I (Python-First) → New X
-- Old II (Streamlit Bridge) → New XII
-- Old III (AI Stack) → New XI
-- Old IV (ProConnect) → New VI
-- Old V (RGAA) → New II
-- Old VI (DSFR) → New V
-- Old VII (Extensibility) → New VIII
-- Old VIII (Developer Tooling) → New IX
-- Old IX (Open Source) → New IV
-- Old X (User-Centered) → New VII
-- Old XI (EU AI Act) → New I
-- Old XII (Security Homologation) → New III
+Modified Principles:
+- Principle IX (Developer Experience & Tooling Consistency):
+  * Added "Node.js Tooling Standards" section
+  * Standardized on pnpm for Node.js package management and workspace support
+  * Clarified that npm, yarn, and bun are optional but not standardized
+  * Updated rationale to explain pnpm's alignment with uv workspaces and Turborepo
 
-New Ordering Logic:
-**Tier 1: Legal & Regulatory Compliance (I-IV)**
-- I: EU AI Act Compliance
-- II: RGAA Accessibility Compliance
-- III: Security Homologation
-- IV: Open Source & Digital Commons
-
-**Tier 2: Government Standards & Integration (V-VI)**
-- V: DSFR Design System Compliance
-- VI: ProConnect Authentication Standard
-
-**Tier 3: Development Philosophy & User Focus (VII-VIII)**
-- VII: User-Centered Iteration
-- VIII: Extensibility and Innovation
-
-**Tier 4: Technical Implementation (IX-XII)**
-- IX: Developer Experience & Tooling Consistency
-- X: Python-First Development
-- XI: French Government AI Stack Integration
-- XII: Streamlit-to-Production Bridge
-
-Added Sections: N/A
+Added Sections:
+- Principle IX: "Node.js Tooling Standards" subsection
 
 Modified Sections:
-- Compliance Review: Updated with new principle numbering
-- French Government Integration Requirements: Updated cross-references to new principle numbers
-- Security Homologation cross-references: Updated to reference new principle numbers
+- Principle IX: Rationale expanded to include pnpm's workspace support alignment
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ plan-template.md: Constitution Check section updated with new principle numbering
+- ✅ plan-template.md: Updated Principle IX checkbox to include pnpm
 - ✅ spec-template.md: Already aligned (no changes needed)
 - ✅ tasks-template.md: Already aligned (no changes needed)
 
 Follow-up TODOs:
+- Update feature spec 001-setup-developer-experience to reflect pnpm standardization
+- Consider adding pnpm workspace configuration examples to developer documentation
 - Consider adding security homologation dossier template
 - Consider adding risk assessment template aligned with ANSSI requirements
 - Consider adding security documentation checklist for homologation
@@ -303,6 +276,12 @@ ai-kit MUST standardize on modern, Python-ecosystem-native tooling to minimize c
 - **ruff**: Linting and code formatting (replaces flake8, black, isort)
 - **just**: Task runner for common development commands (replaces Makefiles)
 
+**Node.js Tooling Standards**:
+
+- **pnpm**: Package manager for Node.js dependencies and workspace management
+- Other package managers (npm, yarn) or runtimes (bun) MAY be used but are not standardized
+- pnpm provides efficient disk usage, strict dependency resolution, and native workspace support that complements Turborepo
+
 **Hybrid Architecture**:
 
 - Python remains the primary language (Principle X)
@@ -311,7 +290,7 @@ ai-kit MUST standardize on modern, Python-ecosystem-native tooling to minimize c
 - Frontend components MAY use TypeScript when integrating with modern frameworks (e.g., Next.js for Reflex interop)
 - All TypeScript usage MUST be justified in Constitution Check
 
-**Rationale**: Tool proliferation fragments team knowledge and slows onboarding. Standardizing on modern, fast tools that respect Python-first culture enables teams to focus on domain problems rather than build system archaeology. Monorepo tooling prevents the "multiple disconnected repos" anti-pattern that complicates deployment of services with multiple running processes.
+**Rationale**: Tool proliferation fragments team knowledge and slows onboarding. Standardizing on modern, fast tools that respect Python-first culture enables teams to focus on domain problems rather than build system archaeology. Monorepo tooling prevents the "multiple disconnected repos" anti-pattern that complicates deployment of services with multiple running processes. pnpm's workspace support aligns naturally with uv workspaces and Turborepo, creating a cohesive monorepo experience.
 
 ### X. Python-First Development
 
@@ -543,4 +522,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.6.1 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-12
+**Version**: 1.6.2 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-12

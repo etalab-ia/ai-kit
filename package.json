@@ -1,0 +1,27 @@
+{
+  "name": "ai-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI toolkit for French Government digital services",
+  "volta": {
+    "node": "22.14.0"
+  },
+  "packageManager": "pnpm@10.18.2",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "test": "turbo run test",
+    "build": "turbo run build"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.8"
+  }
+}

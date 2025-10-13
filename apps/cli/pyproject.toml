@@ -1,0 +1,26 @@
+[project]
+name = "ai-kit-cli"
+version = "0.1.0"
+description = "Command-line interface for ai-kit"
+requires-python = ">=3.12"
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = [
+    "ai-kit-core",
+]
+
+[project.scripts]
+ai-kit = "ai_kit_cli.main:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.14.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.uv.sources]
+ai-kit-core = { workspace = true }
