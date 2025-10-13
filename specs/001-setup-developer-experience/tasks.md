@@ -62,7 +62,7 @@ Install Turborepo, generate `pnpm-lock.yaml`
 **Command**: `pre-commit install` | **Story**: US1  
 Install hooks, test with intentional formatting issues
 
-### T011: Test US1 acceptance scenarios
+### T011: Test US1 acceptance scenarios ✅
 **Story**: US1  
 Validate: fresh clone → setup works → lint/format work → `just --list` shows commands → setup time <10min
 
@@ -76,31 +76,31 @@ Validate: fresh clone → setup works → lint/format work → `just --list` sho
 
 **Test Criteria**: Multiple packages share .venv → Turborepo caches → parallel execution → only affected packages rebuild
 
-### T012: Create turbo.json
+### T012: Create turbo.json ✅
 **File**: `/turbo.json` | **Story**: US2  
 Configure pipeline: lint, format, test, build with caching and dependencies
 
-### T013: Create example package (core) [P]
+### T013: Create example package (core) [P] ✅
 **Directory**: `/packages/core/` | **Story**: US2  
 Create pyproject.toml, package.json, src/ai_kit_core/__init__.py, tests/, README.md
 
-### T014: Create example app (cli) [P]
+### T014: Create example app (cli) [P] ✅
 **Directory**: `/apps/cli/` | **Story**: US2  
 Create pyproject.toml (depends on core), package.json, src/ai_kit_cli/main.py, tests/, README.md
 
-### T015: Sync workspace with examples
+### T015: Sync workspace with examples ✅
 **Command**: `uv sync --all-packages` | **Story**: US2  
 Verify both packages in shared .venv, local imports work
 
-### T016: Test Turborepo caching
+### T016: Test Turborepo caching ✅
 **Story**: US2  
 Run build twice → verify cache hits → modify core → verify only core+cli rebuild
 
-### T017: Test parallel execution
+### T017: Test parallel execution ✅
 **Story**: US2  
 Create third package (templates), run lint → verify parallel execution
 
-### T018: Test US2 acceptance scenarios
+### T018: Test US2 acceptance scenarios ✅
 **Story**: US2  
 Validate: single .venv → add dependency works → caching works → parallel works → selective rebuild works
 
