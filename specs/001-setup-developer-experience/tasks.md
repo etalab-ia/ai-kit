@@ -114,23 +114,23 @@ Validate: single .venv → add dependency works → caching works → parallel w
 
 **Test Criteria**: CI runs on PR → lint/format/test execute → Turborepo caching works → failures block merge → strict package isolation
 
-### T019: Create GitHub Actions CI workflow
+### T019: Create GitHub Actions CI workflow ✅
 **File**: `/.github/workflows/ci.yml` | **Story**: US3  
 Jobs: lint, format-check, test, build with matrix for packages, strict sync per package (`uv sync --package <name>`)
 
-### T020: Configure Turborepo caching for CI
+### T020: Configure Turborepo caching for CI ✅
 **File**: `/.github/workflows/ci.yml` | **Story**: US3  
 Configure GitHub Actions cache for Turborepo (CI-only optimization). Add `actions/cache@v4` step to cache `.turbo` directory with key based on OS + turbo + git SHA. Add restore-keys for cache fallback. This provides CI-only caching (not shared with local dev). Note: Self-hosted remote cache (open source: ducktors/turborepo-remote-cache) can be added later for team-wide cache sharing with full data sovereignty.
 
-### T021: Add pre-commit validation workflow
+### T021: Add pre-commit validation workflow ✅
 **File**: `/.github/workflows/pre-commit.yml` | **Story**: US3  
 Run `pre-commit run --all-files` on PR
 
-### T022: Test CI with intentional failures
+### T022: Test CI with intentional failures ✅
 **Story**: US3  
 Test: lint violations → format issues → failing tests → undeclared dependencies → verify clear errors
 
-### T023: Test US3 acceptance scenarios
+### T023: Test US3 acceptance scenarios ✅
 **Story**: US3  
 Validate: CI runs → checks execute → caching works → failures block → CI time <5min → strict isolation works
 
