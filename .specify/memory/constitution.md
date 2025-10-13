@@ -1,26 +1,24 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.6.2 → 1.7.0
-Rationale: MINOR version bump - Added new Principle XIII (Specification-Driven Development with SpecKit) to establish ai-kit as an exemplar of specification-driven development methodology
+Version Change: 1.7.0 → 1.7.1
+Rationale: PATCH version bump - Reorganized principle ordering by moving Specification-Driven Development (formerly XIII) to position XI, renumbering subsequent principles for better logical flow
 
-Added Principles:
-- Principle XIII (Specification-Driven Development with SpecKit):
-  * ai-kit MUST serve as a reference implementation of SpecKit methodology
-  * All features MUST follow specification → planning → implementation workflow
-  * Mandates use of SpecKit templates and workflows (.specify/ directory)
-  * Establishes ai-kit as both a product and a demonstration of specification-driven practices
-  * Ensures all development follows structured, documented, and traceable processes
+Modified Principles:
+- Principle XI: Now "Specification-Driven Development with SpecKit" (formerly Principle XIII)
+- Principle XII: Now "French Government AI Stack Integration" (formerly Principle XI)
+- Principle XIII: Now "Streamlit-to-Production Bridge" (formerly Principle XII)
 
-Modified Sections:
-- Governance → Compliance Review: Added Principle XIII checkbox for constitution compliance verification
+Rationale for Reordering:
+- Specification-Driven Development (new XI) logically follows Python-First Development (X) as both are foundational development practices
+- French Government AI Stack Integration (new XII) and Streamlit-to-Production Bridge (new XIII) are more specific implementation concerns that build on the foundational principles
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ plan-template.md: Added Principle XIII checkbox to Constitution Check
-- ✅ spec-template.md: Already aligned (SpecKit templates already enforce this)
-- ✅ tasks-template.md: Already aligned (SpecKit templates already enforce this)
+- ✅ plan-template.md: Updated principle numbers in Constitution Check
+- ✅ spec-template.md: Already aligned (no principle-specific references)
+- ✅ tasks-template.md: Already aligned (no principle-specific references)
 
 Follow-up TODOs:
 - Update feature spec 001-setup-developer-experience to reflect pnpm standardization
@@ -28,7 +26,6 @@ Follow-up TODOs:
 - Consider adding risk assessment template aligned with ANSSI requirements
 - Consider adding security documentation checklist for homologation
 - Consider adding homologation workflow guide
-- Update README.md to highlight ai-kit's role as SpecKit exemplar
 -->
 
 # ai-kit Constitution
@@ -301,43 +298,7 @@ ai-kit MUST prioritize Python as the primary development language to align with 
 
 **Rationale**: Empowering teams to work within their expertise domain maximizes productivity and reduces the learning curve that has historically caused projects to stall or accumulate technical debt.
 
-### XI. French Government AI Stack Integration
-
-ai-kit MUST provide first-class integrations with the emerging French Government AI ecosystem, including but not limited to:
-
-- **OpenGateLLM**: Gateway for open-source and proprietary LLMs with RAG, vectorization, and transcription
-- **EvalAP**: Evaluation framework with RAG and other AI metrics
-- **L'assistant IA**: Chat experiences leveraging OpenGateLLM
-- Future government-endorsed AI tools and services
-
-**Requirements**:
-
-- Provide SDK/client libraries for each integrated service
-- Include example implementations and quickstart templates
-- Document authentication, authorization, and compliance requirements
-- Maintain compatibility as these services evolve
-
-**Rationale**: Standardizing on government-approved AI infrastructure ensures compliance, reduces duplication, and enables teams to focus on domain-specific value rather than infrastructure.
-
-### XII. Streamlit-to-Production Bridge
-
-ai-kit MUST provide a clear migration path from Streamlit prototypes to production-ready applications. This principle addresses the common pattern where:
-
-- Teams start with Streamlit for rapid stakeholder iteration
-- Lack of frontend expertise causes Streamlit UIs to "stick" and become complex
-- Cross-cutting concerns (auth, design systems) are retrofitted poorly
-- Technical debt accumulates as experimental UIs face real-world demands
-
-**Implementation Requirements**:
-
-- Provide Reflex-based wrappers that can encapsulate Streamlit components
-- Offer pre-built integrations for ProConnect authentication
-- Include DSFR-compliant UI components and templates
-- Enable incremental migration without full rewrites
-
-**Rationale**: By acknowledging and supporting the Streamlit-first workflow, ai-kit reduces friction and provides an escape hatch before technical debt becomes insurmountable.
-
-### XIII. Specification-Driven Development with SpecKit
+### XI. Specification-Driven Development with SpecKit
 
 ai-kit MUST serve as a reference implementation and exemplar of specification-driven development using SpecKit methodology. This principle establishes ai-kit as both a product that delivers value AND a demonstration of best practices for structured, traceable software development.
 
@@ -404,6 +365,42 @@ ai-kit development MUST demonstrate:
 - SpecKit templates: `.specify/templates/`
 - SpecKit workflows: `.windsurf/workflows/`
 - Example specifications: `specs/001-setup-developer-experience/`
+
+### XII. French Government AI Stack Integration
+
+ai-kit MUST provide first-class integrations with the emerging French Government AI ecosystem, including but not limited to:
+
+- **OpenGateLLM**: Gateway for open-source and proprietary LLMs with RAG, vectorization, and transcription
+- **EvalAP**: Evaluation framework with RAG and other AI metrics
+- **L'assistant IA**: Chat experiences leveraging OpenGateLLM
+- Future government-endorsed AI tools and services
+
+**Requirements**:
+
+- Provide SDK/client libraries for each integrated service
+- Include example implementations and quickstart templates
+- Document authentication, authorization, and compliance requirements
+- Maintain compatibility as these services evolve
+
+**Rationale**: Standardizing on government-approved AI infrastructure ensures compliance, reduces duplication, and enables teams to focus on domain-specific value rather than infrastructure.
+
+### XIII. Streamlit-to-Production Bridge
+
+ai-kit MUST provide a clear migration path from Streamlit prototypes to production-ready applications. This principle addresses the common pattern where:
+
+- Teams start with Streamlit for rapid stakeholder iteration
+- Lack of frontend expertise causes Streamlit UIs to "stick" and become complex
+- Cross-cutting concerns (auth, design systems) are retrofitted poorly
+- Technical debt accumulates as experimental UIs face real-world demands
+
+**Implementation Requirements**:
+
+- Provide Reflex-based wrappers that can encapsulate Streamlit components
+- Offer pre-built integrations for ProConnect authentication
+- Include DSFR-compliant UI components and templates
+- Enable incremental migration without full rewrites
+
+**Rationale**: By acknowledging and supporting the Streamlit-first workflow, ai-kit reduces friction and provides an escape hatch before technical debt becomes insurmountable.
 
 ## French Government Integration Requirements
 
@@ -576,9 +573,9 @@ All feature specifications and implementation plans MUST include a Constitution 
 - Extensibility considerations (Principle VIII)
 - Developer tooling standards and monorepo architecture (Principle IX)
 - Python-first development (Principle X)
-- Government AI stack integration requirements (Principle XI)
-- Streamlit-to-production support if applicable (Principle XII)
-- Specification-driven development with SpecKit workflows (Principle XIII)
+- Specification-driven development with SpecKit workflows (Principle XI)
+- Government AI stack integration requirements (Principle XII)
+- Streamlit-to-production support if applicable (Principle XIII)
 
 ### Complexity Justification
 
@@ -589,4 +586,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.7.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-13
+**Version**: 1.7.1 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-13
