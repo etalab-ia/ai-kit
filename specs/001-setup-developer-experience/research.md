@@ -141,16 +141,37 @@ This document captures research findings and technical decisions for establishin
 - Cache is per-repository only
 - Team members don't benefit from each other's local builds
 
-**Future Option**: Vercel Remote Cache
+**Future Option**: Self-Hosted Remote Cache (Open Source)
 - True remote caching shared across CI + local development
-- Requires Vercel account (free tier available) and configuration
+- Open source solution: [ducktors/turborepo-remote-cache](https://github.com/ducktors/turborepo-remote-cache)
+- MIT licensed, actively maintained (87 releases, 40 contributors)
 - Provides team-wide cache sharing and local dev speed improvements
 - Can be added later if team size justifies the complexity
-- Configuration: Add `remoteCache` to turbo.json + set `TURBO_TOKEN`/`TURBO_TEAM` secrets
+
+**Self-Hosted Implementation Options**:
+- **Local filesystem**: Simple, no external dependencies (development/testing)
+- **AWS S3**: Government-compatible, cost-effective storage
+- **Azure Blob Storage**: Microsoft Azure integration
+- **Google Cloud Storage**: GCP integration
+- **Minio**: Self-hosted S3-compatible storage (full control)
+- **DigitalOcean Spaces**: Simple S3-compatible alternative
+
+**Deployment Options**:
+- Docker container (self-hosted on any infrastructure)
+- AWS Lambda (serverless, pay-per-use)
+- Google Cloud Run (serverless, containerized)
+- Kubernetes (enterprise-grade, scalable)
+
+**Government Context Benefits**:
+- No external service dependency (Vercel)
+- No recurring costs to third-party vendors
+- Full data sovereignty and control
+- Can deploy on government-approved infrastructure
+- Open source = security auditable
 
 **Alternatives Considered**:
-- **Vercel Remote Cache (now)**: More complex, external dependency, overkill for initial setup
-- **Self-hosted cache**: Too complex to maintain, requires infrastructure
+- **Vercel Remote Cache**: External dependency, potential costs, vendor lock-in
+- **No remote cache**: Would not enable team-wide cache sharing
 - **No caching**: Would not achieve SC-004 (≥50% CI time reduction)
 
 ### 3. Monorepo Structure

@@ -176,7 +176,9 @@ All version requirements verified against latest releases (as of 2025-10-13).
 **Turborepo Caching Note**:
 - Initial implementation uses GitHub Actions cache (CI-only)
 - Achieves SC-004 (≥50% build time reduction) without external dependencies
-- Future option: Vercel Remote Cache for team-wide cache sharing (CI + local dev)
+- Future option: Self-hosted remote cache (open source) for team-wide cache sharing (CI + local dev)
+- Self-hosted solution: ducktors/turborepo-remote-cache (MIT licensed, government-compatible)
+- Storage options: Local filesystem, AWS S3, Azure Blob, GCS, Minio (full data sovereignty)
 - See research.md for detailed caching strategy rationale
 
 ### ✅ Phase 1: Design & Documentation (COMPLETE)

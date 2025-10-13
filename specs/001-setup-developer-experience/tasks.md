@@ -120,7 +120,7 @@ Jobs: lint, format-check, test, build with matrix for packages, strict sync per 
 
 ### T020: Configure Turborepo caching for CI
 **File**: `/.github/workflows/ci.yml` | **Story**: US3  
-Configure GitHub Actions cache for Turborepo (CI-only optimization). Add `actions/cache@v4` step to cache `.turbo` directory with key based on OS + turbo + git SHA. Add restore-keys for cache fallback. This provides CI-only caching (not shared with local dev). Note: True remote caching via Vercel Remote Cache can be added later if desired for team-wide cache sharing.
+Configure GitHub Actions cache for Turborepo (CI-only optimization). Add `actions/cache@v4` step to cache `.turbo` directory with key based on OS + turbo + git SHA. Add restore-keys for cache fallback. This provides CI-only caching (not shared with local dev). Note: Self-hosted remote cache (open source: ducktors/turborepo-remote-cache) can be added later for team-wide cache sharing with full data sovereignty.
 
 ### T021: Add pre-commit validation workflow
 **File**: `/.github/workflows/pre-commit.yml` | **Story**: US3  
