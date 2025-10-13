@@ -1,32 +1,27 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.6.1 → 1.6.2
-Rationale: PATCH version bump - Added pnpm as standardized Node.js package manager to Principle IX (Developer Experience & Tooling Consistency)
+Version Change: 1.7.0 → 1.7.1
+Rationale: PATCH version bump - Reorganized principle ordering by moving Specification-Driven Development (formerly XIII) to position XI, renumbering subsequent principles for better logical flow
 
 Modified Principles:
-- Principle IX (Developer Experience & Tooling Consistency):
-  * Added "Node.js Tooling Standards" section
-  * Standardized on pnpm for Node.js package management and workspace support
-  * Clarified that npm, yarn, and bun are optional but not standardized
-  * Updated rationale to explain pnpm's alignment with uv workspaces and Turborepo
+- Principle XI: Now "Specification-Driven Development with SpecKit" (formerly Principle XIII)
+- Principle XII: Now "French Government AI Stack Integration" (formerly Principle XI)
+- Principle XIII: Now "Streamlit-to-Production Bridge" (formerly Principle XII)
 
-Added Sections:
-- Principle IX: "Node.js Tooling Standards" subsection
-
-Modified Sections:
-- Principle IX: Rationale expanded to include pnpm's workspace support alignment
+Rationale for Reordering:
+- Specification-Driven Development (new XI) logically follows Python-First Development (X) as both are foundational development practices
+- French Government AI Stack Integration (new XII) and Streamlit-to-Production Bridge (new XIII) are more specific implementation concerns that build on the foundational principles
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ plan-template.md: Updated Principle IX checkbox to include pnpm
-- ✅ spec-template.md: Already aligned (no changes needed)
-- ✅ tasks-template.md: Already aligned (no changes needed)
+- ✅ plan-template.md: Updated principle numbers in Constitution Check
+- ✅ spec-template.md: Already aligned (no principle-specific references)
+- ✅ tasks-template.md: Already aligned (no principle-specific references)
 
 Follow-up TODOs:
 - Update feature spec 001-setup-developer-experience to reflect pnpm standardization
-- Consider adding pnpm workspace configuration examples to developer documentation
 - Consider adding security homologation dossier template
 - Consider adding risk assessment template aligned with ANSSI requirements
 - Consider adding security documentation checklist for homologation
@@ -303,7 +298,75 @@ ai-kit MUST prioritize Python as the primary development language to align with 
 
 **Rationale**: Empowering teams to work within their expertise domain maximizes productivity and reduces the learning curve that has historically caused projects to stall or accumulate technical debt.
 
-### XI. French Government AI Stack Integration
+### XI. Specification-Driven Development with SpecKit
+
+ai-kit MUST serve as a reference implementation and exemplar of specification-driven development using SpecKit methodology. This principle establishes ai-kit as both a product that delivers value AND a demonstration of best practices for structured, traceable software development.
+
+**Core Requirements**:
+
+- All features MUST follow the specification → planning → implementation workflow
+- All features MUST use SpecKit templates located in `.specify/templates/`
+- All features MUST use SpecKit workflows located in `.windsurf/workflows/`
+- Feature development MUST begin with `/speckit.specify` to create a specification
+- Implementation planning MUST use `/speckit.plan` to generate design artifacts
+- Task generation MUST use `/speckit.tasks` to create actionable work items
+- All specifications MUST be stored in `specs/[###-feature-name]/` directories
+
+**SpecKit Workflow Enforcement**:
+
+- **Specification Phase**: Use `/speckit.specify` to create `spec.md` with user stories, requirements, and success criteria
+- **Clarification Phase**: Use `/speckit.clarify` to identify and resolve underspecified areas
+- **Planning Phase**: Use `/speckit.plan` to generate `plan.md`, `research.md`, `data-model.md`, `contracts/`, and `quickstart.md`
+- **Task Generation**: Use `/speckit.tasks` to create dependency-ordered `tasks.md` from design artifacts
+- **Implementation Phase**: Use `/speckit.implement` to execute tasks systematically
+- **Quality Assurance**: Use `/speckit.analyze` for cross-artifact consistency validation
+- **Custom Checklists**: Use `/speckit.checklist` for feature-specific quality gates
+
+**Documentation Structure**:
+
+Each feature MUST maintain the following structure in `specs/[###-feature-name]/`:
+- `spec.md`: Feature specification (from `/speckit.specify`)
+- `plan.md`: Implementation plan (from `/speckit.plan`)
+- `research.md`: Technical research and decisions (from `/speckit.plan`)
+- `data-model.md`: Entity and relationship definitions (from `/speckit.plan`)
+- `contracts/`: API contracts and interfaces (from `/speckit.plan`)
+- `quickstart.md`: User-facing getting started guide (from `/speckit.plan`)
+- `tasks.md`: Actionable task list (from `/speckit.tasks`)
+- `checklists/`: Feature-specific quality checklists (from `/speckit.checklist`)
+
+**Traceability Requirements**:
+
+- Every implementation MUST trace back to a specification
+- Every task MUST reference its source user story or requirement
+- Every design decision MUST be documented in planning artifacts
+- Constitution compliance MUST be verified in `plan.md` Constitution Check section
+
+**Exemplar Responsibilities**:
+
+ai-kit development MUST demonstrate:
+- How to write clear, testable specifications
+- How to decompose features into independent user stories
+- How to plan implementation with proper dependency management
+- How to maintain consistency across specification, design, and implementation
+- How to use SpecKit workflows effectively in real-world scenarios
+- How to balance agility with documentation discipline
+
+**Integration with Other Principles**:
+
+- Supports User-Centered Iteration (Principle VII) through structured user story decomposition
+- Enables Security Homologation (Principle III) through comprehensive documentation
+- Facilitates EU AI Act Compliance (Principle I) through traceable risk assessments
+- Complements Developer Experience (Principle IX) with clear development workflows
+- Aligns with Open Source (Principle IV) by making development process transparent and reusable
+
+**Rationale**: Specification-driven development prevents the common failure modes of AI projects: scope creep, undocumented decisions, untraceable requirements, and accumulation of technical debt. By making ai-kit itself an exemplar of SpecKit methodology, we provide concrete, real-world examples that other French Government teams can study and replicate. This principle ensures that ai-kit's development process is as valuable as its code—demonstrating that structured development practices can coexist with rapid AI innovation. Teams adopting ai-kit will learn not just what to build, but how to build it with discipline and traceability.
+
+**References**:
+- SpecKit templates: `.specify/templates/`
+- SpecKit workflows: `.windsurf/workflows/`
+- Example specifications: `specs/001-setup-developer-experience/`
+
+### XII. French Government AI Stack Integration
 
 ai-kit MUST provide first-class integrations with the emerging French Government AI ecosystem, including but not limited to:
 
@@ -321,7 +384,7 @@ ai-kit MUST provide first-class integrations with the emerging French Government
 
 **Rationale**: Standardizing on government-approved AI infrastructure ensures compliance, reduces duplication, and enables teams to focus on domain-specific value rather than infrastructure.
 
-### XII. Streamlit-to-Production Bridge
+### XIII. Streamlit-to-Production Bridge
 
 ai-kit MUST provide a clear migration path from Streamlit prototypes to production-ready applications. This principle addresses the common pattern where:
 
@@ -510,8 +573,9 @@ All feature specifications and implementation plans MUST include a Constitution 
 - Extensibility considerations (Principle VIII)
 - Developer tooling standards and monorepo architecture (Principle IX)
 - Python-first development (Principle X)
-- Government AI stack integration requirements (Principle XI)
-- Streamlit-to-production support if applicable (Principle XII)
+- Specification-driven development with SpecKit workflows (Principle XI)
+- Government AI stack integration requirements (Principle XII)
+- Streamlit-to-production support if applicable (Principle XIII)
 
 ### Complexity Justification
 
@@ -522,4 +586,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.6.2 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-12
+**Version**: 1.7.1 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-13

@@ -4,6 +4,8 @@
 
 A Python-first monorepo providing tools, templates, and libraries for building AI-powered applications that comply with French Government standards (EU AI Act, RGAA, Security Homologation).
 
+**ai-kit is also a reference implementation of [SpecKit](https://github.com/speckit/speckit) specification-driven development methodology**, demonstrating how to build production software with structured specifications, traceable design decisions, and systematic implementation workflows.
+
 ## Quick Start
 
 ### Prerequisites
@@ -103,10 +105,23 @@ ai-kit/
 ✅ **Strict**: Package isolation catches undeclared dependencies  
 ✅ **Automated**: Pre-commit hooks and CI/CD pipelines  
 ✅ **Cross-Platform**: Works on macOS, Linux, and Windows  
+✅ **Specification-Driven**: Reference implementation of SpecKit methodology with traceable development workflows  
 
 ## Contributing
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed development guidelines.
+
+## SpecKit Methodology
+
+ai-kit demonstrates specification-driven development using SpecKit workflows:
+
+- **Specifications**: All features start with structured specs in `specs/[###-feature-name]/`
+- **Workflows**: Development follows SpecKit workflows in `.windsurf/workflows/`
+- **Templates**: Design artifacts use templates from `.specify/templates/`
+- **Traceability**: Every implementation traces back to a specification
+- **Example**: See `specs/001-setup-developer-experience/` for a complete feature example
+
+Learn more about SpecKit at [github.com/speckit/speckit](https://github.com/speckit/speckit)
 
 ## Documentation
 
@@ -114,6 +129,7 @@ See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed development guidelines.
 - **Contributing Guide**: [CONTRIBUTING.md](./CONTRIBUTING.md)
 - **CI Testing**: [.github/CI_TESTING.md](./.github/CI_TESTING.md)
 - **Package READMEs**: See individual package directories
+- **Constitution**: [.specify/memory/constitution.md](./.specify/memory/constitution.md) - Core principles and governance
 
 ## Architecture
 
