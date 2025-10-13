@@ -126,10 +126,16 @@ This specification is complete and ready for `/speckit.plan`. All quality criter
 
 **Clarifications Completed** (2025-10-13):
 - ✅ Minimum Python version: 3.12+
-- ✅ pnpm version: 10.x+ (latest stable)
+- ✅ pnpm version: 10.x+ managed via Corepack
+- ✅ Node.js version management: Volta + Corepack hybrid approach (automatic version switching)
 - ✅ Pre-commit hooks: Mandatory installation
 - ✅ CI package syncing: All jobs use strict isolation (maximum safety exemplar)
 - ✅ Minimum Node.js version: 22.x LTS
+
+**Tooling Decision Rationale**:
+- **Volta**: Manages Node.js versions with automatic switching (critical for multi-project government developers)
+- **Corepack**: Manages package manager versions (pnpm) via `packageManager` field (industry standard)
+- **Hybrid approach**: Best DX for developers working across legacy and modern projects simultaneously
 
 **Next Steps**:
 - Proceed to `/speckit.plan` to generate implementation plan

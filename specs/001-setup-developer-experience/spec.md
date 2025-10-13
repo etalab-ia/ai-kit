@@ -10,7 +10,7 @@
 ### Session 2025-10-13
 
 - Q: What is the minimum Python version required for ai-kit development? → A: Python 3.12+
-- Q: What is the minimum pnpm version required, and how should it be installed? → A: pnpm 10.x+ (latest stable)
+- Q: What is the minimum pnpm version required, and how should it be installed? → A: pnpm 10.x+ managed via Corepack (hybrid Volta + Corepack approach for automatic Node.js version switching across projects)
 - Q: How should pre-commit hooks be provided to developers? → A: Mandatory installation (cannot be disabled)
 - Q: Should package-specific syncing apply to all CI jobs or only dependency validation? → A: All CI jobs sync only the specific package (strict isolation for maximum safety - ai-kit as exemplar)
 - Q: What is the minimum Node.js version required for ai-kit development? → A: Node.js 22.x LTS
@@ -135,9 +135,10 @@ As a new ai-kit contributor, I need clear documentation on how to set up my deve
 - **FR-021**: CI MUST sync only the specific package being tested in ALL jobs (lint, test, build) to catch undeclared dependencies and demonstrate maximum safety practices
 
 **Node.js Tooling**
-- **FR-026**: Repository MUST require Node.js 22.x LTS or higher for Turborepo support
+- **FR-026**: Repository MUST require Node.js 22.x LTS or higher, managed via Volta for automatic version switching across projects
 - **FR-027**: Repository MUST require pnpm 10.x+ as the Node.js package manager
-- **FR-028**: pnpm SHOULD be managed via Corepack for version consistency
+- **FR-028**: pnpm MUST be managed via Corepack using the `packageManager` field in package.json for version consistency
+- **FR-029**: Repository MUST include both `volta` and `packageManager` fields in root package.json to enable automatic Node.js and package manager version management
 
 **Documentation**
 - **FR-022**: Developer documentation MUST include setup instructions for the hybrid uv + Turborepo structure
@@ -147,7 +148,7 @@ As a new ai-kit contributor, I need clear documentation on how to set up my deve
 
 ### Key Entities
 
-- **Development Environment**: The local setup on a contributor's machine, including Python 3.12+, uv installation, Node.js 22.x LTS, pnpm 10.x+, and cloned repository with a single shared `.venv`
+- **Development Environment**: The local setup on a contributor's machine, including Python 3.12+, uv installation, Volta (for Node.js version management), Node.js 22.x LTS, Corepack (for package manager version management), pnpm 10.x+, and cloned repository with a single shared `.venv`
 - **App**: A deployable application in the `apps/` folder with entry points (e.g., CLI tool, API server) that can be run independently
 - **Package**: A shared library in the `packages/` folder without entry points (e.g., core library, templates, configs) that is imported by apps or other packages
 - **Workspace**: A uv workspace member defined in the root `pyproject.toml` that represents either an app or package
@@ -156,7 +157,7 @@ As a new ai-kit contributor, I need clear documentation on how to set up my deve
 - **Configuration Files**: Files that define tooling behavior:
   - `pyproject.toml` (root): uv workspace configuration, Python version, shared dependencies
   - `pyproject.toml` (per-package): Package-specific dependencies and metadata
-  - `package.json` (root): Turborepo workspace configuration
+  - `package.json` (root): Turborepo workspace configuration, `volta` field for Node.js version, `packageManager` field for pnpm version
   - `package.json` (per-package): Task scripts for Turborepo orchestration
   - `turbo.json`: Turborepo pipeline configuration with caching rules
   - `justfile`: High-level developer commands
@@ -176,3 +177,4 @@ As a new ai-kit contributor, I need clear documentation on how to set up my deve
 - **SC-009**: All common development tasks (setup, sync, lint, format, test) are executable via single just commands
 - **SC-010**: Developer documentation receives positive feedback from at least 3 new contributors during onboarding
 - **SC-011**: Repository structure clearly separates deployable apps from importable packages
+- **SC-012**: Developers can switch between ai-kit and other projects with different Node.js versions without manual intervention (automatic via Volta)
