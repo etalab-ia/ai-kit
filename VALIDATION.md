@@ -54,8 +54,8 @@ uv pip list | grep ai-kit
 
 **Test**: Time linting and formatting
 ```bash
-time pnpm turbo run lint
-time pnpm turbo run format
+time pnpm lint
+time pnpm format
 ```
 
 **Result**: 
@@ -73,8 +73,8 @@ time pnpm turbo run format
 **Test**: Compare cache miss vs cache hit
 ```bash
 rm -rf .turbo
-time pnpm turbo run lint  # Cache miss: 1.016s
-time pnpm turbo run lint  # Cache hit: 50ms
+time pnpm lint  # Cache miss: 1.016s
+time pnpm lint  # Cache hit: 50ms
 ```
 
 **Result**: 95% faster (50ms vs 1016ms)
@@ -318,8 +318,8 @@ just test
 just build
 
 # Test caching
-pnpm turbo run lint  # First run
-pnpm turbo run lint  # Should show "cache hit"
+pnpm lint  # First run
+pnpm lint  # Should show "cache hit"
 
 # Test CLI
 uv run --package ai-kit-cli ai-kit "Test"

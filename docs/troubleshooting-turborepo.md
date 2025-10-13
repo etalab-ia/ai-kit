@@ -19,8 +19,8 @@ Common Turborepo cache issues and recovery procedures.
 ### Detection
 ```bash
 # Run task twice - should be identical
-pnpm turbo run build
-pnpm turbo run build
+pnpm build
+pnpm build
 
 # If second run shows different results, cache may be corrupted
 ```
@@ -39,7 +39,7 @@ pnpm turbo run build
 rm -rf .turbo
 
 # Force rebuild
-pnpm turbo run build --force
+pnpm build --force
 ```
 
 #### 2. Clear all caches (comprehensive)
@@ -58,8 +58,8 @@ pnpm install
 #### 3. Verify recovery
 ```bash
 # Run build twice
-pnpm turbo run build
-pnpm turbo run build
+pnpm build
+pnpm build
 
 # Second run should show "cache hit"
 ```
@@ -119,7 +119,7 @@ ls -la .turbo/cache/
 #### 4. Enable verbose logging
 ```bash
 # See why cache missed
-pnpm turbo run build --verbosity=2
+pnpm build --verbosity=2
 ```
 
 ### Common Causes
@@ -169,7 +169,7 @@ git status  # Should be clean
 
 #### 1. Check cache hit rate
 ```bash
-pnpm turbo run build
+pnpm build
 
 # Look for:
 # Cached:    X cached, Y total
@@ -179,7 +179,7 @@ pnpm turbo run build
 #### 2. Profile task execution
 ```bash
 # Run with timing
-time pnpm turbo run build
+time pnpm build
 
 # Check individual task times in output
 ```
@@ -187,7 +187,7 @@ time pnpm turbo run build
 #### 3. Check for expensive operations
 ```bash
 # Look for tasks that always run
-pnpm turbo run build --verbosity=2
+pnpm build --verbosity=2
 ```
 
 ### Optimization
@@ -302,13 +302,13 @@ cat .turbo/cache/<hash>.json | jq .
 
 ```bash
 # Run task and note cache key
-pnpm turbo run build --verbosity=2
+pnpm build --verbosity=2
 
 # Make a change
 echo "# comment" >> src/file.py
 
 # Run again and compare keys
-pnpm turbo run build --verbosity=2
+pnpm build --verbosity=2
 ```
 
 ### Test Cache Isolation
@@ -318,13 +318,13 @@ pnpm turbo run build --verbosity=2
 rm -rf .turbo
 
 # Run task
-pnpm turbo run build
+pnpm build
 
 # Modify unrelated file
 echo "# comment" >> README.md
 
 # Should still cache hit
-pnpm turbo run build
+pnpm build
 ```
 
 ## Performance Benchmarks
@@ -342,10 +342,10 @@ pnpm turbo run build
 
 ```bash
 # Before optimization
-time pnpm turbo run build
+time pnpm build
 
 # After optimization
-time pnpm turbo run build
+time pnpm build
 
 # Calculate improvement
 # (before - after) / before * 100 = % improvement
@@ -384,7 +384,7 @@ When Turborepo isn't working as expected:
 3. **Clear cache and test**
    ```bash
    rm -rf .turbo
-   pnpm turbo run build --force
+   pnpm build --force
    ```
 
 4. **Check for generated files**
@@ -394,7 +394,7 @@ When Turborepo isn't working as expected:
 
 5. **Enable verbose logging**
    ```bash
-   pnpm turbo run build --verbosity=2
+   pnpm build --verbosity=2
    ```
 
 6. **Verify inputs/outputs**

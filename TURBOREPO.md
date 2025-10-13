@@ -100,9 +100,9 @@ When inputs have changed:
 
 ### Via pnpm (recommended)
 ```bash
-pnpm turbo run lint        # Run lint across all packages
-pnpm turbo run test        # Run tests (respects dependencies)
-pnpm turbo run build       # Build all packages
+pnpm lint        # Run lint across all packages
+pnpm test        # Run tests (respects dependencies)
+pnpm build       # Build all packages
 ```
 
 ### Via just (high-level)
@@ -114,12 +114,12 @@ just build                 # Runs: turbo run build
 
 ### Force rebuild (ignore cache)
 ```bash
-pnpm turbo run build --force
+pnpm build --force
 ```
 
 ### Filter by package
 ```bash
-pnpm turbo run test --filter=@ai-kit/core
+pnpm test --filter=@ai-kit/core
 ```
 
 ## Performance
@@ -160,7 +160,7 @@ In GitHub Actions, Turborepo cache is persisted using `actions/cache`:
 ```bash
 # Clear cache and rebuild
 rm -rf .turbo
-pnpm turbo run build --force
+pnpm build --force
 ```
 
 ### Tasks running in wrong order

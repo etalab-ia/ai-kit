@@ -75,16 +75,16 @@ git commit -m "test: bad format"
 
 ```bash
 # Test lint
-pnpm turbo run lint
+pnpm lint
 
 # Test format check
-pnpm turbo run format
+pnpm format
 
 # Test all tests
-pnpm turbo run test
+pnpm test
 
 # Test build
-pnpm turbo run build
+pnpm build
 ```
 
 ### Test Strict Package Isolation

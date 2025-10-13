@@ -292,13 +292,13 @@ Tasks are defined in `turbo.json` and run via `pnpm turbo`:
 
 ```bash
 # Run lint across all packages (parallel)
-pnpm turbo run lint
+pnpm lint
 
 # Run tests (respects dependencies)
-pnpm turbo run test
+pnpm test
 
 # Build all packages
-pnpm turbo run build
+pnpm build
 ```
 
 ## Common Tasks
@@ -376,7 +376,7 @@ just lint
 **Solution**: Clear cache and rebuild
 ```bash
 rm -rf .turbo
-pnpm turbo run build --force
+pnpm build --force
 ```
 
 ### Import errors in workspace packages

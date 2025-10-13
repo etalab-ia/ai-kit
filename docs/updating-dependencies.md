@@ -153,9 +153,9 @@ node --version
 
 4. **Test thoroughly**
    ```bash
-   pnpm turbo run lint
-   pnpm turbo run test
-   pnpm turbo run build
+   pnpm lint
+   pnpm test
+   pnpm build
    ```
 
 5. **Commit if successful**
