@@ -120,6 +120,39 @@ This document captures research findings and technical decisions for establishin
 - Turborepo with Python: https://github.com/sinanbekar/monorepo-turborepo-python
 - Turborepo docs: https://turbo.build/repo/docs
 
+#### Turborepo Caching Strategy
+
+**Decision**: GitHub Actions cache for CI (CI-only optimization)
+
+**Rationale**:
+- **Simple**: No external dependencies, built into GitHub Actions
+- **Free**: No additional cost or account requirements
+- **Achieves goals**: Provides ≥50% CI time reduction for unchanged packages (SC-004)
+- **Government context**: No external service dependencies = easier compliance
+- **Open source**: Works without Vercel account requirement
+
+**Implementation**:
+- Use `actions/cache@v4` to cache `.turbo` directory in CI
+- Cache key based on: OS + turbo + git SHA
+- Restore keys for cache fallback
+
+**Limitations**:
+- CI-only benefit (not shared with local development)
+- Cache is per-repository only
+- Team members don't benefit from each other's local builds
+
+**Future Option**: Vercel Remote Cache
+- True remote caching shared across CI + local development
+- Requires Vercel account (free tier available) and configuration
+- Provides team-wide cache sharing and local dev speed improvements
+- Can be added later if team size justifies the complexity
+- Configuration: Add `remoteCache` to turbo.json + set `TURBO_TOKEN`/`TURBO_TEAM` secrets
+
+**Alternatives Considered**:
+- **Vercel Remote Cache (now)**: More complex, external dependency, overkill for initial setup
+- **Self-hosted cache**: Too complex to maintain, requires infrastructure
+- **No caching**: Would not achieve SC-004 (≥50% CI time reduction)
+
 ### 3. Monorepo Structure
 
 #### Decision: apps/ and packages/ Folders

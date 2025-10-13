@@ -32,7 +32,7 @@ This feature establishes the foundational developer experience and tooling infra
 **Performance Goals**: 
 - Linting/formatting: <30 seconds for typical changes
 - CI pipeline: <5 minutes for typical PRs
-- Turborepo cache: ≥50% build time reduction for unchanged packages
+- Turborepo cache: ≥50% build time reduction for unchanged packages (CI-only via GitHub Actions cache)
 - Setup time: <10 minutes for new contributors
 
 **Constraints**: 
@@ -172,6 +172,12 @@ This structure implements the hybrid uv + Turborepo approach:
 - Code quality: Mandatory pre-commit hooks
 
 All version requirements verified against latest releases (as of 2025-10-13).
+
+**Turborepo Caching Note**:
+- Initial implementation uses GitHub Actions cache (CI-only)
+- Achieves SC-004 (≥50% build time reduction) without external dependencies
+- Future option: Vercel Remote Cache for team-wide cache sharing (CI + local dev)
+- See research.md for detailed caching strategy rationale
 
 ### ✅ Phase 1: Design & Documentation (COMPLETE)
 
