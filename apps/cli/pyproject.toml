@@ -12,6 +12,12 @@ dependencies = [
 [project.scripts]
 ai-kit = "ai_kit_cli.main:main"
 
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.14.0",
+]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
