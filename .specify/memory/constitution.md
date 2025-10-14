@@ -1,34 +1,34 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.8.0 → 1.8.1
-Rationale: PATCH version bump - Refined Principle XIII: Jupyter Notebook Discipline to use general category types instead of specific directory names, allowing projects to define categories based on their needs while maintaining governance requirements.
+Version Change: 1.8.1 → 1.9.0
+Rationale: MINOR version bump - Added new Principle XV: Package Naming Consistency to establish mandatory ai_kit namespace for all monorepo packages and applications.
 
-Modified Sections:
-- Principle XIII: Jupyter Notebook Discipline - Generalized notebook categorization
-  * Changed from specific directories (exploratory/, documentation/, production-adjacent/) to general category types (exploratory work, learning materials, production-informing work, reference materials, archive)
-  * Added "Category Selection" requirement for projects to provide clear guidance
-  * Updated terminology throughout to be implementation-agnostic
-  * Maintains all security, quality, and compliance requirements
+Added Sections:
+- Principle XV: Package Naming Consistency
+  * Mandates ai_kit namespace for all Python packages
+  * Defines structure: apps/<app-name>/src/ai_kit/<app-name>/
+  * Defines structure: packages/<package-name>/src/ai_kit/<package-name>/
+  * Requires consistent imports: from ai_kit.cli import commands
+  * Prevents namespace fragmentation (ai_kit_cli, notebook_tools, etc.)
+  * Ensures clear ownership and architectural coherence
 
-Modified Principles:
-- Principle XIII: Updated notebook categorization to be more flexible
+Modified Principles: N/A (new principle added)
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ No template updates required (principle-level guidance only)
+- ⚠️ specs/002-i-think-we/tasks.md - Update all CLI paths from apps/cli/src/ai_kit_cli/ to apps/cli/src/ai_kit/cli/
+- ⚠️ specs/002-i-think-we/plan.md - Update project structure section with corrected paths
+- ⚠️ specs/002-i-think-we/data-model.md - Update CLI configuration paths if referenced
+- ⚠️ specs/002-i-think-we/contracts/cli-interface.md - Update CLI paths in examples
+- ⚠️ specs/002-i-think-we/quickstart.md - Update CLI paths in code examples
 
 Follow-up TODOs:
-- ✅ Create feature spec for notebooks/ folder infrastructure (002-jupyter-notebook-support)
-  * Spec defines 7 specific categories: exploratory/, tutorials/, evaluations/, compliance/, reporting/, templates/, archive/
-  * Includes decision tree for category selection
-  * Documents 37 functional requirements and 12 success criteria
-- Add nbstripout to pre-commit hooks
-- Add notebooks/ to .gitignore patterns for output files
-- Create notebook templates for each category
-- Add notebook linting configuration for ruff
-- Document notebook-to-production migration patterns
+- Update tasks.md with corrected package paths (apps/cli/src/ai_kit/cli/)
+- Update all design documents for feature 002-i-think-we
+- Verify no other features use incorrect package naming
+- Update any existing code that violates Principle XV
 -->
 
 # ai-kit Constitution
@@ -508,6 +508,39 @@ ai-kit MUST provide a clear migration path from Streamlit prototypes to producti
 
 **Rationale**: By acknowledging and supporting the Streamlit-first workflow, ai-kit reduces friction and provides an escape hatch before technical debt becomes insurmountable.
 
+### XV. Package Naming Consistency
+
+ai-kit projects MUST use consistent package naming that frames all code under the `ai_kit` namespace to ensure clear ownership, prevent naming conflicts, and maintain architectural coherence across the monorepo.
+
+**Package Structure Requirements**:
+
+- All Python packages MUST be organized under the `ai_kit` namespace
+- Applications in `apps/` MUST use structure: `apps/<app-name>/src/ai_kit/<app-name>/`
+- Packages in `packages/` MUST use structure: `packages/<package-name>/src/ai_kit/<package-name>/`
+- Example: CLI application → `apps/cli/src/ai_kit/cli/` (NOT `apps/cli/src/ai_kit_cli/`)
+- Example: Notebook tools → `packages/notebook-tools/src/ai_kit/notebook_tools/` (NOT `packages/notebook-tools/src/notebook_tools/`)
+
+**Import Consistency**:
+
+- All imports MUST use the `ai_kit` namespace: `from ai_kit.cli import commands`
+- Subpackages MUST be importable as: `from ai_kit.cli.commands import notebook`
+- Avoid flat namespaces like `ai_kit_cli` that break namespace hierarchy
+
+**Rationale for `ai_kit` Namespace**:
+
+- **Clear Ownership**: All code is visibly part of the ai-kit project
+- **Namespace Protection**: Prevents conflicts with external packages (e.g., `cli` is too generic, `ai_kit.cli` is specific)
+- **Architectural Coherence**: Reinforces that all apps and packages are part of a unified system
+- **Import Clarity**: Developers immediately recognize ai-kit code in imports
+- **Monorepo Best Practice**: Aligns with Python namespace package conventions for multi-package repositories
+
+**Exceptions**:
+
+- Third-party integrations MAY use their own namespaces when wrapping external services
+- Standalone tools intended for external distribution MAY use different namespaces if justified in Constitution Check
+
+**Rationale**: Consistent package naming is fundamental to maintainability in monorepos. The `ai_kit` namespace ensures that all code is clearly identified as part of the ai-kit project, prevents naming collisions, and creates a coherent import structure. This principle prevents the common anti-pattern of inconsistent naming (e.g., `ai_kit_cli`, `notebook_tools`, `reflex_components`) that fragments the codebase and confuses developers about package relationships. By establishing this standard early, we ensure that as ai-kit grows, all packages remain architecturally aligned and easily discoverable.
+
 ## French Government Integration Requirements
 
 ### Mandatory Integrations
@@ -683,6 +716,7 @@ All feature specifications and implementation plans MUST include a Constitution 
 - Government AI stack integration requirements (Principle XII)
 - Jupyter notebook discipline and governance if applicable (Principle XIII)
 - Streamlit-to-production support if applicable (Principle XIV)
+- Package naming consistency under ai_kit namespace (Principle XV)
 
 ### Complexity Justification
 
@@ -693,4 +727,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.8.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-13
+**Version**: 1.9.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-14
