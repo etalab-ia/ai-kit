@@ -39,7 +39,8 @@ A team member needs to understand where to place their notebook based on its pur
 4. **Given** a developer creates a compliance documentation notebook, **When** they place it in `notebooks/compliance/`, **Then** they are prompted to document EU AI Act requirements and risk assessments
 5. **Given** a developer creates a recurring stakeholder report, **When** they place it in `notebooks/reporting/`, **Then** they are prompted to parameterize it for automated execution
 6. **Given** a developer needs a starter notebook, **When** they copy from `notebooks/templates/`, **Then** they get a pre-structured notebook with required metadata and security guidance
-7. **Given** a notebook is no longer needed, **When** it is moved to `notebooks/archive/`, **Then** it is preserved for audit purposes but excluded from active development
+7. **Given** an exploratory notebook is no longer needed, **When** the developer deletes it, **Then** git history preserves the work for future reference
+8. **Given** a compliance or evaluation notebook must be retained for audit purposes, **When** it is tagged in git with a descriptive tag, **Then** it remains easily discoverable for regulatory review without cluttering active directories
 
 ---
 
@@ -65,13 +66,13 @@ A developer has validated an approach in a notebook and needs to migrate it to p
 
 **Why this priority**: This enables the value of exploration to reach production, but only after the foundational notebook infrastructure is established.
 
-**Independent Test**: Can be fully tested by creating an exploratory notebook, extracting its logic to a package, documenting the migration, and archiving the original notebook.
+**Independent Test**: Can be fully tested by creating an exploratory notebook, extracting its logic to a package, documenting the migration in the spec, and deleting the original notebook (git history preserves it).
 
 **Acceptance Scenarios**:
 
-1. **Given** an exploratory notebook has validated code, **When** the developer extracts it to `packages/` or `apps/`, **Then** the migration is documented in the feature spec with a link to the archived notebook
-2. **Given** a production-adjacent notebook contains compliance documentation, **When** code is migrated to production, **Then** the notebook is retained for audit purposes and referenced in the compliance dossier
-3. **Given** a notebook is migrated to production, **When** it is moved to `notebooks/archive/`, **Then** it includes metadata about when it was migrated and where the production code lives
+1. **Given** an exploratory notebook has validated code, **When** the developer extracts it to `packages/` or `apps/`, **Then** the migration is documented in the feature spec with the git commit SHA of the original notebook before deletion
+2. **Given** a compliance or evaluation notebook contains regulatory documentation, **When** code is migrated to production, **Then** the notebook is retained in its original category and tagged in git for audit trail (e.g., `compliance/model-v1.0-audit`)
+3. **Given** an exploratory notebook is migrated to production, **When** the developer deletes it after migration, **Then** the feature spec documents the migration with git references to the deleted notebook's last commit
 
 ---
 
@@ -97,9 +98,16 @@ A compliance officer needs to generate technical documentation for a high-risk A
 - How does the system handle notebooks that are too large to be stored in git (e.g., with embedded large datasets)?
 - What happens when a notebook depends on external data sources that are no longer available?
 - How does the system handle notebooks that take hours to execute?
-- What happens when a notebook is moved between categories (e.g., from exploratory to production-adjacent)?
+- What happens when a notebook is moved between categories (e.g., from exploratory to compliance)?
 - How does the system handle notebooks that use different Python versions or incompatible dependencies?
 - What happens when a notebook needs to be shared publicly but contains references to internal systems?
+- How do developers discover deleted exploratory notebooks from git history when needed?
+- What happens when a compliance notebook needs to be updated after being tagged for audit?
+- How does the system handle experiment tracking metadata when notebooks are deleted or migrated?
+
+### Future Considerations
+
+- **Experiment Tracking System**: The ALLiaNCE data stack currently lacks a standardized experiment tracking solution. A future constitution amendment should propose a principle for experiment tracking (e.g., MLflow, Weights & Biases, or a sovereign French solution) to complement notebook-based workflows. This would provide structured metadata capture, model versioning, and reproducibility beyond what git-native approaches offer.
 
 ## Requirements *(mandatory)*
 
@@ -116,7 +124,7 @@ A compliance officer needs to generate technical documentation for a high-risk A
 
 #### Directory Structure & Organization
 
-- **FR-007**: System MUST provide seven distinct notebook directories: `exploratory/`, `tutorials/`, `evaluations/`, `compliance/`, `reporting/`, `templates/`, and `archive/`
+- **FR-007**: System MUST provide six distinct notebook directories: `exploratory/`, `tutorials/`, `evaluations/`, `compliance/`, `reporting/`, and `templates/`
 - **FR-008**: System MUST provide clear documentation and decision tree for selecting the appropriate category
 - **FR-009**: System MUST provide starter templates in `templates/` for each active category with required metadata and security guidance
 - **FR-010**: System MUST exclude notebook execution artifacts (checkpoints, cache files) from version control
@@ -143,42 +151,51 @@ A compliance officer needs to generate technical documentation for a high-risk A
 
 #### Migration & Lifecycle
 
-- **FR-025**: System MUST provide a clear 5-step migration process from notebooks to production code
-- **FR-026**: System MUST require migration documentation when notebook code is extracted to packages or apps
-- **FR-027**: System MUST preserve archived notebooks for audit purposes with metadata linking to production code
-- **FR-028**: Compliance and evaluation notebooks MUST be retained after migration for audit trail and regulatory documentation
+- **FR-025**: System MUST provide guidance on git-native notebook lifecycle management (deletion for exploratory, retention for compliance/evaluation)
+- **FR-026**: System MUST require migration documentation when notebook code is extracted to packages or apps, including git commit references
+- **FR-027**: System MUST use git tags to mark compliance and evaluation notebooks for audit purposes (e.g., `compliance/model-v1.0`, `evaluation/baseline-2024-10`)
+- **FR-028**: Compliance and evaluation notebooks MUST be retained in their original directories after migration for audit trail and regulatory documentation
+- **FR-029**: Exploratory notebooks SHOULD be deleted after migration to production, with git history providing the archive
 
 #### EU AI Act Compliance
 
-- **FR-029**: Compliance notebooks for high-risk AI systems MUST document model training data characteristics
-- **FR-030**: Evaluation notebooks MUST document evaluation metrics and validation results
-- **FR-031**: Compliance notebooks MUST document risk assessment findings and mitigation strategies
-- **FR-032**: Compliance notebooks MUST provide an audit trail for model selection decisions
-- **FR-033**: Compliance notebooks MUST support technical documentation requirements for homologation dossiers
+- **FR-030**: Compliance notebooks for high-risk AI systems MUST document model training data characteristics
+- **FR-031**: Evaluation notebooks MUST document evaluation metrics and validation results
+- **FR-032**: Compliance notebooks MUST document risk assessment findings and mitigation strategies
+- **FR-033**: Compliance notebooks MUST provide an audit trail for model selection decisions
+- **FR-034**: Compliance notebooks MUST support technical documentation requirements for homologation dossiers
+- **FR-035**: Compliance and evaluation notebooks MUST be tagged in git when they represent milestone versions for regulatory review
 
 #### GDPR Compliance
 
-- **FR-034**: System MUST ensure notebooks comply with GDPR requirements for data sources
-- **FR-035**: System MUST prevent notebooks from containing personally identifiable information (PII) unless properly anonymized
-- **FR-036**: System MUST provide guidance on data privacy requirements for notebooks
-- **FR-037**: Compliance notebooks MUST document data governance and lineage for regulatory review
+- **FR-036**: System MUST ensure notebooks comply with GDPR requirements for data sources
+- **FR-037**: System MUST prevent notebooks from containing personally identifiable information (PII) unless properly anonymized
+- **FR-038**: System MUST provide guidance on data privacy requirements for notebooks
+- **FR-039**: Compliance notebooks MUST document data governance and lineage for regulatory review
+
+#### Experiment Tracking Integration
+
+- **FR-040**: System SHOULD integrate with experiment tracking solutions to capture notebook execution metadata
+- **FR-041**: System SHOULD provide guidance on logging experiments from notebooks to external tracking systems
+- **FR-042**: Evaluation notebooks SHOULD reference experiment tracking IDs for reproducibility and audit trail
 
 ### Key Entities
 
-- **Notebook Category**: Represents the governance level and purpose of a notebook. Seven categories exist:
-  - `exploratory/`: Rapid experimentation, hypothesis testing (one-time, low governance)
-  - `tutorials/`: Learning materials, examples, how-to guides (reusable, documentation standards)
-  - `evaluations/`: Model performance assessment and validation (per model version, medium governance)
-  - `compliance/`: EU AI Act and regulatory documentation (per system, high governance)
-  - `reporting/`: Automated, parameterized stakeholder reports (recurring, medium governance)
-  - `templates/`: Starter notebooks with proper structure (reference materials)
-  - `archive/`: Completed work preserved for audit trail (historical record)
+- **Notebook Category**: Represents the governance level and purpose of a notebook. Six categories exist:
+  - `exploratory/`: Rapid experimentation, hypothesis testing (one-time, low governance, deleted after migration)
+  - `tutorials/`: Learning materials, examples, how-to guides (reusable, documentation standards, retained)
+  - `evaluations/`: Model performance assessment and validation (per model version, medium governance, retained and tagged)
+  - `compliance/`: EU AI Act and regulatory documentation (per system, high governance, retained and tagged)
+  - `reporting/`: Automated, parameterized stakeholder reports (recurring, medium governance, retained)
+  - `templates/`: Starter notebooks with proper structure (reference materials, retained)
 
 - **Notebook Template**: Provides starter structure for each active category including required metadata (purpose, author, dependencies, data sources), security guidelines, and category-specific requirements. Stored in `templates/` directory.
 
 - **Security Violation**: Represents detected security issues in notebooks such as hardcoded credentials, API keys, or sensitive data patterns. Includes violation type, location, and remediation guidance.
 
-- **Migration Record**: Documents the transition of notebook code to production, including source notebook location, destination package/app, migration date, and rationale. Links archived notebooks to their production counterparts.
+- **Migration Record**: Documents the transition of notebook code to production, including source notebook git commit SHA (for deleted exploratory notebooks) or current path (for retained compliance/evaluation notebooks), destination package/app, migration date, and rationale. Uses git references to link deleted notebooks to their production counterparts.
+
+- **Git Tag Reference**: Represents a git tag marking a compliance or evaluation notebook milestone (e.g., `compliance/model-v1.0-audit`, `evaluation/baseline-2024-10-14`). Enables easy discovery of regulatory documentation without maintaining separate archive directory.
 
 - **Compliance Documentation**: Represents EU AI Act and GDPR compliance information captured in compliance notebooks, including training data characteristics, risk assessments, and audit trails for model selection decisions.
 
@@ -197,7 +214,7 @@ A compliance officer needs to generate technical documentation for a high-risk A
 - **SC-005**: All compliance notebooks for high-risk AI systems include required EU AI Act documentation elements
 - **SC-006**: All evaluation notebooks document model performance metrics and validation methodology
 - **SC-007**: All reporting notebooks are parameterized and executable via automated workflows
-- **SC-008**: Notebook-to-production migrations are documented with clear audit trails linking archived notebooks to production code
+- **SC-008**: Notebook-to-production migrations are documented with clear audit trails using git references (commit SHAs for deleted notebooks, tags for retained compliance/evaluation notebooks)
 - **SC-009**: Security violations in notebooks are detected and blocked before commit with actionable error messages
 - **SC-010**: Tutorial notebooks are successfully referenced in at least 3 feature specs or quickstart guides within 3 months
 - **SC-011**: Zero GDPR violations related to notebook data handling after implementation
