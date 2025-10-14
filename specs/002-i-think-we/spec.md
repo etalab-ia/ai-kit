@@ -34,9 +34,12 @@ A team member needs to understand where to place their notebook based on its pur
 **Acceptance Scenarios**:
 
 1. **Given** a developer wants to do rapid experimentation, **When** they create a notebook in `notebooks/exploratory/`, **Then** they can work freely without SpecKit workflow requirements
-2. **Given** a developer creates a tutorial notebook, **When** they place it in `notebooks/documentation/`, **Then** they are prompted to follow documentation standards and link it to relevant specs
-3. **Given** a developer creates a model evaluation notebook, **When** they place it in `notebooks/production-adjacent/`, **Then** they are prompted to document EU AI Act compliance requirements
-4. **Given** a notebook is no longer needed, **When** it is moved to `notebooks/archive/`, **Then** it is preserved for audit purposes but excluded from active development
+2. **Given** a developer creates a tutorial notebook, **When** they place it in `notebooks/tutorials/`, **Then** they are prompted to follow documentation standards and link it to relevant specs
+3. **Given** a developer creates a model evaluation notebook, **When** they place it in `notebooks/evaluations/`, **Then** they are prompted to document performance metrics and validation methodology
+4. **Given** a developer creates a compliance documentation notebook, **When** they place it in `notebooks/compliance/`, **Then** they are prompted to document EU AI Act requirements and risk assessments
+5. **Given** a developer creates a recurring stakeholder report, **When** they place it in `notebooks/reporting/`, **Then** they are prompted to parameterize it for automated execution
+6. **Given** a developer needs a starter notebook, **When** they copy from `notebooks/templates/`, **Then** they get a pre-structured notebook with required metadata and security guidance
+7. **Given** a notebook is no longer needed, **When** it is moved to `notebooks/archive/`, **Then** it is preserved for audit purposes but excluded from active development
 
 ---
 
@@ -113,60 +116,73 @@ A compliance officer needs to generate technical documentation for a high-risk A
 
 #### Directory Structure & Organization
 
-- **FR-007**: System MUST provide four distinct notebook directories: `exploratory/`, `documentation/`, `production-adjacent/`, and `archive/`
-- **FR-008**: System MUST provide clear documentation on which category to use for each notebook purpose
-- **FR-009**: System MUST provide templates for each notebook category with appropriate metadata and structure
+- **FR-007**: System MUST provide seven distinct notebook directories: `exploratory/`, `tutorials/`, `evaluations/`, `compliance/`, `reporting/`, `templates/`, and `archive/`
+- **FR-008**: System MUST provide clear documentation and decision tree for selecting the appropriate category
+- **FR-009**: System MUST provide starter templates in `templates/` for each active category with required metadata and security guidance
 - **FR-010**: System MUST exclude notebook execution artifacts (checkpoints, cache files) from version control
+- **FR-011**: System MUST distinguish between exploratory work (one-time), tutorials (learning materials), evaluations (model performance), compliance (regulatory documentation), and reporting (recurring stakeholder reports)
 
 #### Reproducibility & Documentation
 
-- **FR-011**: System MUST require notebooks to document their dependencies and runtime requirements
-- **FR-012**: System MUST require notebooks to document their purpose, author, and data sources
-- **FR-013**: System MUST support parameterized notebook execution for automated workflows
-- **FR-014**: System MUST provide guidance on organizing notebook cells with markdown documentation
-- **FR-015**: System MUST support dependency management compatible with the monorepo's uv-based workflow
+- **FR-012**: System MUST require notebooks to document their dependencies and runtime requirements
+- **FR-013**: System MUST require notebooks to document their purpose, author, and data sources
+- **FR-014**: System MUST support parameterized notebook execution for automated workflows in `reporting/` category
+- **FR-015**: System MUST provide guidance on organizing notebook cells with markdown documentation
+- **FR-016**: System MUST support dependency management compatible with the monorepo's uv-based workflow
 
 #### Quality Standards
 
-- **FR-016**: System MUST support linting of notebook code cells using ruff
-- **FR-017**: System MUST provide guidance on code quality standards for notebooks
-- **FR-018**: System MUST support conversion of notebooks to scripts and documentation formats
-- **FR-019**: Exploratory notebooks MUST NOT be required to follow SpecKit workflow
-- **FR-020**: Documentation notebooks MUST be referenced in relevant spec.md files and quickstart guides
-- **FR-021**: Production-adjacent notebooks MUST be documented in plan.md research sections
+- **FR-017**: System MUST support linting of notebook code cells using ruff
+- **FR-018**: System MUST provide guidance on code quality standards for notebooks
+- **FR-019**: System MUST support conversion of notebooks to scripts and documentation formats
+- **FR-020**: Exploratory notebooks MUST NOT be required to follow SpecKit workflow
+- **FR-021**: Tutorial notebooks MUST be referenced in relevant spec.md files and quickstart guides
+- **FR-022**: Evaluation notebooks MUST document model performance metrics and validation methodology
+- **FR-023**: Compliance notebooks MUST be documented in plan.md research sections and linked to compliance dossiers
+- **FR-024**: Reporting notebooks MUST be designed for parameterized execution via papermill or similar tools
 
 #### Migration & Lifecycle
 
-- **FR-022**: System MUST provide a clear 5-step migration process from notebooks to production code
-- **FR-023**: System MUST require migration documentation when notebook code is extracted to packages or apps
-- **FR-024**: System MUST preserve archived notebooks for audit purposes
-- **FR-025**: Production-adjacent notebooks MUST be retained after migration for compliance documentation
+- **FR-025**: System MUST provide a clear 5-step migration process from notebooks to production code
+- **FR-026**: System MUST require migration documentation when notebook code is extracted to packages or apps
+- **FR-027**: System MUST preserve archived notebooks for audit purposes with metadata linking to production code
+- **FR-028**: Compliance and evaluation notebooks MUST be retained after migration for audit trail and regulatory documentation
 
 #### EU AI Act Compliance
 
-- **FR-026**: Production-adjacent notebooks for high-risk AI systems MUST document model training data characteristics
-- **FR-027**: Production-adjacent notebooks MUST document evaluation metrics and validation results
-- **FR-028**: Production-adjacent notebooks MUST document risk assessment findings
-- **FR-029**: Production-adjacent notebooks MUST provide an audit trail for model selection decisions
-- **FR-030**: Production-adjacent notebooks MUST support technical documentation requirements for homologation dossiers
+- **FR-029**: Compliance notebooks for high-risk AI systems MUST document model training data characteristics
+- **FR-030**: Evaluation notebooks MUST document evaluation metrics and validation results
+- **FR-031**: Compliance notebooks MUST document risk assessment findings and mitigation strategies
+- **FR-032**: Compliance notebooks MUST provide an audit trail for model selection decisions
+- **FR-033**: Compliance notebooks MUST support technical documentation requirements for homologation dossiers
 
 #### GDPR Compliance
 
-- **FR-031**: System MUST ensure notebooks comply with GDPR requirements for data sources
-- **FR-032**: System MUST prevent notebooks from containing personally identifiable information (PII) unless properly anonymized
-- **FR-033**: System MUST provide guidance on data privacy requirements for notebooks
+- **FR-034**: System MUST ensure notebooks comply with GDPR requirements for data sources
+- **FR-035**: System MUST prevent notebooks from containing personally identifiable information (PII) unless properly anonymized
+- **FR-036**: System MUST provide guidance on data privacy requirements for notebooks
+- **FR-037**: Compliance notebooks MUST document data governance and lineage for regulatory review
 
 ### Key Entities
 
-- **Notebook Category**: Represents the governance level and purpose of a notebook (exploratory, documentation, production-adjacent, archive). Each category has different requirements for documentation, security, and compliance.
+- **Notebook Category**: Represents the governance level and purpose of a notebook. Seven categories exist:
+  - `exploratory/`: Rapid experimentation, hypothesis testing (one-time, low governance)
+  - `tutorials/`: Learning materials, examples, how-to guides (reusable, documentation standards)
+  - `evaluations/`: Model performance assessment and validation (per model version, medium governance)
+  - `compliance/`: EU AI Act and regulatory documentation (per system, high governance)
+  - `reporting/`: Automated, parameterized stakeholder reports (recurring, medium governance)
+  - `templates/`: Starter notebooks with proper structure (reference materials)
+  - `archive/`: Completed work preserved for audit trail (historical record)
 
-- **Notebook Template**: Provides starter structure for each category including required metadata (purpose, author, dependencies, data sources), security guidelines, and category-specific requirements.
+- **Notebook Template**: Provides starter structure for each active category including required metadata (purpose, author, dependencies, data sources), security guidelines, and category-specific requirements. Stored in `templates/` directory.
 
 - **Security Violation**: Represents detected security issues in notebooks such as hardcoded credentials, API keys, or sensitive data patterns. Includes violation type, location, and remediation guidance.
 
 - **Migration Record**: Documents the transition of notebook code to production, including source notebook location, destination package/app, migration date, and rationale. Links archived notebooks to their production counterparts.
 
-- **Compliance Documentation**: Represents EU AI Act and GDPR compliance information captured in production-adjacent notebooks, including training data characteristics, evaluation metrics, risk assessments, and audit trails.
+- **Compliance Documentation**: Represents EU AI Act and GDPR compliance information captured in compliance notebooks, including training data characteristics, risk assessments, and audit trails for model selection decisions.
+
+- **Evaluation Record**: Documents model performance metrics, validation methodology, and benchmark comparisons captured in evaluation notebooks. Supports production deployment decisions.
 
 - **Dependency Specification**: Defines the runtime requirements for a notebook including Python version, required packages, data sources, and environment variables. Ensures reproducibility across different execution environments.
 
@@ -178,8 +194,11 @@ A compliance officer needs to generate technical documentation for a high-risk A
 - **SC-002**: 100% of notebooks have outputs stripped before commit via automated pre-commit hooks
 - **SC-003**: Developers can create and commit a new notebook following security guidelines in under 5 minutes
 - **SC-004**: 90% of notebooks can be successfully executed by another team member without manual intervention
-- **SC-005**: All production-adjacent notebooks for high-risk AI systems include required EU AI Act documentation elements
-- **SC-006**: Notebook-to-production migrations are documented with clear audit trails linking archived notebooks to production code
-- **SC-007**: Security violations in notebooks are detected and blocked before commit with actionable error messages
-- **SC-008**: Documentation notebooks are successfully referenced in at least 3 feature specs or quickstart guides within 3 months
-- **SC-009**: Zero GDPR violations related to notebook data handling after implementation
+- **SC-005**: All compliance notebooks for high-risk AI systems include required EU AI Act documentation elements
+- **SC-006**: All evaluation notebooks document model performance metrics and validation methodology
+- **SC-007**: All reporting notebooks are parameterized and executable via automated workflows
+- **SC-008**: Notebook-to-production migrations are documented with clear audit trails linking archived notebooks to production code
+- **SC-009**: Security violations in notebooks are detected and blocked before commit with actionable error messages
+- **SC-010**: Tutorial notebooks are successfully referenced in at least 3 feature specs or quickstart guides within 3 months
+- **SC-011**: Zero GDPR violations related to notebook data handling after implementation
+- **SC-012**: Developers can select the correct notebook category using the decision tree in under 30 seconds

@@ -1,40 +1,34 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.7.1 → 1.8.0
-Rationale: MINOR version bump - Added new Principle XIII: Jupyter Notebook Discipline to govern exploratory data science workflows in government AI projects, and swapped positions of Streamlit-to-Production Bridge (now XIV) and Jupyter Notebook Discipline (now XIII)
+Version Change: 1.8.0 → 1.8.1
+Rationale: PATCH version bump - Refined Principle XIII: Jupyter Notebook Discipline to use general category types instead of specific directory names, allowing projects to define categories based on their needs while maintaining governance requirements.
 
-Added Sections:
-- Principle XIII: Jupyter Notebook Discipline - Establishes governance for notebooks in top-level notebooks/ folder
-  * Notebook categorization (exploratory, documentation, production-adjacent)
-  * Security requirements (credential sanitization, .gitignore enforcement)
-  * Quality standards (reproducibility, documentation, version control)
-  * Integration with SpecKit workflow and EU AI Act compliance
-  * Tooling standards (nbstripout, nbconvert, papermill)
+Modified Sections:
+- Principle XIII: Jupyter Notebook Discipline - Generalized notebook categorization
+  * Changed from specific directories (exploratory/, documentation/, production-adjacent/) to general category types (exploratory work, learning materials, production-informing work, reference materials, archive)
+  * Added "Category Selection" requirement for projects to provide clear guidance
+  * Updated terminology throughout to be implementation-agnostic
+  * Maintains all security, quality, and compliance requirements
 
 Modified Principles:
-- Principle XIII: Now "Jupyter Notebook Discipline" (new principle)
-- Principle XIV: Now "Streamlit-to-Production Bridge" (formerly Principle XIII)
+- Principle XIII: Updated notebook categorization to be more flexible
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ✅ plan-template.md: Updated - Added Principle XIV checkbox to Constitution Check section
-- ✅ spec-template.md: Already aligned (no principle-specific references)
-- ✅ tasks-template.md: Already aligned (no principle-specific references)
+- ✅ No template updates required (principle-level guidance only)
 
 Follow-up TODOs:
-- Create feature spec for notebooks/ folder infrastructure (002-jupyter-notebook-support)
+- ✅ Create feature spec for notebooks/ folder infrastructure (002-jupyter-notebook-support)
+  * Spec defines 7 specific categories: exploratory/, tutorials/, evaluations/, compliance/, reporting/, templates/, archive/
+  * Includes decision tree for category selection
+  * Documents 37 functional requirements and 12 success criteria
 - Add nbstripout to pre-commit hooks
 - Add notebooks/ to .gitignore patterns for output files
-- Create notebook templates (exploratory, documentation, production-adjacent)
+- Create notebook templates for each category
 - Add notebook linting configuration for ruff
 - Document notebook-to-production migration patterns
-- Update feature spec 001-setup-developer-experience to reflect pnpm standardization
-- Consider adding security homologation dossier template
-- Consider adding risk assessment template aligned with ANSSI requirements
-- Consider adding security documentation checklist for homologation
-- Consider adding homologation workflow guide
 -->
 
 # ai-kit Constitution
@@ -399,25 +393,38 @@ ai-kit projects MUST maintain Jupyter notebooks in a top-level `notebooks/` dire
 
 **Notebook Categories**:
 
-Notebooks MUST be organized by purpose to clarify their role in the development lifecycle:
+Notebooks MUST be organized by purpose to clarify their role in the development lifecycle. Projects should define categories based on their needs, but MUST distinguish between:
 
-- **Exploratory** (`notebooks/exploratory/`): Rapid experimentation, hypothesis testing, data exploration
+- **Exploratory work**: Rapid experimentation and hypothesis testing
   - Not subject to SpecKit workflow requirements
   - May contain incomplete or experimental code
   - MUST NOT contain production credentials or sensitive data
   - Should be cleaned up or archived when insights are productionized
 
-- **Documentation** (`notebooks/documentation/`): Tutorials, examples, architectural explanations
+- **Learning materials**: Tutorials, examples, and educational content
   - Subject to documentation quality standards
   - MUST be reproducible and well-documented
-  - Should be reviewed as part of feature specifications
-  - Serve as living documentation for complex AI workflows
+  - Should be referenced in feature specifications and quickstart guides
+  - Serve as living documentation for complex workflows
 
-- **Production-Adjacent** (`notebooks/production-adjacent/`): Notebooks that inform production decisions
-  - Model evaluation, performance benchmarking, compliance reporting
+- **Production-informing work**: Notebooks that inform production decisions
+  - Model evaluation, performance benchmarking, compliance reporting, stakeholder reports
   - MUST be reproducible and version-controlled
   - MUST document data sources, model versions, and evaluation criteria
   - Subject to EU AI Act documentation requirements for high-risk AI systems
+  - May be parameterized for automated execution
+
+- **Reference materials**: Templates and starter notebooks
+  - Provide pre-structured notebooks with required metadata
+  - Include security guidelines and category-specific requirements
+  - Help enforce quality standards from the start
+
+- **Archive**: Completed work preserved for audit trail
+  - Retains historical record of decisions and migrations
+  - Links to production code when applicable
+  - Essential for compliance and regulatory review
+
+**Category Selection**: Projects MUST provide clear guidance (e.g., decision tree) to help users select the appropriate category based on notebook purpose, audience, frequency, and governance requirements.
 
 **Security Requirements (NON-NEGOTIABLE)**:
 
@@ -443,13 +450,13 @@ Notebooks MUST be organized by purpose to clarify their role in the development 
 
 **Integration with SpecKit Workflow**:
 
-- **Exploratory notebooks**: Not required to follow SpecKit workflow, but insights MUST be captured in specifications when productionized
-- **Documentation notebooks**: Should be referenced in feature specifications (spec.md) and quickstart guides
-- **Production-adjacent notebooks**: MUST be documented in `plan.md` research section and referenced in compliance documentation
+- **Exploratory work**: Not required to follow SpecKit workflow, but insights MUST be captured in specifications when productionized
+- **Learning materials**: Should be referenced in feature specifications (spec.md) and quickstart guides
+- **Production-informing work**: MUST be documented in `plan.md` research section and referenced in compliance documentation
 
 **EU AI Act Compliance**:
 
-For high-risk AI systems, production-adjacent notebooks MUST:
+For high-risk AI systems, production-informing notebooks MUST:
 
 - Document model training data characteristics (representativeness, quality, completeness)
 - Record model evaluation metrics and validation results
@@ -471,8 +478,8 @@ When notebook insights become production features:
 
 1. Extract reusable code into `packages/` or `apps/` with proper testing
 2. Document the notebook-to-production migration in feature specification
-3. Archive or move exploratory notebooks to `notebooks/archive/` to reduce clutter
-4. Retain production-adjacent notebooks for compliance and audit purposes
+3. Archive exploratory notebooks to reduce clutter while preserving audit trail
+4. Retain production-informing notebooks (especially compliance and evaluation) for regulatory review
 5. Follow Principle XI (Specification-Driven Development) for production implementation
 
 **Rationale**: Jupyter notebooks are essential for AI/ML experimentation and data science workflows, but without governance they become security risks, compliance liabilities, and sources of technical debt. This principle acknowledges the exploratory nature of notebooks while establishing guardrails that prevent common pitfalls: credential leakage, irreproducible results, and undocumented model decisions. By categorizing notebooks and integrating them with SpecKit workflow, we enable rapid innovation while maintaining traceability for compliance and production migration.
