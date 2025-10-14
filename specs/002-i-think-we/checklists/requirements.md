@@ -35,7 +35,7 @@
 ✅ **PASS** - Specification focuses on WHAT and WHY without implementation details. Written for business stakeholders and compliance officers. All mandatory sections (User Scenarios, Requirements, Success Criteria) are complete.
 
 ### Requirement Completeness Assessment
-✅ **PASS** - All 42 functional requirements are testable and unambiguous. No [NEEDS CLARIFICATION] markers present. Success criteria are measurable and technology-agnostic (e.g., "Zero notebooks with hardcoded credentials" rather than "nbstripout hook configured"). Edge cases comprehensively identified including git-native workflow considerations. Scope clearly bounded by constitution Principle XIII.
+✅ **PASS** - All 49 functional requirements are testable and unambiguous. No [NEEDS CLARIFICATION] markers present. Success criteria are measurable and technology-agnostic (e.g., "Zero notebooks with hardcoded credentials" rather than "nbstripout hook configured"). Edge cases comprehensively identified including git-native workflow considerations. Scope clearly bounded by constitution Principle XIII. CLI architecture designed for extensibility beyond notebooks.
 
 ### Feature Readiness Assessment
 ✅ **PASS** - All 5 user stories have clear acceptance scenarios. Stories are prioritized (P1-P5) and independently testable. Success criteria align with user scenarios and business value. No implementation leakage detected.
@@ -55,6 +55,15 @@
 - **Experiment tracking**: Added integration requirements (FR-040 to FR-042) as future consideration
 - **Rationale**: Eliminates clutter while maintaining regulatory compliance through git tags
 - **See**: `OPTION2_IMPLEMENTATION.md` for detailed change summary
+
+### Unified CLI Architecture (2025-10-14)
+- **Strategic decision**: Unified ai-kit CLI in `apps/cli/` instead of notebook-specific CLI
+- **Command structure**: `just notebook <subcommand>` pattern (create, list, validate, delete, migrate, stats)
+- **Extensibility**: Architecture supports future command groups (dataset, streamlit, compliance, experiment, proconnect)
+- **Benefits**: Consistent DX, shared infrastructure, single entry point, future-proof
+- **Requirements added**: FR-008 through FR-008g for CLI architecture and commands
+- **Success criteria added**: SC-013, SC-014, SC-015 for CLI usability and discoverability
+- **Rationale**: Better long-term architecture, avoids CLI proliferation, enables cross-feature workflows
 
 ## Recommendation
 

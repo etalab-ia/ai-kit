@@ -1,8 +1,8 @@
 # Feature Specification: Jupyter Notebook Support
 
-**Feature Branch**: `002-i-think-we`  
-**Created**: 2025-10-14  
-**Status**: Draft  
+**Feature Branch**: `002-i-think-we`
+**Created**: 2025-10-14
+**Status**: Draft
 **Input**: User description: "I think we are ready now to support notebooks as specified in our constitution."
 
 ## Clarifications
@@ -14,9 +14,10 @@
 - Q: Who creates git tags for compliance/evaluation notebooks and when? → A: Compliance officers (intrapreneurs or ALLiaNCE experts) create tags during audit/review process
 - Q: What specific patterns should trigger credential detection blocks? → A: Use existing secret scanning tools (detect-secrets, gitleaks patterns)
 - Q: What is the maximum acceptable notebook file size before requiring alternative storage? → A: 10 MB (warn at 5 MB)
-- Q: How should the decision tree be delivered to developers? → A: `just create-notebook` command with interactive category selection that creates notebook from template in correct directory
+- Q: How should the decision tree be delivered to developers? → A: `just notebook create` command (part of unified ai-kit CLI) with interactive category selection
+- Q: Should the CLI be notebook-specific or general-purpose for all ai-kit operations? → A: Unified ai-kit CLI in `apps/cli/` with extensible command structure (notebook, dataset, streamlit, compliance, experiment subcommands) for consistent DX and future extensibility
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Security-Compliant Notebook Creation (Priority: P1)
 
@@ -120,7 +121,16 @@ A compliance officer needs to generate technical documentation for a high-risk A
 
 - **Experiment Tracking System**: The ALLiaNCE data stack currently lacks a standardized experiment tracking solution. A future constitution amendment should propose a principle for experiment tracking (e.g., MLflow, Weights & Biases, or a sovereign French solution) to complement notebook-based workflows. This would provide structured metadata capture, model versioning, and reproducibility beyond what git-native approaches offer.
 
-## Requirements *(mandatory)*
+- **Unified CLI Extensibility**: The ai-kit CLI architecture (`apps/cli/`) is designed to accommodate future command groups beyond notebooks. Anticipated extensions include:
+  - **Dataset commands**: `just dataset download`, `just dataset list`, `just dataset validate` for data management
+  - **Streamlit commands**: `just streamlit run`, `just streamlit deploy` for Streamlit application lifecycle
+  - **Compliance commands**: `just compliance tag`, `just compliance report`, `just compliance audit` for regulatory workflows
+  - **Experiment commands**: `just experiment start`, `just experiment log`, `just experiment compare` when experiment tracking is standardized
+  - **ProConnect commands**: `just proconnect setup`, `just proconnect test` for authentication configuration
+  
+  The extensible architecture ensures consistent DX across all ai-kit operations and enables rapid feature additions without structural refactoring.
+
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -137,8 +147,15 @@ A compliance officer needs to generate technical documentation for a high-risk A
 #### Directory Structure & Organization
 
 - **FR-007**: System MUST provide six distinct notebook directories: `exploratory/`, `tutorials/`, `evaluations/`, `compliance/`, `reporting/`, and `templates/`
-- **FR-008**: System MUST provide `just create-notebook` command with interactive category selection that creates notebooks from templates in the correct directory with pre-populated metadata
-- **FR-009**: System MUST provide starter templates in `templates/` for each active category with required metadata fields (purpose, author, category, data sources, dependencies) in the first markdown cell or notebook metadata, plus security guidance. Templates are used by `just create-notebook` command
+- **FR-008**: System MUST provide unified ai-kit CLI application (`apps/cli/`) with extensible command structure for all ai-kit operations
+- **FR-008a**: System MUST provide `just notebook create` command with interactive category selection that creates notebooks from templates in the correct directory with pre-populated metadata
+- **FR-008b**: System MUST provide `just notebook list [category]` command to list notebooks by category with metadata summary
+- **FR-008c**: System MUST provide `just notebook validate <path>` command for manual validation without commit
+- **FR-008d**: System SHOULD provide `just notebook delete <path>` command with confirmation and git history preservation guidance
+- **FR-008e**: System SHOULD provide `just notebook migrate <path>` command to document migration to production
+- **FR-008f**: System SHOULD provide `just notebook stats` command to show notebook statistics (count by category, sizes, last modified)
+- **FR-008g**: CLI architecture MUST support future command groups (dataset, streamlit, compliance, experiment) without structural changes
+- **FR-009**: System MUST provide starter templates in `templates/` for each active category with required metadata fields (purpose, author, category, data sources, dependencies) in the first markdown cell or notebook metadata, plus security guidance. Templates are used by `just notebook create` command
 - **FR-010**: System MUST exclude notebook execution artifacts (checkpoints, cache files) from version control
 - **FR-011**: System MUST distinguish between exploratory work (one-time), tutorials (learning materials), evaluations (model performance), compliance (regulatory documentation), and reporting (recurring stakeholder reports)
 
@@ -196,6 +213,7 @@ A compliance officer needs to generate technical documentation for a high-risk A
 ### Key Entities
 
 - **Notebook Category**: Represents the governance level and purpose of a notebook. Six categories exist:
+
   - `exploratory/`: Rapid experimentation, hypothesis testing (one-time, low governance, deleted after migration)
   - `tutorials/`: Learning materials, examples, how-to guides (reusable, documentation standards, retained)
   - `evaluations/`: Model performance assessment and validation (per model version, medium governance, retained and tagged)
@@ -219,9 +237,11 @@ A compliance officer needs to generate technical documentation for a high-risk A
 
 - **Compliance Officer**: Represents governance oversight role (intrapreneur or ALLiaNCE expert) responsible for reviewing compliance and evaluation notebooks and creating git tags during audit/review process. Ensures regulatory documentation meets EU AI Act and homologation requirements before tagging milestones.
 
-- **Notebook Creation Command**: The `just create-notebook` CLI command that interactively guides developers through category selection, prompts for required metadata (purpose, author), and creates a new notebook from the appropriate template in the correct directory with pre-populated fields. Prevents category selection errors and ensures consistent notebook structure from creation.
+- **ai-kit CLI Application**: Unified command-line interface (`apps/cli/`) providing consistent access to all ai-kit operations. Extensible architecture with command groups (notebook, dataset, streamlit, compliance, experiment) enables future feature additions without structural changes. Implements shared infrastructure for validation, prompts, git operations, and formatted output across all commands.
 
-## Success Criteria *(mandatory)*
+- **Notebook Command Group**: Collection of notebook lifecycle management commands within ai-kit CLI. Includes `create` (interactive notebook creation), `list` (browse by category), `validate` (manual validation), `delete` (safe deletion with git guidance), `migrate` (document production migration), and `stats` (repository statistics). Accessed via `just notebook <subcommand>`.
+
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 
@@ -236,4 +256,7 @@ A compliance officer needs to generate technical documentation for a high-risk A
 - **SC-009**: Security violations in notebooks are detected and blocked before commit with actionable error messages
 - **SC-010**: Tutorial notebooks are successfully referenced in at least 3 feature specs or quickstart guides within 3 months
 - **SC-011**: Zero GDPR violations related to notebook data handling after implementation
-- **SC-012**: Developers can create a new notebook in the correct category using `just create-notebook` in under 30 seconds
+- **SC-012**: Developers can create a new notebook in the correct category using `just notebook create` in under 30 seconds
+- **SC-013**: Developers can list all notebooks in a category using `just notebook list` and see key metadata (purpose, author, last modified)
+- **SC-014**: Developers can validate a notebook manually using `just notebook validate` and receive same feedback as pre-commit hooks
+- **SC-015**: CLI command structure is consistent and discoverable via `just --list` showing all available ai-kit operations
