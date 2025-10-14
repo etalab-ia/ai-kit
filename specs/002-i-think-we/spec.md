@@ -5,6 +5,17 @@
 **Status**: Draft  
 **Input**: User description: "I think we are ready now to support notebooks as specified in our constitution."
 
+## Clarifications
+
+### Session 2025-10-14
+
+- Q: How should the system enforce category-specific governance requirements? → A: Pre-commit hooks validate category requirements and block commits with guidance
+- Q: What validation approach should pre-commit hooks use for category requirements? → A: Check notebook metadata fields (frontmatter/first cell with purpose, author, category)
+- Q: Who creates git tags for compliance/evaluation notebooks and when? → A: Compliance officers (intrapreneurs or ALLiaNCE experts) create tags during audit/review process
+- Q: What specific patterns should trigger credential detection blocks? → A: Use existing secret scanning tools (detect-secrets, gitleaks patterns)
+- Q: What is the maximum acceptable notebook file size before requiring alternative storage? → A: 10 MB (warn at 5 MB)
+- Q: How should the decision tree be delivered to developers? → A: `just create-notebook` command with interactive category selection that creates notebook from template in correct directory
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Security-Compliant Notebook Creation (Priority: P1)
@@ -95,7 +106,7 @@ A compliance officer needs to generate technical documentation for a high-risk A
 ### Edge Cases
 
 - What happens when a developer accidentally commits a notebook with credentials before the pre-commit hook is installed?
-- How does the system handle notebooks that are too large to be stored in git (e.g., with embedded large datasets)?
+- How does the system handle notebooks that are too large to be stored in git (e.g., with embedded large datasets)? → Notebooks over 10 MB are blocked; developers must externalize data to separate files or data sources
 - What happens when a notebook depends on external data sources that are no longer available?
 - How does the system handle notebooks that take hours to execute?
 - What happens when a notebook is moved between categories (e.g., from exploratory to compliance)?
@@ -116,24 +127,25 @@ A compliance officer needs to generate technical documentation for a high-risk A
 #### Security Requirements (Non-Negotiable)
 
 - **FR-001**: System MUST prevent notebooks with cell outputs from being committed to version control
-- **FR-002**: System MUST block commits that contain hardcoded credentials, API keys, or sensitive data patterns
+- **FR-002**: System MUST block commits that contain hardcoded credentials, API keys, or sensitive data patterns using existing secret scanning tools (detect-secrets or gitleaks)
 - **FR-003**: System MUST provide clear error messages when security violations are detected
 - **FR-004**: System MUST support environment variable usage for all credentials and sensitive configuration
 - **FR-005**: System MUST strip notebook outputs automatically before commit using pre-commit hooks
 - **FR-006**: System MUST require security review before notebooks can be published publicly
+- **FR-006a**: System MUST warn when notebook file size exceeds 5 MB and block commits when size exceeds 10 MB, with guidance to externalize data
 
 #### Directory Structure & Organization
 
 - **FR-007**: System MUST provide six distinct notebook directories: `exploratory/`, `tutorials/`, `evaluations/`, `compliance/`, `reporting/`, and `templates/`
-- **FR-008**: System MUST provide clear documentation and decision tree for selecting the appropriate category
-- **FR-009**: System MUST provide starter templates in `templates/` for each active category with required metadata and security guidance
+- **FR-008**: System MUST provide `just create-notebook` command with interactive category selection that creates notebooks from templates in the correct directory with pre-populated metadata
+- **FR-009**: System MUST provide starter templates in `templates/` for each active category with required metadata fields (purpose, author, category, data sources, dependencies) in the first markdown cell or notebook metadata, plus security guidance. Templates are used by `just create-notebook` command
 - **FR-010**: System MUST exclude notebook execution artifacts (checkpoints, cache files) from version control
 - **FR-011**: System MUST distinguish between exploratory work (one-time), tutorials (learning materials), evaluations (model performance), compliance (regulatory documentation), and reporting (recurring stakeholder reports)
 
 #### Reproducibility & Documentation
 
 - **FR-012**: System MUST require notebooks to document their dependencies and runtime requirements
-- **FR-013**: System MUST require notebooks to document their purpose, author, and data sources
+- **FR-013**: System MUST require notebooks to document their purpose, author, category, and data sources in notebook metadata (first markdown cell or notebook-level metadata)
 - **FR-014**: System MUST support parameterized notebook execution for automated workflows in `reporting/` category
 - **FR-015**: System MUST provide guidance on organizing notebook cells with markdown documentation
 - **FR-016**: System MUST support dependency management compatible with the monorepo's uv-based workflow
@@ -142,6 +154,8 @@ A compliance officer needs to generate technical documentation for a high-risk A
 
 - **FR-017**: System MUST support linting of notebook code cells using ruff
 - **FR-018**: System MUST provide guidance on code quality standards for notebooks
+- **FR-018a**: Pre-commit hooks MUST validate notebook metadata fields (purpose, author, category) are present and non-empty based on category requirements
+- **FR-018b**: Pre-commit hooks MUST block commits with clear error messages when required metadata fields are missing or category-specific requirements are not met
 - **FR-019**: System MUST support conversion of notebooks to scripts and documentation formats
 - **FR-020**: Exploratory notebooks MUST NOT be required to follow SpecKit workflow
 - **FR-021**: Tutorial notebooks MUST be referenced in relevant spec.md files and quickstart guides
@@ -153,7 +167,7 @@ A compliance officer needs to generate technical documentation for a high-risk A
 
 - **FR-025**: System MUST provide guidance on git-native notebook lifecycle management (deletion for exploratory, retention for compliance/evaluation)
 - **FR-026**: System MUST require migration documentation when notebook code is extracted to packages or apps, including git commit references
-- **FR-027**: System MUST use git tags to mark compliance and evaluation notebooks for audit purposes (e.g., `compliance/model-v1.0`, `evaluation/baseline-2024-10`)
+- **FR-027**: System MUST support git tags created by compliance officers (intrapreneurs or ALLiaNCE experts) to mark compliance and evaluation notebooks for audit purposes (e.g., `compliance/model-v1.0`, `evaluation/baseline-2024-10`)
 - **FR-028**: Compliance and evaluation notebooks MUST be retained in their original directories after migration for audit trail and regulatory documentation
 - **FR-029**: Exploratory notebooks SHOULD be deleted after migration to production, with git history providing the archive
 
@@ -164,7 +178,7 @@ A compliance officer needs to generate technical documentation for a high-risk A
 - **FR-032**: Compliance notebooks MUST document risk assessment findings and mitigation strategies
 - **FR-033**: Compliance notebooks MUST provide an audit trail for model selection decisions
 - **FR-034**: Compliance notebooks MUST support technical documentation requirements for homologation dossiers
-- **FR-035**: Compliance and evaluation notebooks MUST be tagged in git when they represent milestone versions for regulatory review
+- **FR-035**: Compliance officers (intrapreneurs or ALLiaNCE experts) MUST tag compliance and evaluation notebooks in git during audit/review process when they represent milestone versions for regulatory review
 
 #### GDPR Compliance
 
@@ -189,19 +203,23 @@ A compliance officer needs to generate technical documentation for a high-risk A
   - `reporting/`: Automated, parameterized stakeholder reports (recurring, medium governance, retained)
   - `templates/`: Starter notebooks with proper structure (reference materials, retained)
 
-- **Notebook Template**: Provides starter structure for each active category including required metadata (purpose, author, dependencies, data sources), security guidelines, and category-specific requirements. Stored in `templates/` directory.
+- **Notebook Template**: Provides starter structure for each active category including required metadata fields in the first markdown cell (purpose, author, category, dependencies, data sources), security guidelines, and category-specific requirements. Stored in `templates/` directory. Pre-commit hooks validate these metadata fields are present.
 
 - **Security Violation**: Represents detected security issues in notebooks such as hardcoded credentials, API keys, or sensitive data patterns. Includes violation type, location, and remediation guidance.
 
 - **Migration Record**: Documents the transition of notebook code to production, including source notebook git commit SHA (for deleted exploratory notebooks) or current path (for retained compliance/evaluation notebooks), destination package/app, migration date, and rationale. Uses git references to link deleted notebooks to their production counterparts.
 
-- **Git Tag Reference**: Represents a git tag marking a compliance or evaluation notebook milestone (e.g., `compliance/model-v1.0-audit`, `evaluation/baseline-2024-10-14`). Enables easy discovery of regulatory documentation without maintaining separate archive directory.
+- **Git Tag Reference**: Represents a git tag created by compliance officers (intrapreneurs or ALLiaNCE experts) during audit/review, marking a compliance or evaluation notebook milestone (e.g., `compliance/model-v1.0-audit`, `evaluation/baseline-2024-10-14`). Enables easy discovery of regulatory documentation without maintaining separate archive directory. May integrate with experiment tracking system metadata.
 
 - **Compliance Documentation**: Represents EU AI Act and GDPR compliance information captured in compliance notebooks, including training data characteristics, risk assessments, and audit trails for model selection decisions.
 
 - **Evaluation Record**: Documents model performance metrics, validation methodology, and benchmark comparisons captured in evaluation notebooks. Supports production deployment decisions.
 
 - **Dependency Specification**: Defines the runtime requirements for a notebook including Python version, required packages, data sources, and environment variables. Ensures reproducibility across different execution environments.
+
+- **Compliance Officer**: Represents governance oversight role (intrapreneur or ALLiaNCE expert) responsible for reviewing compliance and evaluation notebooks and creating git tags during audit/review process. Ensures regulatory documentation meets EU AI Act and homologation requirements before tagging milestones.
+
+- **Notebook Creation Command**: The `just create-notebook` CLI command that interactively guides developers through category selection, prompts for required metadata (purpose, author), and creates a new notebook from the appropriate template in the correct directory with pre-populated fields. Prevents category selection errors and ensures consistent notebook structure from creation.
 
 ## Success Criteria *(mandatory)*
 
@@ -218,4 +236,4 @@ A compliance officer needs to generate technical documentation for a high-risk A
 - **SC-009**: Security violations in notebooks are detected and blocked before commit with actionable error messages
 - **SC-010**: Tutorial notebooks are successfully referenced in at least 3 feature specs or quickstart guides within 3 months
 - **SC-011**: Zero GDPR violations related to notebook data handling after implementation
-- **SC-012**: Developers can select the correct notebook category using the decision tree in under 30 seconds
+- **SC-012**: Developers can create a new notebook in the correct category using `just create-notebook` in under 30 seconds
