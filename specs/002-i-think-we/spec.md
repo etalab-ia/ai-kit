@@ -25,6 +25,12 @@ A data scientist needs to create a new exploratory notebook to analyze model per
 
 **Why this priority**: Security requirements are non-negotiable and must be enforced from the first notebook commit. This prevents the most critical risk: accidental exposure of credentials or sensitive data.
 
+**Measurable Security Criteria**:
+- **Zero credential commits**: 100% of commits with hardcoded credentials, API keys, or secrets are blocked by pre-commit hooks (SC-001)
+- **Complete output stripping**: 100% of notebook outputs are automatically stripped before commit (SC-002)
+- **Size enforcement**: Notebooks exceeding 10 MB are blocked with clear error messages (FR-006a)
+- **Metadata validation**: 100% of notebooks have required metadata fields (purpose, author, category) validated before commit (FR-018a)
+
 **Independent Test**: Can be fully tested by creating a notebook with test credentials, committing it, and verifying that outputs are stripped and no credentials are committed to version control.
 
 **Acceptance Scenarios**:
@@ -130,6 +136,15 @@ A compliance officer needs to generate technical documentation for a high-risk A
   
   The extensible architecture ensures consistent DX across all ai-kit operations and enables rapid feature additions without structural refactoring.
 
+## Terminology
+
+**Key Terms**:
+- **ai-kit CLI**: The unified command-line interface application for all ai-kit operations, located in `apps/cli/` with namespace `ai_kit.cli`. Accessed via `just <command-group> <subcommand>` pattern (e.g., `just notebook create`).
+- **Compliance Officer**: A governance oversight role responsible for reviewing compliance and evaluation notebooks and creating git tags during audit/review process. This role may be filled by intrapreneurs (internal innovation champions) or ALLiaNCE experts (external domain specialists).
+- **Notebook Category**: One of six organizational classifications (exploratory, tutorials, evaluations, compliance, reporting, templates) that determines governance requirements and lifecycle management for notebooks.
+- **Pre-commit Hook**: Automated validation that runs before git commits to enforce security, quality, and metadata requirements.
+- **Git Tag**: A named reference to a specific commit, used by compliance officers to mark regulatory milestones for compliance and evaluation notebooks (format: `category/identifier-date`).
+
 ## Requirements _(mandatory)_
 
 ### Functional Requirements
@@ -204,7 +219,9 @@ A compliance officer needs to generate technical documentation for a high-risk A
 - **FR-038**: System MUST provide guidance on data privacy requirements for notebooks
 - **FR-039**: Compliance notebooks MUST document data governance and lineage for regulatory review
 
-#### Experiment Tracking Integration
+#### Experiment Tracking Integration (Future Work)
+
+**Note**: These requirements are deferred to a future feature after the ALLiaNCE data stack standardizes on an experiment tracking solution (see Future Considerations section).
 
 - **FR-040**: System SHOULD integrate with experiment tracking solutions to capture notebook execution metadata
 - **FR-041**: System SHOULD provide guidance on logging experiments from notebooks to external tracking systems

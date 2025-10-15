@@ -124,18 +124,35 @@ notebooks/                       # Top-level notebook directory (NEW)
 justfile                         # Task runner commands (MODIFIED)
 └── Add create-notebook command
 
-packages/notebook-tools/         # Notebook tooling package (NEW)
+apps/cli/                        # Unified ai-kit CLI application (NEW)
 ├── pyproject.toml               # uv package configuration
 ├── src/
-│   └── notebook_tools/
-│       ├── __init__.py
-│       ├── cli.py               # `just create-notebook` implementation
-│       ├── validators.py        # Metadata validation for pre-commit hooks
-│       └── templates.py         # Template management utilities
+│   └── ai_kit/
+│       └── cli/                 # CLI package (per Constitution Principle XV)
+│           ├── __init__.py
+│           ├── main.py          # CLI entry point
+│           ├── commands/
+│           │   ├── __init__.py
+│           │   └── notebook.py  # Notebook command group
+│           ├── core/
+│           │   ├── config.py    # Configuration management
+│           │   ├── validators.py # Validation logic
+│           │   └── templates.py # Template management
+│           └── utils/
+│               ├── git.py       # Git operations
+│               ├── prompts.py   # Interactive prompts
+│               └── output.py    # Formatted output
 └── tests/
-    ├── test_cli.py
-    ├── test_validators.py
-    └── test_templates.py
+    ├── commands/
+    │   └── test_notebook.py     # Tests for notebook command group
+    ├── core/
+    │   ├── test_config.py       # Tests for configuration
+    │   ├── test_validators.py   # Tests for validators
+    │   └── test_templates.py    # Tests for templates
+    └── utils/
+        ├── test_git.py          # Tests for git utilities
+        ├── test_prompts.py      # Tests for prompts
+        └── test_output.py       # Tests for output formatting
 
 docs/                            # Documentation (MODIFIED)
 └── notebooks/
@@ -147,7 +164,7 @@ docs/                            # Documentation (MODIFIED)
 └── Add notebook execution artifacts patterns
 ```
 
-**Structure Decision**: This is a **monorepo infrastructure feature** that adds notebook governance tooling to the existing ai-kit repository. The implementation follows Option 1 (Single project) pattern with a dedicated `packages/notebook-tools/` package for CLI and validation logic. The feature integrates with existing monorepo tooling (`just`, `uv`, `.pre-commit-config.yaml`) rather than creating separate applications.
+**Structure Decision**: This is a **monorepo infrastructure feature** that adds notebook governance tooling to the existing ai-kit repository. The implementation follows Option 1 (Single project) pattern with a unified CLI application in `apps/cli/` using the `ai_kit.cli` namespace (per Constitution Principle XV). The feature integrates with existing monorepo tooling (`just`, `uv`, `.pre-commit-config.yaml`) and establishes the foundation for future ai-kit command groups (dataset, streamlit, compliance, experiment).
 
 ## Complexity Tracking
 
