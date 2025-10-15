@@ -258,13 +258,13 @@
 - [x] T112 [P] Create `README.md` in `notebooks/` directory with quick start guide
 - [x] T113 [P] Create `README.md` in `apps/cli/` directory with development guide
 - [x] T114 [P] Add CLI command help text and examples to all subcommands
-- [ ] T115 [P] Add unit tests for validators in `apps/cli/tests/core/test_validators.py`
-- [ ] T116 [P] Add unit tests for template management in `apps/cli/tests/core/test_templates.py`
-- [ ] T117 [P] Add unit tests for configuration in `apps/cli/tests/core/test_config.py`
-- [ ] T118 [P] Add unit tests for git utilities in `apps/cli/tests/utils/test_git.py`
-- [ ] T119 [P] Add unit tests for prompts in `apps/cli/tests/utils/test_prompts.py`
-- [ ] T120 [P] Add unit tests for output formatting in `apps/cli/tests/utils/test_output.py`
-- [ ] T121 [P] Add integration tests for notebook commands in `apps/cli/tests/commands/test_notebook.py`
+- [x] T115 [P] Add unit tests for validators in `apps/cli/tests/core/test_validators.py`
+- [x] T116 [P] Add unit tests for template management in `apps/cli/tests/core/test_templates.py`
+- [x] T117 [P] Add unit tests for configuration in `apps/cli/tests/core/test_config.py`
+- [x] T118 [P] Add unit tests for git utilities in `apps/cli/tests/utils/test_git.py`
+- [x] T119 [P] Add unit tests for prompts in `apps/cli/tests/utils/test_prompts.py`
+- [x] T120 [P] Add unit tests for output formatting in `apps/cli/tests/utils/test_output.py`
+- [x] T121 [P] Add integration tests for notebook commands in `apps/cli/tests/commands/test_notebook.py`
 - [x] T122 Update root `README.md` with notebook support section and link to `docs/notebooks/governance.md`
 - [x] T123 Update `quickstart.md` in specs directory with final validation steps
 - [x] T124 Run full pre-commit hook suite on all template notebooks (verify pass)
