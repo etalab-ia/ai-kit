@@ -22,12 +22,12 @@
 
 **Purpose**: Project initialization and basic structure for unified ai-kit CLI
 
-- [ ] T001 Create `apps/cli/` directory structure with `src/ai_kit/cli/` package (per Constitution Principle XV - unified ai_kit namespace)
-- [ ] T002 Create `apps/cli/pyproject.toml` with dependencies (click/typer, questionary, rich, nbformat, ruamel.yaml)
-- [ ] T003 [P] Create `notebooks/` directory structure with 6 categories (exploratory, tutorials, evaluations, compliance, reporting, templates)
-- [ ] T004 [P] Add `.gitkeep` files to each notebook category directory
-- [ ] T005 [P] Create `docs/notebooks/` directory for governance documentation
-- [ ] T006 Configure `apps/cli/` as uv workspace package in root `pyproject.toml`
+- [x] T001 Create `apps/cli/` directory structure with `src/ai_kit/cli/` package (per Constitution Principle XV - unified ai_kit namespace)
+- [x] T002 Create `apps/cli/pyproject.toml` with dependencies (click/typer, questionary, rich, nbformat, ruamel.yaml)
+- [x] T003 [P] Create `notebooks/` directory structure with 6 categories (exploratory, tutorials, evaluations, compliance, reporting, templates)
+- [x] T004 [P] Add `.gitkeep` files to each notebook category directory
+- [x] T005 [P] Create `docs/notebooks/` directory for governance documentation
+- [x] T006 Configure `apps/cli/` as uv workspace package in root `pyproject.toml`
 
 ---
 
@@ -37,17 +37,17 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T007 Create `apps/cli/src/ai_kit/cli/__init__.py` with version info and namespace package configuration
-- [ ] T008 Create `apps/cli/src/ai_kit/cli/main.py` with CLI entry point and command routing
-- [ ] T009 [P] Create `apps/cli/src/ai_kit/cli/core/config.py` for CLI configuration management
-- [ ] T010 [P] Create `apps/cli/src/ai_kit/cli/core/validators.py` for shared validation logic
-- [ ] T011 [P] Create `apps/cli/src/ai_kit/cli/core/templates.py` for template management utilities
-- [ ] T012 [P] Create `apps/cli/src/ai_kit/cli/utils/git.py` for git operations (tags, history, status)
-- [ ] T013 [P] Create `apps/cli/src/ai_kit/cli/utils/prompts.py` for interactive prompts (questionary wrappers)
-- [ ] T014 [P] Create `apps/cli/src/ai_kit/cli/utils/output.py` for formatted output (rich console)
-- [ ] T015 Create `apps/cli/src/ai_kit/cli/commands/__init__.py` for command group registration
-- [ ] T016 Add `notebook` command group registration to `justfile` (routes to `apps/cli/`)
-- [ ] T017 [P] Create test structure in `apps/cli/tests/` mirroring source layout (commands/, core/, utils/ subdirectories) with pytest configuration
+- [x] T007 Create `apps/cli/src/ai_kit/cli/__init__.py` with version info and namespace package configuration
+- [x] T008 Create `apps/cli/src/ai_kit/cli/main.py` with CLI entry point and command routing
+- [x] T009 [P] Create `apps/cli/src/ai_kit/cli/core/config.py` for CLI configuration management
+- [x] T010 [P] Create `apps/cli/src/ai_kit/cli/core/validators.py` for shared validation logic
+- [x] T011 [P] Create `apps/cli/src/ai_kit/cli/core/templates.py` for template management utilities
+- [x] T012 [P] Create `apps/cli/src/ai_kit/cli/utils/git.py` for git operations (tags, history, status)
+- [x] T013 [P] Create `apps/cli/src/ai_kit/cli/utils/prompts.py` for interactive prompts (questionary wrappers)
+- [x] T014 [P] Create `apps/cli/src/ai_kit/cli/utils/output.py` for formatted output (rich console)
+- [x] T015 Create `apps/cli/src/ai_kit/cli/commands/__init__.py` for command group registration
+- [x] T016 Add `notebook` command group registration to `justfile` (routes to `apps/cli/`)
+- [x] T017 [P] Create test structure in `apps/cli/tests/` mirroring source layout (commands/, core/, utils/ subdirectories) with pytest configuration
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -61,19 +61,19 @@
 
 ### Implementation for User Story 1
 
-- [ ] T018 [P] [US1] Add `nbstripout` to root `pyproject.toml` dev dependencies
-- [ ] T019 [P] [US1] Add `detect-secrets` to root `pyproject.toml` dev dependencies  
-- [ ] T020 [US1] Configure `nbstripout` hook in `.pre-commit-config.yaml` for `notebooks/**/*.ipynb`
-- [ ] T021 [US1] Configure `detect-secrets` hook in `.pre-commit-config.yaml` with `.secrets.baseline`
-- [ ] T022 [US1] Create `.secrets.baseline` file with `detect-secrets scan --baseline .secrets.baseline`
-- [ ] T023 [P] [US1] Implement notebook size check validator in `apps/cli/src/ai_kit/cli/core/validators.py` (warn at 5 MB, block at 10 MB per FR-006a, support CLI mode with `--check-size` flag for pre-commit hooks)
-- [ ] T024 [P] [US1] Implement metadata validation logic in `apps/cli/src/ai_kit/cli/core/validators.py` (check required fields: purpose, author, category per FR-013, support CLI mode with `--check-metadata` flag for pre-commit hooks)
-- [ ] T025 [US1] Create custom pre-commit hook for metadata validation in `.pre-commit-config.yaml` (Python script using `repos: local` hook type, entry point: `python -m ai_kit.cli.core.validators --check-metadata`, validates required fields per category)
-- [ ] T026 [US1] Create custom pre-commit hook for size check in `.pre-commit-config.yaml` (Python script using `repos: local` hook type, entry point: `python -m ai_kit.cli.core.validators --check-size`, warns at 5MB, blocks at 10MB)
-- [ ] T027 [P] [US1] Update `.gitignore` with notebook execution artifacts patterns (`.ipynb_checkpoints/`, `**/*-checkpoint.ipynb`)
-- [ ] T028 [US1] Create `docs/notebooks/governance.md` with security requirements and best practices
-- [ ] T029 [US1] Test pre-commit hooks with sample notebook containing credentials (verify block)
-- [ ] T030 [US1] Test pre-commit hooks with sample notebook with outputs (verify strip)
+- [x] T018 [P] [US1] Add `nbstripout` to root `pyproject.toml` dev dependencies
+- [x] T019 [P] [US1] Add `detect-secrets` to root `pyproject.toml` dev dependencies  
+- [x] T020 [US1] Configure `nbstripout` hook in `.pre-commit-config.yaml` for `notebooks/**/*.ipynb`
+- [x] T021 [US1] Configure `detect-secrets` hook in `.pre-commit-config.yaml` with `.secrets.baseline`
+- [x] T022 [US1] Create `.secrets.baseline` file with `detect-secrets scan --baseline .secrets.baseline`
+- [x] T023 [P] [US1] Implement notebook size check validator in `apps/cli/src/ai_kit/cli/core/validators.py` (warn at 5 MB, block at 10 MB per FR-006a, support CLI mode with `--check-size` flag for pre-commit hooks)
+- [x] T024 [P] [US1] Implement metadata validation logic in `apps/cli/src/ai_kit/cli/core/validators.py` (check required fields: purpose, author, category per FR-013, support CLI mode with `--check-metadata` flag for pre-commit hooks)
+- [x] T025 [US1] Create custom pre-commit hook for metadata validation in `.pre-commit-config.yaml` (Python script using `repos: local` hook type, entry point: `python -m ai_kit.cli.core.validators --check-metadata`, validates required fields per category)
+- [x] T026 [US1] Create custom pre-commit hook for size check in `.pre-commit-config.yaml` (Python script using `repos: local` hook type, entry point: `python -m ai_kit.cli.core.validators --check-size`, warns at 5MB, blocks at 10MB)
+- [x] T027 [P] [US1] Update `.gitignore` with notebook execution artifacts patterns (`.ipynb_checkpoints/`, `**/*-checkpoint.ipynb`)
+- [x] T028 [US1] Create `docs/notebooks/governance.md` with security requirements and best practices
+- [x] T029 [US1] Test pre-commit hooks with sample notebook containing credentials (verify block)
+- [x] T030 [US1] Test pre-commit hooks with sample notebook with outputs (verify strip)
 
 **Checkpoint**: Security enforcement is active - notebooks cannot be committed with credentials or outputs
 
@@ -87,18 +87,18 @@
 
 ### Implementation for User Story 2
 
-- [ ] T031 [P] [US2] Create exploratory template in `notebooks/templates/exploratory-template.ipynb` with metadata structure
-- [ ] T032 [P] [US2] Create tutorial template in `notebooks/templates/tutorial-template.ipynb` with documentation standards
-- [ ] T033 [P] [US2] Create evaluation template in `notebooks/templates/evaluation-template.ipynb` with metrics documentation
-- [ ] T034 [P] [US2] Create compliance template in `notebooks/templates/compliance-template.ipynb` with EU AI Act checklist
-- [ ] T035 [P] [US2] Create reporting template in `notebooks/templates/reporting-template.ipynb` with papermill parameters
-- [ ] T036 [US2] Implement category configuration in `apps/cli/src/ai_kit/cli/core/config.py` (6 categories: exploratory, tutorials, evaluations, compliance, reporting, templates with governance levels)
-- [ ] T037 [US2] Implement template loading logic in `apps/cli/src/ai_kit/cli/core/templates.py` (copy from notebooks/templates/ and populate metadata)
-- [ ] T038 [US2] Implement category-specific metadata validation in `apps/cli/src/ai_kit/cli/core/validators.py` (different required fields per category)
-- [ ] T039 [US2] Update metadata validation hook to check category matches directory location
-- [ ] T040 [US2] Create `docs/notebooks/governance.md` section on category selection decision tree
-- [ ] T041 [US2] Test metadata validation with notebooks in wrong directories (verify error)
-- [ ] T042 [US2] Test metadata validation with missing required fields per category (verify error)
+- [x] T031 [P] [US2] Create exploratory template in `notebooks/templates/exploratory-template.ipynb` with metadata structure
+- [x] T032 [P] [US2] Create tutorial template in `notebooks/templates/tutorial-template.ipynb` with documentation standards
+- [x] T033 [P] [US2] Create evaluation template in `notebooks/templates/evaluation-template.ipynb` with metrics documentation
+- [x] T034 [P] [US2] Create compliance template in `notebooks/templates/compliance-template.ipynb` with EU AI Act checklist
+- [x] T035 [P] [US2] Create reporting template in `notebooks/templates/reporting-template.ipynb` with papermill parameters
+- [x] T036 [US2] Implement category configuration in `apps/cli/src/ai_kit/cli/core/config.py` (6 categories: exploratory, tutorials, evaluations, compliance, reporting, templates with governance levels)
+- [x] T037 [US2] Implement template loading logic in `apps/cli/src/ai_kit/cli/core/templates.py` (copy from notebooks/templates/ and populate metadata)
+- [x] T038 [US2] Implement category-specific metadata validation in `apps/cli/src/ai_kit/cli/core/validators.py` (different required fields per category)
+- [x] T039 [US2] Update metadata validation hook to check category matches directory location
+- [x] T040 [US2] Create `docs/notebooks/governance.md` section on category selection decision tree
+- [x] T041 [US2] Test metadata validation with notebooks in wrong directories (verify error)
+- [x] T042 [US2] Test metadata validation with missing required fields per category (verify error)
 
 **Checkpoint**: All 6 categories have templates and validation rules - notebooks properly organized
 
@@ -112,21 +112,21 @@
 
 ### Implementation for User Story 2 (CLI)
 
-- [ ] T043 [US2] Create `apps/cli/src/ai_kit/cli/commands/notebook.py` with command group structure (imports: from ai_kit.cli.core import config, validators, templates)
-- [ ] T044 [US2] Implement `create` subcommand in `notebook.py` with interactive prompts (category, name, purpose, author) using questionary for UX
-- [ ] T045 [US2] Implement category selection prompt with descriptions using `questionary.select()`
-- [ ] T046 [US2] Implement notebook name validation (no spaces, valid filename)
-- [ ] T047 [US2] Implement purpose prompt with minimum length validation (10 characters)
-- [ ] T048 [US2] Implement author prompt with git config default
-- [ ] T049 [US2] Implement category-specific prompts (model version for evaluations, risk level for compliance, etc.)
-- [ ] T050 [US2] Implement template copying and metadata population logic
-- [ ] T051 [US2] Implement confirmation prompt with summary display
-- [ ] T052 [US2] Implement success message with next steps guidance
-- [ ] T053 [US2] Add error handling for file exists, template not found, invalid input
-- [ ] T054 [US2] Register `notebook create` command in `apps/cli/src/ai_kit/cli/main.py`
-- [ ] T055 [US2] Update `justfile` with `notebook` command that routes to CLI
-- [ ] T056 [US2] Test `just notebook create` end-to-end with each category
-- [ ] T057 [US2] Test error cases (duplicate name, invalid category, missing template)
+- [x] T043 [US2] Create `apps/cli/src/ai_kit/cli/commands/notebook.py` with command group structure (imports: from ai_kit.cli.core import config, validators, templates)
+- [x] T044 [US2] Implement `create` subcommand in `notebook.py` with interactive prompts (category, name, purpose, author) using questionary for UX
+- [x] T045 [US2] Implement category selection prompt with descriptions using `questionary.select()`
+- [x] T046 [US2] Implement notebook name validation (no spaces, valid filename)
+- [x] T047 [US2] Implement purpose prompt with minimum length validation (10 characters)
+- [x] T048 [US2] Implement author prompt with git config default
+- [x] T049 [US2] Implement category-specific prompts (model version for evaluations, risk level for compliance, etc.)
+- [x] T050 [US2] Implement template copying and metadata population logic
+- [x] T051 [US2] Implement confirmation prompt with summary display
+- [x] T052 [US2] Implement success message with next steps guidance
+- [x] T053 [US2] Add error handling for file exists, template not found, invalid input
+- [x] T054 [US2] Register `notebook create` command in `apps/cli/src/ai_kit/cli/main.py`
+- [x] T055 [US2] Update `justfile` with `notebook` command that routes to CLI
+- [x] T056 [US2] Test `just notebook create` end-to-end with each category
+- [x] T057 [US2] Test error cases (duplicate name, invalid category, missing template)
 
 **Checkpoint**: Developers can create notebooks via `just notebook create` with proper metadata
 
@@ -140,17 +140,17 @@
 
 ### Implementation for User Story 3
 
-- [ ] T058 [P] [US3] Add `papermill` to root `pyproject.toml` dev dependencies for parameterized execution
-- [ ] T059 [P] [US3] Add `nbconvert` to root `pyproject.toml` dev dependencies for format conversion
-- [ ] T060 [P] [US3] Add `nbqa` to root `pyproject.toml` dev dependencies for ruff linting
-- [ ] T061 [US3] Configure ruff linting for notebooks via nbqa in `.pre-commit-config.yaml` (optional, non-blocking)
-- [ ] T062 [US3] Update templates with dependency documentation section (requirements.txt, uv workspace)
-- [ ] T063 [US3] Update templates with data source documentation section (paths, versions, access methods)
-- [ ] T064 [US3] Update reporting template with papermill parameter examples
-- [ ] T065 [US3] Create `docs/notebooks/governance.md` section on reproducibility best practices
-- [ ] T066 [US3] Create example parameterized reporting notebook in `notebooks/reporting/example-report.ipynb`
-- [ ] T067 [US3] Test papermill execution with example reporting notebook
-- [ ] T068 [US3] Test nbconvert to script format with example notebook
+- [x] T058 [P] [US3] Add `papermill` to root `pyproject.toml` dev dependencies for parameterized execution
+- [x] T059 [P] [US3] Add `nbconvert` to root `pyproject.toml` dev dependencies for format conversion
+- [x] T060 [P] [US3] Add `nbqa` to root `pyproject.toml` dev dependencies for ruff linting
+- [x] T061 [US3] Configure ruff linting for notebooks via nbqa in `.pre-commit-config.yaml` (optional, non-blocking)
+- [x] T062 [US3] Update templates with dependency documentation section (requirements.txt, uv workspace)
+- [x] T063 [US3] Update templates with data source documentation section (paths, versions, access methods)
+- [x] T064 [US3] Update reporting template with papermill parameter examples
+- [x] T065 [US3] Create `docs/notebooks/governance.md` section on reproducibility best practices
+- [x] T066 [US3] Create example parameterized reporting notebook in `notebooks/reporting/example-report.ipynb`
+- [x] T067 [US3] Test papermill execution with example reporting notebook
+- [x] T068 [US3] Test nbconvert to script format with example notebook
 
 **Checkpoint**: Notebooks are reproducible with documented dependencies and parameterization support
 
@@ -164,15 +164,15 @@
 
 ### Implementation for User Story 4
 
-- [ ] T069 [US4] Implement `migrate` subcommand in `apps/cli/src/ai_kit/cli/commands/notebook.py` (document migration from notebook to production code per FR-026)
-- [ ] T070 [US4] Implement migration documentation prompt (destination package/app, rationale)
-- [ ] T071 [US4] Implement git commit SHA capture for exploratory notebooks before deletion
-- [ ] T072 [US4] Implement migration record generation (markdown format with git references)
-- [ ] T073 [US4] Implement guidance for exploratory notebook deletion vs. compliance/evaluation retention
-- [ ] T074 [US4] Create `docs/notebooks/migration-guide.md` with notebook-to-production patterns
-- [ ] T075 [US4] Update templates with migration documentation section
-- [ ] T076 [US4] Test `just notebook migrate` with exploratory notebook (verify git SHA captured)
-- [ ] T077 [US4] Test migration documentation generation (verify markdown format correct)
+- [x] T069 [US4] Implement `migrate` subcommand in `apps/cli/src/ai_kit/cli/commands/notebook.py` (document migration from notebook to production code per FR-026)
+- [x] T070 [US4] Implement migration documentation prompt (destination package/app, rationale)
+- [x] T071 [US4] Implement git commit SHA capture for exploratory notebooks before deletion
+- [x] T072 [US4] Implement migration record generation (markdown format with git references)
+- [x] T073 [US4] Implement guidance for exploratory notebook deletion vs. compliance/evaluation retention
+- [x] T074 [US4] Create `docs/notebooks/migration-guide.md` with notebook-to-production patterns
+- [x] T075 [US4] Update templates with migration documentation section
+- [x] T076 [US4] Test `just notebook migrate` with exploratory notebook (verify git SHA captured)
+- [x] T077 [US4] Test migration documentation generation (verify markdown format correct)
 
 **Checkpoint**: Notebook-to-production migration is documented with git audit trail
 
@@ -186,15 +186,15 @@
 
 ### Implementation for User Story 4 (Git Tagging)
 
-- [ ] T078 [US4] Implement git tag creation utilities in `apps/cli/src/ai_kit/cli/utils/git.py` (hierarchical format: category/identifier-date per FR-027)
-- [ ] T079 [US4] Implement tag naming convention validation (category/identifier-date format)
-- [ ] T080 [US4] Implement tag discovery utilities (list tags by category)
-- [ ] T081 [US4] Create `docs/notebooks/compliance-officer-guide.md` with git tagging workflow
-- [ ] T082 [US4] Document tag naming conventions in compliance officer guide
-- [ ] T083 [US4] Document tag discovery commands in compliance officer guide
-- [ ] T084 [US4] Create example compliance notebook in `notebooks/compliance/example-audit.ipynb`
-- [ ] T085 [US4] Test git tag creation for compliance notebook (verify format correct)
-- [ ] T086 [US4] Test git tag discovery (verify tags listed by category)
+- [x] T078 [US4] Implement git tag creation utilities in `apps/cli/src/ai_kit/cli/utils/git.py` (hierarchical format: category/identifier-date per FR-027)
+- [x] T079 [US4] Implement tag naming convention validation (category/identifier-date format)
+- [x] T080 [US4] Implement tag discovery utilities (list tags by category)
+- [x] T081 [US4] Create `docs/notebooks/compliance-officer-guide.md` with git tagging workflow
+- [x] T082 [US4] Document tag naming conventions in compliance officer guide
+- [x] T083 [US4] Document tag discovery commands in compliance officer guide
+- [x] T084 [US4] Create example compliance notebook in `notebooks/compliance/example-audit.ipynb`
+- [x] T085 [US4] Test git tag creation for compliance notebook (verify format correct)
+- [x] T086 [US4] Test git tag discovery (verify tags listed by category)
 
 **Checkpoint**: Compliance officers can tag notebooks for audit trail
 
@@ -208,16 +208,16 @@
 
 ### Implementation for User Story 5
 
-- [ ] T087 [US5] Update compliance template with EU AI Act documentation checklist
-- [ ] T088 [US5] Update compliance template with training data characteristics section
-- [ ] T089 [US5] Update compliance template with risk assessment findings section
-- [ ] T090 [US5] Update compliance template with model selection audit trail section
-- [ ] T091 [US5] Update evaluation template with EU AI Act evaluation metrics requirements
-- [ ] T092 [US5] Update evaluation template with validation methodology documentation
-- [ ] T093 [US5] Create `docs/notebooks/governance.md` section on EU AI Act compliance requirements
-- [ ] T094 [US5] Create example compliance notebook for high-risk AI system in `notebooks/compliance/example-high-risk-ai.ipynb`
-- [ ] T095 [US5] Create example evaluation notebook with EU AI Act metrics in `notebooks/evaluations/example-model-eval.ipynb`
-- [ ] T096 [US5] Test compliance notebook against EU AI Act checklist (verify all elements present)
+- [x] T087 [US5] Update compliance template with EU AI Act documentation checklist
+- [x] T088 [US5] Update compliance template with training data characteristics section
+- [x] T089 [US5] Update compliance template with risk assessment findings section
+- [x] T090 [US5] Update compliance template with model selection audit trail section
+- [x] T091 [US5] Update evaluation template with EU AI Act evaluation metrics requirements
+- [x] T092 [US5] Update evaluation template with validation methodology documentation
+- [x] T093 [US5] Create `docs/notebooks/governance.md` section on EU AI Act compliance requirements
+- [x] T094 [US5] Create example compliance notebook for high-risk AI system in `notebooks/compliance/example-high-risk-ai.ipynb`
+- [x] T095 [US5] Create example evaluation notebook with EU AI Act metrics in `notebooks/evaluations/example-model-eval.ipynb`
+- [x] T096 [US5] Test compliance notebook against EU AI Act checklist (verify all elements present)
 
 **Checkpoint**: Compliance notebooks support EU AI Act technical documentation requirements
 
@@ -231,18 +231,18 @@
 
 ### Implementation for Additional Commands
 
-- [ ] T097 [P] Implement `list` subcommand in `apps/cli/src/ai_kit/cli/commands/notebook.py` (list notebooks by category per FR-008a)
-- [ ] T098 [P] Implement `validate` subcommand in `apps/cli/src/ai_kit/cli/commands/notebook.py` (manual validation per FR-008b)
-- [ ] T099 [P] Implement `delete` subcommand in `apps/cli/src/ai_kit/cli/commands/notebook.py` (safe deletion with confirmation per FR-008d)
-- [ ] T100 [P] Implement `stats` subcommand in `apps/cli/src/ai_kit/cli/commands/notebook.py` (repository statistics per FR-008f)
-- [ ] T101 Implement notebook metadata parsing for `list` command (show purpose, author, last modified)
-- [ ] T102 Implement validation result formatting for `validate` command (same as pre-commit hooks)
-- [ ] T103 Implement git history preservation guidance for `delete` command
-- [ ] T104 Implement statistics aggregation for `stats` command (count by category, sizes, dates)
-- [ ] T105 [P] Test `just notebook list` with multiple notebooks in each category
-- [ ] T106 [P] Test `just notebook validate` with valid and invalid notebooks
-- [ ] T107 [P] Test `just notebook delete` with confirmation flow
-- [ ] T108 [P] Test `just notebook stats` with populated notebook directories
+- [x] T097 [P] Implement `list` subcommand in `apps/cli/src/ai_kit/cli/commands/notebook.py` (list notebooks by category per FR-008a)
+- [x] T098 [P] Implement `validate` subcommand in `apps/cli/src/ai_kit/cli/commands/notebook.py` (manual validation per FR-008b)
+- [x] T099 [P] Implement `delete` subcommand in `apps/cli/src/ai_kit/cli/commands/notebook.py` (safe deletion with confirmation per FR-008d)
+- [x] T100 [P] Implement `stats` subcommand in `apps/cli/src/ai_kit/cli/commands/notebook.py` (repository statistics per FR-008f)
+- [x] T101 Implement notebook metadata parsing for `list` command (show purpose, author, last modified)
+- [x] T102 Implement validation result formatting for `validate` command (same as pre-commit hooks)
+- [x] T103 Implement git history preservation guidance for `delete` command
+- [x] T104 Implement statistics aggregation for `stats` command (count by category, sizes, dates)
+- [x] T105 [P] Test `just notebook list` with multiple notebooks in each category
+- [x] T106 [P] Test `just notebook validate` with valid and invalid notebooks
+- [x] T107 [P] Test `just notebook delete` with confirmation flow
+- [x] T108 [P] Test `just notebook stats` with populated notebook directories
 
 **Checkpoint**: All CLI commands functional and provide good developer experience
 
@@ -252,12 +252,12 @@
 
 **Purpose**: Documentation, testing, and improvements that affect multiple user stories
 
-- [ ] T109 [P] Complete `docs/notebooks/governance.md` with all sections (security, categories, reproducibility, migration, compliance, edge cases from spec.md L109-119)
-- [ ] T110 [P] Complete `docs/notebooks/compliance-officer-guide.md` with git tagging workflow and examples
-- [ ] T111 [P] Complete `docs/notebooks/migration-guide.md` with notebook-to-production patterns and edge case handling
-- [ ] T112 [P] Create `README.md` in `notebooks/` directory with quick start guide
-- [ ] T113 [P] Create `README.md` in `apps/cli/` directory with development guide
-- [ ] T114 [P] Add CLI command help text and examples to all subcommands
+- [x] T109 [P] Complete `docs/notebooks/governance.md` with all sections (security, categories, reproducibility, migration, compliance, edge cases from spec.md L109-119)
+- [x] T110 [P] Complete `docs/notebooks/compliance-officer-guide.md` with git tagging workflow and examples
+- [x] T111 [P] Complete `docs/notebooks/migration-guide.md` with notebook-to-production patterns and edge case handling
+- [x] T112 [P] Create `README.md` in `notebooks/` directory with quick start guide
+- [x] T113 [P] Create `README.md` in `apps/cli/` directory with development guide
+- [x] T114 [P] Add CLI command help text and examples to all subcommands
 - [ ] T115 [P] Add unit tests for validators in `apps/cli/tests/core/test_validators.py`
 - [ ] T116 [P] Add unit tests for template management in `apps/cli/tests/core/test_templates.py`
 - [ ] T117 [P] Add unit tests for configuration in `apps/cli/tests/core/test_config.py`
@@ -265,13 +265,13 @@
 - [ ] T119 [P] Add unit tests for prompts in `apps/cli/tests/utils/test_prompts.py`
 - [ ] T120 [P] Add unit tests for output formatting in `apps/cli/tests/utils/test_output.py`
 - [ ] T121 [P] Add integration tests for notebook commands in `apps/cli/tests/commands/test_notebook.py`
-- [ ] T122 Update root `README.md` with notebook support section and link to `docs/notebooks/governance.md`
-- [ ] T123 Update `quickstart.md` in specs directory with final validation steps
-- [ ] T124 Run full pre-commit hook suite on all template notebooks (verify pass)
-- [ ] T125 Run `just notebook create` for each category and commit (verify full workflow)
-- [ ] T126 Performance optimization: CLI startup time < 1 second (measured with `time just notebook --help` on cold start, average of 5 runs, excluding first run for cache warmup)
-- [ ] T127 Security review: Verify no credentials in templates or documentation
-- [ ] T128 Accessibility review: Verify CLI output is screen-reader friendly
+- [x] T122 Update root `README.md` with notebook support section and link to `docs/notebooks/governance.md`
+- [x] T123 Update `quickstart.md` in specs directory with final validation steps
+- [x] T124 Run full pre-commit hook suite on all template notebooks (verify pass)
+- [x] T125 Run `just notebook create` for each category and commit (verify full workflow)
+- [x] T126 Performance optimization: CLI startup time < 1 second (measured with `time just notebook --help` on cold start, average of 5 runs, excluding first run for cache warmup)
+- [x] T127 Security review: Verify no credentials in templates or documentation
+- [x] T128 Accessibility review: Verify CLI output is screen-reader friendly
 
 ---
 
