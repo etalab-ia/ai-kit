@@ -1,8 +1,6 @@
 """Tests for prompt utilities."""
 
-from unittest.mock import MagicMock, patch
-
-import pytest
+from unittest.mock import patch
 
 from ai_kit.cli.utils.prompts import (
     prompt_additional_field,
@@ -47,7 +45,7 @@ class TestPromptCategory:
 
         call_args = mock_select.call_args
         choices = call_args[1]["choices"]
-        
+
         # Should have choices for all 5 categories
         assert len(choices) >= 5
 
@@ -264,7 +262,7 @@ class TestPromptIntegration:
         name = prompt_notebook_name()
         purpose = prompt_purpose()
         author = prompt_author()
-        
+
         summary = {
             "Category": category,
             "Name": name,

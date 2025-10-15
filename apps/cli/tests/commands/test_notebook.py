@@ -1,8 +1,6 @@
 """Integration tests for notebook commands."""
 
-import json
-from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 import nbformat
 import pytest
@@ -36,7 +34,11 @@ class TestNotebookCreateCommand:
                     nbformat.v4.new_code_cell("# Code cell"),
                 ]
             )
-            filename = f"{category}-template.ipynb" if category != "tutorials" else "tutorial-template.ipynb"
+            filename = (
+                f"{category}-template.ipynb"
+                if category != "tutorials"
+                else "tutorial-template.ipynb"
+            )
             template_path = templates_dir / filename
             with open(template_path, "w") as f:
                 nbformat.write(template, f)
@@ -133,7 +135,7 @@ class TestNotebookListCommand:
         for category in ["exploratory", "evaluations", "compliance"]:
             category_dir = notebooks_dir / category
             category_dir.mkdir(parents=True)
-            
+
             # Create a test notebook
             notebook = nbformat.v4.new_notebook()
             notebook_path = category_dir / f"test-{category}.ipynb"
@@ -156,7 +158,7 @@ class TestNotebookListCommand:
         notebooks_dir = tmp_path / "notebooks"
         notebooks_dir.mkdir()
         (tmp_path / "pyproject.toml").touch()
-        
+
         for category in ["exploratory", "tutorials"]:
             (notebooks_dir / category).mkdir()
 
@@ -181,7 +183,7 @@ class TestNotebookValidateCommand:
         # Create a valid notebook
         notebook_dir = tmp_path / "exploratory"
         notebook_dir.mkdir(parents=True)
-        
+
         notebook = nbformat.v4.new_notebook(
             cells=[
                 nbformat.v4.new_markdown_cell("""# Test Notebook
@@ -197,7 +199,7 @@ class TestNotebookValidateCommand:
 """)
             ]
         )
-        
+
         notebook_path = notebook_dir / "test.ipynb"
         with open(notebook_path, "w") as f:
             nbformat.write(notebook, f)
@@ -212,11 +214,9 @@ class TestNotebookValidateCommand:
         # Create an invalid notebook (missing metadata)
         notebook_dir = tmp_path / "exploratory"
         notebook_dir.mkdir(parents=True)
-        
-        notebook = nbformat.v4.new_notebook(
-            cells=[nbformat.v4.new_code_cell("print('hello')")]
-        )
-        
+
+        notebook = nbformat.v4.new_notebook(cells=[nbformat.v4.new_code_cell("print('hello')")])
+
         notebook_path = notebook_dir / "invalid.ipynb"
         with open(notebook_path, "w") as f:
             nbformat.write(notebook, f)
@@ -243,7 +243,7 @@ class TestNotebookStatsCommand:
         for category in ["exploratory", "evaluations"]:
             category_dir = notebooks_dir / category
             category_dir.mkdir(parents=True)
-            
+
             for i in range(2):
                 notebook = nbformat.v4.new_notebook()
                 notebook_path = category_dir / f"test-{i}.ipynb"
@@ -291,7 +291,7 @@ class TestNotebookDeleteCommand:
             nbformat.write(notebook, f)
 
         # Cancel deletion
-        result = runner.invoke(cli, ["notebook", "delete", str(notebook_path)], input="n\n")
+        runner.invoke(cli, ["notebook", "delete", str(notebook_path)], input="n\n")
 
         # Should be cancelled (exit code 1 for abort)
         assert notebook_path.exists()
@@ -318,7 +318,11 @@ class TestNotebookCommandIntegration:
             template = nbformat.v4.new_notebook(
                 cells=[nbformat.v4.new_markdown_cell("# Template\n\n**Category**: {category}\n")]
             )
-            filename = f"{category}-template.ipynb" if category != "tutorials" else "tutorial-template.ipynb"
+            filename = (
+                f"{category}-template.ipynb"
+                if category != "tutorials"
+                else "tutorial-template.ipynb"
+            )
             with open(templates_dir / filename, "w") as f:
                 nbformat.write(template, f)
 

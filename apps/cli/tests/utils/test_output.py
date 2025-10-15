@@ -1,11 +1,9 @@
 """Tests for output formatting utilities."""
 
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
-import pytest
-
-from ai_kit.cli.core.validators import ValidationError, ValidationResult
+from ai_kit.cli.core.validators import ValidationError
 from ai_kit.cli.utils.output import (
     print_error,
     print_notebook_created,
@@ -208,10 +206,10 @@ class TestOutputFormatting:
         # Call various output functions
         print_success("Success message")
         mock_print.reset_mock()
-        
+
         print_error("Error message")
         mock_print.reset_mock()
-        
+
         print_notebook_created(Path("/test/path.ipynb"))
 
         # All should use rich console for formatting
