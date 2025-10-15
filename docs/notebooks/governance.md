@@ -198,7 +198,7 @@ jupyter lab
 
 ### Parameterized Execution with Papermill
 
-**Reporting notebooks support parameterized execution** for automation:
+**Reporting notebooks support parameterized execution** for automation.
 
 **1. Tag parameters cell**:
 ```python
@@ -208,32 +208,53 @@ end_date = '2024-01-31'
 output_format = 'html'
 ```
 
-**2. Execute with papermill**:
+**2. Run with CLI** (recommended):
 ```bash
-# Run with custom parameters
-papermill input.ipynb output.ipynb \
-  -p start_date '2024-02-01' \
-  -p end_date '2024-02-28' \
-  -p output_format 'pdf'
+# Execute notebook with parameters
+just notebook run input.ipynb output.ipynb \
+  -p start_date=2024-02-01 \
+  -p end_date=2024-02-28 \
+  -p output_format=pdf
+
+# Convert to HTML report
+just notebook convert output.ipynb html
+
+# Convert to PDF (requires pandoc + LaTeX)
+just notebook convert output.ipynb pdf -o report.pdf
+
+# Convert to Python script
+just notebook convert output.ipynb script
 ```
 
-**3. Convert to report format**:
+**Alternative: Direct papermill usage**:
 ```bash
-# HTML report
-jupyter nbconvert output.ipynb --to html
+# Run with papermill directly
+papermill input.ipynb output.ipynb \
+  -p start_date '2024-02-01' \
+  -p end_date '2024-02-28'
 
-# PDF report (requires pandoc)
-jupyter nbconvert output.ipynb --to pdf
+# Convert with nbconvert directly
+jupyter nbconvert output.ipynb --to html
 ```
 
 **Automation example**:
 ```bash
 # Weekly automated report
-papermill reporting/weekly-metrics.ipynb \
+just notebook run reporting/weekly-metrics.ipynb \
   output/metrics-$(date +%Y-%m-%d).ipynb \
-  -p start_date $(date -d '7 days ago' +%Y-%m-%d) \
-  -p end_date $(date +%Y-%m-%d)
+  -p start_date=$(date -d '7 days ago' +%Y-%m-%d) \
+  -p end_date=$(date +%Y-%m-%d)
+
+# Generate HTML report
+just notebook convert output/metrics-$(date +%Y-%m-%d).ipynb html
 ```
+
+**Available conversion formats**:
+- `html` - HTML report (default)
+- `pdf` - PDF report (requires pandoc + LaTeX)
+- `markdown` - Markdown document
+- `script` - Python script (.py)
+- `slides` - HTML slides (reveal.js)
 
 ### Code Quality with nbqa
 

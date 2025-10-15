@@ -64,10 +64,15 @@ just cli --help
 just notebook create        # Create a new notebook
 just notebook list          # List all notebooks
 just notebook stats         # Show notebook statistics
+just notebook validate notebooks/exploratory/my-notebook.ipynb
+
+# Parameterized execution and conversion
+just notebook run input.ipynb output.ipynb -p start_date=2024-01-01
+just notebook convert output.ipynb html
 
 # Or use generic CLI command
 just cli notebook create
-just cli notebook validate notebooks/exploratory/my-notebook.ipynb
+just cli notebook run input.ipynb output.ipynb -p key=value
 ```
 
 ## Monorepo Structure

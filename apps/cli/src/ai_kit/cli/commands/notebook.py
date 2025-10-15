@@ -180,3 +180,154 @@ def show_stats():
             print(f"  {category}: {count}")
 
     print(f"\nTotal: {total} notebooks")
+
+
+@notebook.command()
+@click.argument("input_notebook", type=click.Path(exists=True, path_type=Path))
+@click.argument("output_notebook", type=click.Path(path_type=Path))
+@click.option("-p", "--parameter", multiple=True, help="Parameter in key=value format")
+@click.option("--kernel", default=None, help="Kernel name (default: python3)")
+def run(input_notebook: Path, output_notebook: Path, parameter: tuple, kernel: str):
+    """Run notebook with papermill (parameterized execution).
+
+    Example:
+        just notebook run input.ipynb output.ipynb -p start_date=2024-01-01
+    """
+    try:
+        import papermill as pm
+    except ImportError:
+        print_error("papermill is not installed. Install with: uv add ipykernel papermill")
+        sys.exit(1)
+
+    # Parse parameters
+    params = {}
+    for param in parameter:
+        if "=" not in param:
+            print_error(f"Invalid parameter format: {param}. Use key=value")
+            sys.exit(1)
+        key, value = param.split("=", 1)
+        # Try to parse as number or boolean
+        if value.lower() == "true":
+            params[key] = True
+        elif value.lower() == "false":
+            params[key] = False
+        elif value.isdigit():
+            params[key] = int(value)
+        else:
+            try:
+                params[key] = float(value)
+            except ValueError:
+                params[key] = value
+
+    print(f"Executing notebook: {input_notebook}")
+    if params:
+        print(f"Parameters: {params}")
+
+    try:
+        pm.execute_notebook(
+            str(input_notebook),
+            str(output_notebook),
+            parameters=params,
+            kernel_name=kernel,
+        )
+        print_success(f"Notebook executed successfully: {output_notebook}")
+        print("\nNext steps:")
+        print(f"  - Review output: jupyter notebook {output_notebook}")
+        print(f"  - Convert to report: just notebook convert {output_notebook} html")
+    except Exception as e:
+        print_error(f"Failed to execute notebook: {e}")
+        sys.exit(1)
+
+
+@notebook.command()
+@click.argument("input_notebook", type=click.Path(exists=True, path_type=Path))
+@click.argument("format", type=click.Choice(["html", "pdf", "markdown", "script", "slides"]))
+@click.option("-o", "--output", type=click.Path(path_type=Path), help="Output file path")
+def convert(input_notebook: Path, format: str, output: Path):
+    """Convert notebook to another format with nbconvert.
+
+    Formats:
+        html      - HTML report (default)
+        pdf       - PDF report (requires pandoc)
+        markdown  - Markdown document
+        script    - Python script (.py)
+        slides    - HTML slides (reveal.js)
+
+    Example:
+        just notebook convert output.ipynb html
+        just notebook convert output.ipynb pdf -o report.pdf
+    """
+    try:
+        from nbconvert import (
+            HTMLExporter,
+            MarkdownExporter,
+            PDFExporter,
+            PythonExporter,
+            SlidesExporter,
+        )
+    except ImportError:
+        print_error("nbconvert is not installed. Install with: uv add nbconvert")
+        sys.exit(1)
+
+    # Map format to exporter
+    exporters = {
+        "html": HTMLExporter,
+        "pdf": PDFExporter,
+        "markdown": MarkdownExporter,
+        "script": PythonExporter,
+        "slides": SlidesExporter,
+    }
+
+    exporter_class = exporters[format]
+    exporter = exporter_class()
+
+    print(f"Converting notebook to {format}: {input_notebook}")
+
+    try:
+        # Read notebook
+        with open(input_notebook) as f:
+            import nbformat
+
+            notebook = nbformat.read(f, as_version=4)
+
+        # Convert
+        (body, resources) = exporter.from_notebook_node(notebook)
+
+        # Determine output path
+        if output:
+            output_path = output
+        else:
+            # Default output path
+            extensions = {
+                "html": ".html",
+                "pdf": ".pdf",
+                "markdown": ".md",
+                "script": ".py",
+                "slides": ".slides.html",
+            }
+            output_path = input_notebook.with_suffix(extensions[format])
+
+        # Write output
+        with open(output_path, "w" if format != "pdf" else "wb") as f:
+            if format == "pdf":
+                f.write(body)
+            else:
+                f.write(body)
+
+        print_success(f"Converted to {format}: {output_path}")
+
+        # Format-specific tips
+        if format == "html":
+            print(f"\nOpen in browser: open {output_path}")
+        elif format == "pdf":
+            print("\nNote: PDF conversion requires pandoc and LaTeX")
+        elif format == "script":
+            print(f"\nRun script: python {output_path}")
+
+    except Exception as e:
+        print_error(f"Failed to convert notebook: {e}")
+        if format == "pdf":
+            print("\nPDF conversion requires:")
+            print("  - pandoc: brew install pandoc")
+            print("  - LaTeX: brew install --cask mactex")
+        sys.exit(1)
