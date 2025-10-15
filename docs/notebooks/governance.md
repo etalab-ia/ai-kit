@@ -375,6 +375,76 @@ git commit --no-verify
 
 **Use sparingly** - hooks catch real problems.
 
+## EU AI Act Compliance Requirements
+
+### High-Risk AI Systems
+
+If your AI system falls under EU AI Act Annex III (high-risk), compliance and evaluation notebooks must address:
+
+**Article 9: Risk Management**
+- Identify and analyze risks (bias, discrimination, safety)
+- Document mitigation measures
+- Evaluate residual risks
+
+**Article 10: Data Governance**
+- Document training data sources and characteristics
+- Assess data quality and representativeness
+- Identify and mitigate biases in data
+
+**Article 11: Technical Documentation**
+- System description and intended purpose
+- Design specifications and architecture
+- Validation and testing procedures
+
+**Article 12: Record-Keeping**
+- Automatic logging of events
+- Traceability throughout lifecycle
+
+**Article 13: Transparency**
+- Users informed of AI system interaction
+- Capabilities and limitations communicated
+
+**Article 14: Human Oversight**
+- Human oversight measures defined
+- Override mechanisms implemented
+
+**Article 15: Accuracy, Robustness, Cybersecurity**
+- Accuracy metrics defined and measured
+- Robustness testing performed
+- Cybersecurity measures implemented
+
+### Required Notebooks for High-Risk Systems
+
+1. **Compliance Notebook** (`notebooks/compliance/`)
+   - Complete EU AI Act checklist
+   - Risk assessment and mitigation
+   - Training data documentation
+   - Human oversight procedures
+
+2. **Evaluation Notebook** (`notebooks/evaluations/`)
+   - Performance metrics (accuracy, precision, recall)
+   - Fairness and bias assessment
+   - Robustness testing
+   - Validation methodology
+
+### Templates
+
+Both templates include EU AI Act-specific sections:
+- `notebooks/templates/compliance-template.ipynb`
+- `notebooks/templates/evaluation-template.ipynb`
+
+### Audit Trail
+
+For high-risk systems:
+1. Create compliance and evaluation notebooks
+2. Have compliance officer review
+3. Create git tags for audit trail:
+   ```bash
+   just notebook tag notebooks/compliance/[notebook].ipynb
+   just notebook tag notebooks/evaluations/[notebook].ipynb
+   ```
+4. Reference tags in homologation dossier
+
 ## Compliance Officer Responsibilities
 
 1. **Review notebooks** for completeness and regulatory compliance
