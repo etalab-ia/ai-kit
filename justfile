@@ -66,4 +66,6 @@ cli *ARGS:
 
 # Notebook management commands (convenience wrapper)
 notebook *ARGS:
-    @uv run --directory apps/cli python -m ai_kit.cli.main notebook {{ARGS}}
+    #!/usr/bin/env bash
+    set -euo pipefail
+    uv run --directory apps/cli python -m ai_kit.cli.main notebook {{ARGS}} || [ $? -eq 2 ] || exit $?

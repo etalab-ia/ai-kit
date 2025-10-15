@@ -479,3 +479,165 @@ git show {file_sha}:{notebook_path.relative_to(Path.cwd())}
         if category == "exploratory":
             print("\nNote: Exploratory notebooks can be deleted after migration:")
             print(f"  just notebook migrate {notebook_path} --delete")
+
+
+@notebook.command()
+@click.argument("notebook_path", type=click.Path(exists=True, path_type=Path))
+@click.option("--identifier", prompt="Tag identifier", help="Unique identifier for this tag")
+@click.option("--message", prompt="Tag message", help="Description of what this tag represents")
+@click.option("--push", is_flag=True, help="Push tag to remote after creation")
+def tag(notebook_path: Path, identifier: str, message: str, push: bool):
+    """Create git tag for compliance/evaluation notebooks.
+
+    Tags follow the format: {category}/{identifier}-{date}
+
+    This is typically used by compliance officers to mark notebooks
+    for regulatory audit trails.
+
+    Example:
+        just notebook tag notebooks/compliance/model-bias-assessment.ipynb \\
+          --identifier model-v1.0-audit \\
+          --message "Compliance audit approved by Jane Doe"
+    """
+    from datetime import datetime
+
+    from ai_kit.cli.core.config import CATEGORIES, get_notebooks_dir
+    from ai_kit.cli.utils.git import create_git_tag
+
+    # Validate notebook exists and get category
+    if not notebook_path.exists():
+        print_error(f"Notebook not found: {notebook_path}")
+        sys.exit(1)
+
+    # Determine category from path
+    notebooks_dir = get_notebooks_dir()
+    try:
+        relative_path = notebook_path.relative_to(notebooks_dir)
+        category = relative_path.parts[0]
+    except (ValueError, IndexError):
+        print_error(f"Notebook must be in notebooks/ directory: {notebook_path}")
+        sys.exit(1)
+
+    if category not in CATEGORIES:
+        print_error(f"Invalid category: {category}")
+        sys.exit(1)
+
+    # Validate category is appropriate for tagging
+    if category == "exploratory":
+        print_error(
+            "\nExploratory notebooks should not be tagged. "
+            "They are temporary and should be deleted after migration."
+        )
+        print("\nFor audit trails, use:")
+        print("  - compliance: Regulatory documentation")
+        print("  - evaluations: Model performance assessments")
+        sys.exit(1)
+
+    # Generate tag name
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    tag_name = f"{category}/{identifier}-{date_str}"
+
+    # Validate tag name format
+    if not _validate_tag_name(tag_name):
+        print_error(f"Invalid tag name: {tag_name}")
+        print("\nTag name must:")
+        print("  - Start with category (compliance, evaluations, etc.)")
+        print("  - Contain only alphanumeric, hyphens, and slashes")
+        print("  - End with date in YYYY-MM-DD format")
+        sys.exit(1)
+
+    # Create tag
+    print(f"Creating tag: {tag_name}")
+    print(f"Message: {message}")
+
+    if create_git_tag(tag_name, message):
+        print_success(f"Tag created: {tag_name}")
+
+        if push:
+            import subprocess
+
+            try:
+                subprocess.run(
+                    ["git", "push", "origin", tag_name],
+                    check=True,
+                    capture_output=True,
+                )
+                print_success(f"Tag pushed to remote: {tag_name}")
+            except subprocess.CalledProcessError as e:
+                print_error(f"Failed to push tag: {e}")
+                print(f"\nPush manually with: git push origin {tag_name}")
+                sys.exit(1)
+        else:
+            print("\nTo push tag to remote:")
+            print(f"  git push origin {tag_name}")
+
+        print("\nTag details:")
+        print(f"  Category: {category}")
+        print(f"  Identifier: {identifier}")
+        print(f"  Date: {date_str}")
+        print(f"  Notebook: {notebook_path.relative_to(Path.cwd())}")
+
+        print("\nDiscover tags:")
+        print(f"  git tag --list '{category}/*'")
+        print("  just notebook tags")
+    else:
+        print_error(f"Failed to create tag: {tag_name}")
+        print("\nPossible reasons:")
+        print("  - Tag already exists")
+        print("  - Not in a git repository")
+        print("  - Uncommitted changes")
+        sys.exit(1)
+
+
+@notebook.command("tags")
+@click.option(
+    "--category",
+    type=click.Choice(["compliance", "evaluations", "tutorials", "reporting"]),
+)
+def list_tags(category: str):
+    """List git tags for notebooks.
+
+    Example:
+        just notebook tags
+        just notebook tags --category compliance
+    """
+    from ai_kit.cli.utils.git import list_git_tags
+
+    pattern = f"{category}/*" if category else "*/20*"  # Match date pattern
+
+    tags = list_git_tags(pattern)
+
+    if not tags:
+        if category:
+            print(f"No tags found for category: {category}")
+        else:
+            print("No notebook tags found")
+        print("\nCreate a tag with:")
+        print("  just notebook tag <notebook-path>")
+        return
+
+    print(f"\nNotebook Tags{f' ({category})' if category else ''}:\n")
+
+    # Group by category
+    from collections import defaultdict
+
+    tags_by_category = defaultdict(list)
+    for tag in tags:
+        if "/" in tag:
+            cat = tag.split("/")[0]
+            tags_by_category[cat].append(tag)
+
+    for cat in sorted(tags_by_category.keys()):
+        print(f"  {cat}:")
+        for tag in sorted(tags_by_category[cat]):
+            print(f"    - {tag}")
+
+    print(f"\nTotal: {len(tags)} tags")
+
+
+def _validate_tag_name(tag_name: str) -> bool:
+    """Validate tag name format: category/identifier-YYYY-MM-DD."""
+    import re
+
+    pattern = r"^[a-z]+/[a-z0-9-]+-\d{4}-\d{2}-\d{2}$"
+    return bool(re.match(pattern, tag_name))

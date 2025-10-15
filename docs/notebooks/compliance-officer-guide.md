@@ -79,12 +79,31 @@ Format: `{category}/{identifier}-{date}`
 
 ### Creating Tags
 
-After successful review:
+After successful review, create a git tag to mark the audit milestone.
+
+**Option A: Using CLI** (recommended):
 
 ```bash
-# Navigate to repository
-cd /path/to/ai-kit
+# Interactive tagging with prompts
+just notebook tag notebooks/compliance/model-v1-audit.ipynb
 
+# Or provide details directly
+just notebook tag notebooks/compliance/model-v1-audit.ipynb \
+  --identifier model-v1.0-audit \
+  --message "Compliance audit approved for model v1.0 deployment. Reviewed by Jane Doe." \
+  --push
+```
+
+**What this does**:
+- Validates notebook category (prevents tagging exploratory notebooks)
+- Generates tag name with date: `compliance/model-v1.0-audit-2024-10-14`
+- Creates annotated git tag with your message
+- Optionally pushes to remote with `--push` flag
+- Provides discovery commands
+
+**Option B: Manual git commands**:
+
+```bash
 # Create annotated tag
 git tag -a compliance/model-v1.0-audit-2024-10-14 \
   -m "Compliance audit approved for model v1.0 deployment
@@ -115,21 +134,40 @@ Notes: [Any additional context]
 
 ## Discovering Tagged Notebooks
 
-### List All Compliance Tags
+### List All Notebook Tags
+
+**Option A: Using CLI** (recommended):
 
 ```bash
-git tag --list "compliance/*"
+# List all notebook tags
+just notebook tags
+
+# List tags for specific category
+just notebook tags --category compliance
+just notebook tags --category evaluations
 ```
 
 Output:
 ```
-compliance/model-v1.0-audit-2024-10-14
-compliance/risk-assessment-prod-2024-11-01
+Notebook Tags:
+
+  compliance:
+    - compliance/model-v1.0-audit-2024-10-14
+    - compliance/risk-assessment-prod-2024-11-01
+  
+  evaluations:
+    - evaluations/gpt4-baseline-2024-10-14
+
+Total: 3 tags
 ```
 
-### List All Evaluation Tags
+**Option B: Manual git commands**:
 
 ```bash
+# List all compliance tags
+git tag --list "compliance/*"
+
+# List all evaluation tags
 git tag --list "evaluations/*"
 ```
 
