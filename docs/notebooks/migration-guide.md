@@ -24,8 +24,37 @@ Before migration, ensure:
 - [ ] Results are reproducible
 - [ ] Approach is validated
 - [ ] Edge cases identified
+- [ ] Notebook is committed to git
 
-### 2. Extract Core Logic
+### 2. Document Migration
+
+Use the `migrate` command to create a migration record:
+
+```bash
+# Document migration with interactive prompts
+just notebook migrate notebooks/exploratory/my-experiment.ipynb
+
+# Or provide details directly
+just notebook migrate notebooks/exploratory/my-experiment.ipynb \
+  --destination packages/my-feature \
+  --rationale "Validated approach for data processing pipeline"
+```
+
+**What this does**:
+- Captures current git commit SHA
+- Captures notebook's last commit SHA
+- Creates migration record in `docs/migrations/`
+- Provides next steps for completion
+
+**Migration record includes**:
+- Source notebook path and category
+- Destination package/app
+- Git references for traceability
+- Rationale for migration
+- Verification commands
+- Checklist for completion
+
+### 3. Extract Core Logic
 
 Identify reusable components:
 - Functions that process data
@@ -33,7 +62,7 @@ Identify reusable components:
 - Utility functions
 - Configuration patterns
 
-### 3. Create Production Package
+### 4. Create Production Package
 
 ```bash
 # Create package structure
@@ -46,7 +75,7 @@ touch packages/my-feature/README.md
 touch packages/my-feature/src/my_feature/__init__.py
 ```
 
-### 4. Implement with Best Practices
+### 5. Implement with Best Practices
 
 **Notebook code** (exploratory):
 ```python
@@ -169,22 +198,35 @@ Insights from exploratory notebook `notebooks/exploratory/customer-analysis.ipyn
 Exploratory notebook deleted after migration (git history preserves at commit abc123def456)
 ```
 
-### 7. Delete Exploratory Notebook
+### 7. Delete Exploratory Notebook (Optional)
 
+**Option A: Delete during migration** (recommended):
 ```bash
-# Capture commit SHA first
-git log -1 --format="%H" notebooks/exploratory/customer-analysis.ipynb
+# Document migration and delete in one step
+just notebook migrate notebooks/exploratory/customer-analysis.ipynb \
+  --destination packages/customer-analysis \
+  --rationale "Validated clustering approach" \
+  --delete
+```
 
+This will:
+1. Create migration record with git SHAs
+2. Prompt for confirmation before deletion
+3. Provide next steps for committing changes
+
+**Option B: Delete manually later**:
+```bash
 # Delete notebook
 git rm notebooks/exploratory/customer-analysis.ipynb
-git commit -m "Migrate customer analysis to production
 
-Insights from notebooks/exploratory/customer-analysis.ipynb migrated to
-packages/customer-analysis/. See packages/customer-analysis/README.md
-for details.
+# Commit with reference to migration record
+git commit -m "Delete exploratory notebook after migration
 
-Original notebook preserved in git history at commit abc123def456"
+See docs/migrations/2024-10-15-customer-analysis.md for migration details.
+Original notebook preserved in git history."
 ```
+
+**Important**: Only exploratory notebooks should be deleted after migration. Other categories (compliance, evaluations, tutorials, reporting) must be retained for audit trail and documentation.
 
 ## Migration Patterns
 

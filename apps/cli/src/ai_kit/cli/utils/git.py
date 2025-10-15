@@ -53,8 +53,12 @@ def list_git_tags(pattern: str | None = None, cwd: Path | None = None) -> list[s
         return []
 
 
-def get_current_commit_sha(cwd: Path | None = None) -> str | None:
-    """Get current git commit SHA."""
+def get_current_commit_sha(cwd: Path | None = None) -> str:
+    """Get current git commit SHA.
+
+    Raises:
+        RuntimeError: If git command fails
+    """
     try:
         result = subprocess.run(
             ["git", "rev-parse", "HEAD"],
@@ -64,5 +68,34 @@ def get_current_commit_sha(cwd: Path | None = None) -> str | None:
             text=True,
         )
         return result.stdout.strip()
-    except subprocess.CalledProcessError:
-        return None
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Failed to get current commit SHA: {e}") from e
+
+
+def get_file_last_commit_sha(file_path: Path, cwd: Path | None = None) -> str:
+    """Get the last commit SHA that modified a file.
+
+    Args:
+        file_path: Path to the file
+        cwd: Working directory for git command
+
+    Returns:
+        The commit SHA
+
+    Raises:
+        RuntimeError: If git command fails or file not in git
+    """
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%H", "--", str(file_path)],
+            cwd=cwd,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        sha = result.stdout.strip()
+        if not sha:
+            raise RuntimeError(f"File not found in git history: {file_path}")
+        return sha
+    except subprocess.CalledProcessError as e:
+        raise RuntimeError(f"Failed to get file commit SHA: {e}") from e

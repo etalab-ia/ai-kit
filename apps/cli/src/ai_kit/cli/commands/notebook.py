@@ -331,3 +331,151 @@ def convert(input_notebook: Path, format: str, output: Path):
             print("  - pandoc: brew install pandoc")
             print("  - LaTeX: brew install --cask mactex")
         sys.exit(1)
+
+
+@notebook.command()
+@click.argument("notebook_path", type=click.Path(exists=True, path_type=Path))
+@click.option("--destination", prompt="Destination package/app", help="Where code was migrated to")
+@click.option("--rationale", prompt="Migration rationale", help="Why this migration was needed")
+@click.option(
+    "--delete",
+    is_flag=True,
+    help="Delete notebook after documenting migration (exploratory only)",
+)
+def migrate(notebook_path: Path, destination: str, rationale: str, delete: bool):
+    """Document notebook-to-production migration.
+
+    This command helps track when notebook insights are migrated to production code.
+    It captures the git commit SHA and creates a migration record.
+
+    Example:
+        just notebook migrate notebooks/exploratory/experiment.ipynb \\
+          --destination packages/my-feature \\
+          --rationale "Validated approach, ready for production"
+    """
+    from ai_kit.cli.core.config import CATEGORIES, get_notebooks_dir
+    from ai_kit.cli.utils.git import get_current_commit_sha, get_file_last_commit_sha
+
+    # Validate notebook exists and get category
+    if not notebook_path.exists():
+        print_error(f"Notebook not found: {notebook_path}")
+        sys.exit(1)
+
+    # Determine category from path
+    notebooks_dir = get_notebooks_dir()
+    try:
+        relative_path = notebook_path.relative_to(notebooks_dir)
+        category = relative_path.parts[0]
+    except (ValueError, IndexError):
+        print_error(f"Notebook must be in notebooks/ directory: {notebook_path}")
+        sys.exit(1)
+
+    if category not in CATEGORIES:
+        print_error(f"Invalid category: {category}")
+        sys.exit(1)
+
+    # Get git information
+    try:
+        current_sha = get_current_commit_sha()
+        file_sha = get_file_last_commit_sha(notebook_path)
+    except Exception as e:
+        print_error(f"Failed to get git information: {e}")
+        print("Make sure the notebook is committed to git.")
+        sys.exit(1)
+
+    # Generate migration record
+    from datetime import datetime
+
+    migration_date = datetime.now().strftime("%Y-%m-%d")
+    migration_record = f"""# Migration Record: {notebook_path.name}
+
+**Date**: {migration_date}
+**Source Notebook**: `{notebook_path.relative_to(Path.cwd())}`
+**Category**: {category}
+**Destination**: `{destination}`
+
+## Git References
+
+- **Notebook Last Commit**: `{file_sha}`
+- **Migration Commit**: `{current_sha}`
+
+## Rationale
+
+{rationale}
+
+## Verification
+
+To review the original notebook:
+```bash
+git show {file_sha}:{notebook_path.relative_to(Path.cwd())}
+```
+
+## Next Steps
+
+- [ ] Code migrated to `{destination}`
+- [ ] Tests added for migrated functionality
+- [ ] Documentation updated
+- [ ] Original notebook {"deleted" if delete else "retained"} (git history preserves it)
+"""
+
+    # Create migration records directory
+    migration_dir = Path("docs/migrations")
+    migration_dir.mkdir(parents=True, exist_ok=True)
+
+    # Write migration record
+    record_filename = f"{migration_date}-{notebook_path.stem}.md"
+    record_path = migration_dir / record_filename
+
+    with open(record_path, "w") as f:
+        f.write(migration_record)
+
+    print_success(f"Migration record created: {record_path}")
+    print("\nGit references:")
+    print(f"  Notebook commit: {file_sha}")
+    print(f"  Current commit: {current_sha}")
+
+    # Handle deletion for exploratory notebooks
+    if delete:
+        if category != "exploratory":
+            print_error(
+                f"\nCannot delete {category} notebooks. "
+                "Only exploratory notebooks should be deleted after migration."
+            )
+            print(f"\n{CATEGORIES[category].display_name} notebooks must be retained for:")
+            if category == "compliance":
+                print("  - Regulatory audit trail")
+                print("  - EU AI Act documentation")
+            elif category == "evaluations":
+                print("  - Model performance history")
+                print("  - Baseline comparisons")
+            elif category == "tutorials":
+                print("  - Learning materials")
+                print("  - Documentation reference")
+            elif category == "reporting":
+                print("  - Recurring report generation")
+            sys.exit(1)
+
+        # Confirm deletion
+        if click.confirm(
+            f"\n⚠️  Delete {notebook_path.name}? (git history will preserve it)",
+            default=False,
+        ):
+            notebook_path.unlink()
+            print_success(f"Deleted notebook: {notebook_path}")
+            print("\nNext steps:")
+            print(f"  1. Review migration record: {record_path}")
+            print(f"  2. Commit changes: git add {record_path}")
+            print(f"  3. Commit deletion: git rm {notebook_path}")
+            print(f"  4. Reference in spec: Link to {record_path} in feature spec")
+        else:
+            print("\nNotebook retained. Delete manually when ready:")
+            print(f"  git rm {notebook_path}")
+    else:
+        print("\nNext steps:")
+        print(f"  1. Review migration record: {record_path}")
+        print(f"  2. Commit record: git add {record_path} && git commit")
+        print(f"  3. Reference in spec: Link to {record_path} in feature spec")
+
+        if category == "exploratory":
+            print("\nNote: Exploratory notebooks can be deleted after migration:")
+            print(f"  just notebook migrate {notebook_path} --delete")
