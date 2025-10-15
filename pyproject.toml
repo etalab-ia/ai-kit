@@ -12,7 +12,6 @@ dev = [
     "ruff>=0.14.0",
     "pytest>=8.0.0",
     "nbstripout>=0.6.0",
-    "detect-secrets>=1.4.0",
     "papermill>=2.4.0",
     "nbconvert>=7.0.0",
     "nbqa>=1.7.0",

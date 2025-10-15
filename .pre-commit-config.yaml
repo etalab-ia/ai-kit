@@ -30,13 +30,11 @@ repos:
       - id: nbstripout
         files: ^notebooks/.*\.ipynb$
 
-  # Secret scanning
-  - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.4.0
+  # Secret scanning (Gitleaks - pre-commit blocking)
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.0
     hooks:
-      - id: detect-secrets
-        args: ['--baseline', '.secrets.baseline', '--exclude-files', '\.secrets\.baseline$']
-        files: ^notebooks/.*\.ipynb$
+      - id: gitleaks
 
   # Custom notebook validation hooks
   - repo: local
