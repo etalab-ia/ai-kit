@@ -7,14 +7,15 @@
 
 ## Summary
 
-Implement Jupyter notebook governance infrastructure for ai-kit to balance exploratory data science workflows with security, reproducibility, and EU AI Act compliance requirements. The feature provides six notebook categories (exploratory, tutorials, evaluations, compliance, reporting, templates), pre-commit hooks for security and metadata validation, a `just create-notebook` CLI command for guided notebook creation, and git-native lifecycle management with compliance officer oversight for audit tagging.
+Implement Jupyter notebook governance infrastructure for ai-kit to balance exploratory data science workflows with security, reproducibility, and EU AI Act compliance requirements. The feature provides six notebook categories (exploratory, tutorials, evaluations, compliance, reporting, templates), hybrid secret scanning (Gitleaks + GitHub) for defense-in-depth security, pre-commit hooks for metadata validation, a `just notebook` CLI command group for guided notebook creation, and git-native lifecycle management with compliance officer oversight for audit tagging.
 
 ## Technical Context
 
 **Language/Version**: Python 3.11+ (aligns with ai-kit monorepo standard)  
 **Primary Dependencies**: 
 - **nbstripout**: Pre-commit hook for stripping notebook outputs
-- **detect-secrets** or **gitleaks**: Secret scanning for credential detection
+- **GitHub Secret Scanning**: Native secret detection (continuous monitoring, free for public repos)
+- **gitleaks**: Pre-commit secret blocking (defense in depth, local validation)
 - **ruff**: Linting notebook code cells (via nbqa)
 - **papermill**: Parameterized notebook execution (for reporting category)
 - **nbconvert**: Convert notebooks to scripts/documentation
@@ -55,7 +56,7 @@ Verify compliance with ai-kit constitution principles:
 
 - [x] **Security Homologation (Principle III)**: ✅ **COMPLIANT** - Feature directly supports homologation requirements. FR-001 to FR-006a enforce security (credential blocking, output stripping, size limits). Compliance notebooks (FR-034) support technical documentation for homologation dossiers. Audit trails via git tags enable security review.
 
-- [x] **Open Source & Digital Commons (Principle IV)**: ✅ **COMPLIANT** - All tooling uses open source dependencies (nbstripout, detect-secrets/gitleaks, ruff, papermill). No proprietary tools required. Code will be published under ai-kit's open source license.
+- [x] **Open Source & Digital Commons (Principle IV)**: ✅ **COMPLIANT** - All tooling uses open source dependencies (nbstripout, gitleaks, ruff, papermill). GitHub Secret Scanning is a free platform feature for public repos. Code will be published under ai-kit's open source license.
 
 - [x] **DSFR Design System Compliance (Principle V)**: ✅ **N/A** - No UI components. CLI-only tooling.
 
@@ -87,7 +88,9 @@ Verify compliance with ai-kit constitution principles:
 specs/002-i-think-we/
 ├── spec.md                      # Feature specification (completed)
 ├── plan.md                      # This file (in progress)
-├── research.md                  # Phase 0 output (to be generated)
+├── research.md                  # Phase 0 output (completed)
+├── research-secret-scanning.md  # Secret scanning alternatives research (completed)
+├── MIGRATION_SECRET_SCANNING.md # Migration guide from detect-secrets (completed)
 ├── data-model.md                # Phase 1 output (to be generated)
 ├── quickstart.md                # Phase 1 output (to be generated)
 ├── contracts/                   # Phase 1 output (to be generated)
@@ -118,8 +121,14 @@ notebooks/                       # Top-level notebook directory (NEW - see spec.
 
 .pre-commit-config.yaml          # Pre-commit hook configuration (MODIFIED)
 ├── Add nbstripout hook
-├── Add detect-secrets or gitleaks hook
+├── Add gitleaks hook (pre-commit blocking, defense in depth)
 ├── Add custom metadata validation hook
+├── Remove detect-secrets hook (replaced by hybrid GitHub + Gitleaks)
+
+.gitleaks.toml                   # Gitleaks configuration (NEW)
+└── Allowlist for notebook metadata hex strings
+
+.secrets.baseline                # Legacy detect-secrets baseline (DELETE)
 
 justfile                         # Task runner commands (MODIFIED)
 └── Add notebook command group (just notebook <subcommand>)
@@ -181,15 +190,26 @@ docs/                            # Documentation (MODIFIED)
 
 **Key Decisions**:
 1. **nbstripout** for output stripping (industry standard, pre-commit integration)
-2. **detect-secrets** for credential scanning (Python-native, customizable)
+2. **Hybrid Secret Scanning** (GitHub + Gitleaks) for defense in depth:
+   - **GitHub Secret Scanning**: Continuous monitoring, validity checking, 150+ providers
+   - **Gitleaks**: Pre-commit blocking, local validation, fast performance
 3. **ruff + nbqa** for notebook linting (consistent with ai-kit standards)
 4. **papermill** for parameterized execution (industry standard from Netflix)
 5. **Custom pre-commit hook** for metadata validation (no existing tool)
-6. **Python CLI + just** for notebook command group (testable, rich UX)
-7. **Hierarchical git tags** for compliance (`{category}/{identifier}-{date}`)
-8. **5 MB warning, 10 MB block** for notebook size limits
-9. **Minimal templates** with required metadata and guidance
-10. **Future experiment tracking** integration (defer to ALLiaNCE data stack)
+
+**Secret Scanning Decision Rationale** (see `research-secret-scanning.md`):
+- **Replaced detect-secrets** due to high false positive rate (465-line baseline file)
+- **Hybrid approach (Option 4)** provides multiple layers of protection:
+  - **GitHub Secret Scanning**: Zero-maintenance continuous monitoring, validity checks
+  - **Gitleaks**: Fast pre-commit blocking, prevents secrets from ever reaching GitHub
+- **Benefits**: Defense in depth, eliminates `.secrets.baseline` maintenance, <90% false positive reduction
+- **Trade-off**: Dual tool management accepted for stronger security posture
+
+7. **Python CLI + just** for notebook command group (testable, rich UX)
+8. **Hierarchical git tags** for compliance (`{category}/{identifier}-{date}`)
+9. **5 MB warning, 10 MB block** for notebook size limits
+10. **Minimal templates** with required metadata and guidance
+11. **Future experiment tracking** integration (defer to ALLiaNCE data stack)
 
 All technical unknowns resolved. Ready for implementation.
 
@@ -219,7 +239,8 @@ All technical unknowns resolved. Ready for implementation.
 2. **CLI Interface** (`contracts/cli-interface.md`):
    - `just notebook create` interactive flow
    - Pre-commit hook contracts (metadata validation, size check)
-   - Integration with nbstripout and detect-secrets
+   - Integration with nbstripout, Gitleaks, and GitHub Secret Scanning
+   - Gitleaks configuration for notebook metadata allowlisting
    - Error codes and messages
    - Git workflow integration
    - Compliance officer tagging workflow
@@ -237,6 +258,95 @@ All technical unknowns resolved. Ready for implementation.
    - Enables AI agent to understand project context
 
 **Constitution Re-Check**: ✅ Still compliant (no design changes affecting principles)
+
+---
+
+## Hybrid Secret Scanning Implementation (Defense in Depth)
+
+**Approach**: Option 4 from `research-secret-scanning.md` - GitHub Secret Scanning + Gitleaks
+
+### Layer 1: Gitleaks (Pre-commit Blocking)
+
+**Purpose**: Prevent secrets from ever reaching GitHub repository
+
+**Implementation**:
+```yaml
+# .pre-commit-config.yaml
+- repo: https://github.com/gitleaks/gitleaks
+  rev: v8.18.0
+  hooks:
+    - id: gitleaks
+```
+
+**Configuration** (`.gitleaks.toml`):
+```toml
+title = "ai-kit gitleaks config"
+
+[allowlist]
+description = "Allowlist for notebook metadata"
+
+# Ignore hex strings in notebook metadata (not actual secrets)
+[[allowlist.regexes]]
+description = "Notebook metadata hex strings"
+regex = '''\"hashed_secret\": \"[a-f0-9]{40}\"'''
+
+# Use default Gitleaks rules for all other patterns
+```
+
+**Benefits**:
+- Fast local validation (<2 seconds for typical notebook)
+- Blocks commits before push
+- No network dependency
+- Developer gets immediate feedback
+
+### Layer 2: GitHub Secret Scanning (Continuous Monitoring)
+
+**Purpose**: Catch secrets that bypass pre-commit hooks, verify validity, monitor history
+
+**Implementation**:
+1. Enable in repository settings: `Settings` → `Security` → `Code security and analysis` → `Secret scanning` → `Enable`
+2. Optional: Enable push protection if GitHub Advanced Security available
+3. Configure alert notifications for security team
+
+**Benefits**:
+- Zero maintenance (no baseline files)
+- 150+ provider patterns with automatic updates
+- Validity checking (verifies if secrets are active)
+- Scans entire git history when new patterns added
+- Alerts in GitHub Security tab with remediation guidance
+
+### Defense in Depth Rationale
+
+**Why both tools?**
+
+1. **Complementary strengths**:
+   - Gitleaks: Fast, local, immediate blocking
+   - GitHub: Comprehensive, validity checking, continuous monitoring
+
+2. **Multiple failure points**:
+   - Developer bypasses pre-commit → GitHub catches it
+   - Gitleaks pattern gap → GitHub's 150+ providers catch it
+   - Secret added via web UI → GitHub detects it
+
+3. **Different detection windows**:
+   - Gitleaks: Before commit
+   - GitHub: After push, continuous history scanning
+
+4. **Acceptable trade-offs**:
+   - Dual tool management: Minimal (Gitleaks config is static)
+   - Performance: Gitleaks adds <2s to pre-commit
+   - Complexity: Both tools have simple configurations
+
+### Migration from detect-secrets
+
+See `MIGRATION_SECRET_SCANNING.md` for detailed steps:
+1. Enable GitHub Secret Scanning (5 minutes)
+2. Remove detect-secrets from pre-commit and dependencies (10 minutes)
+3. Delete `.secrets.baseline` (465 lines eliminated)
+4. Add Gitleaks with notebook metadata allowlist (15 minutes)
+5. Update documentation (README, CONTRIBUTING, notebooks/README)
+
+**Timeline**: 1 week with validation period
 
 ---
 
