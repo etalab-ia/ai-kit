@@ -10,3 +10,35 @@ repos:
         args: [--fix]
       # Run the formatter (automatically formats)
       - id: ruff-format
+
+  # Notebook output stripping
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.6.1
+    hooks:
+      - id: nbstripout
+        files: ^notebooks/.*\.ipynb$
+
+  # Secret scanning
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ['--baseline', '.secrets.baseline']
+        files: ^notebooks/.*\.ipynb$
+
+  # Custom notebook validation hooks
+  - repo: local
+    hooks:
+      - id: notebook-metadata-validation
+        name: Validate notebook metadata
+        entry: uv run --directory apps/cli python -m ai_kit.cli.core.validators --check-metadata
+        language: system
+        files: ^notebooks/.*\.ipynb$
+        pass_filenames: true
+
+      - id: notebook-size-check
+        name: Check notebook file size
+        entry: uv run --directory apps/cli python -m ai_kit.cli.core.validators --check-size
+        language: system
+        files: ^notebooks/.*\.ipynb$
+        pass_filenames: true

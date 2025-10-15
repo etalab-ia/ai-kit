@@ -57,8 +57,17 @@ just clean
 ### Running the CLI
 
 ```bash
-# Run the example CLI
-uv run --package ai-kit-cli ai-kit "Your Name"
+# Show CLI help
+just cli --help
+
+# Notebook management (convenience wrapper)
+just notebook create        # Create a new notebook
+just notebook list          # List all notebooks
+just notebook stats         # Show notebook statistics
+
+# Or use generic CLI command
+just cli notebook create
+just cli notebook validate notebooks/exploratory/my-notebook.ipynb
 ```
 
 ## Monorepo Structure
@@ -66,9 +75,12 @@ uv run --package ai-kit-cli ai-kit "Your Name"
 ```
 ai-kit/
 ├── apps/                    # Deployable applications
-│   └── cli/                # Example CLI application
+│   └── cli/                # Unified CLI application
 ├── packages/                # Importable libraries
 │   └── core/               # Core library
+├── notebooks/               # Jupyter notebooks (exploratory, tutorials, evaluations, compliance, reporting)
+├── docs/                    # Documentation
+│   └── notebooks/          # Notebook governance guides
 ├── .github/workflows/       # CI/CD pipelines
 ├── pyproject.toml          # Root workspace configuration
 ├── package.json            # Turborepo configuration
@@ -130,6 +142,7 @@ Learn more about SpecKit at [github.com/speckit/speckit](https://github.com/spec
 - **CI Testing**: [.github/CI_TESTING.md](./.github/CI_TESTING.md)
 - **Package READMEs**: See individual package directories
 - **Constitution**: [.specify/memory/constitution.md](./.specify/memory/constitution.md) - Core principles and governance
+- **Notebook Governance**: [docs/notebooks/governance.md](./docs/notebooks/governance.md) - Jupyter notebook policies and security requirements
 
 ## Architecture
 

@@ -59,3 +59,11 @@ cache-clear:
     @echo "🧹 Clearing Turborepo cache..."
     rm -rf .turbo
     @echo "✅ Cache cleared!"
+
+# Generic CLI command (for any CLI functionality)
+cli *ARGS:
+    @uv run --directory apps/cli python -m ai_kit.cli.main {{ARGS}}
+
+# Notebook management commands (convenience wrapper)
+notebook *ARGS:
+    @uv run --directory apps/cli python -m ai_kit.cli.main notebook {{ARGS}}

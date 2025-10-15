@@ -62,3 +62,7 @@ Thumbs.db
 *.tmp
 *.temp
 .cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+**/*-checkpoint.ipynb
