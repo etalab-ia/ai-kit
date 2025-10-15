@@ -12,7 +12,7 @@
 - Q: How should the system enforce category-specific governance requirements? → A: Pre-commit hooks validate category requirements and block commits with guidance
 - Q: What validation approach should pre-commit hooks use for category requirements? → A: Check notebook metadata fields (frontmatter/first cell with purpose, author, category)
 - Q: Who creates git tags for compliance/evaluation notebooks and when? → A: Compliance officers (intrapreneurs or ALLiaNCE experts) create tags during audit/review process
-- Q: What specific patterns should trigger credential detection blocks? → A: Use existing secret scanning tools (detect-secrets, gitleaks patterns)
+- Q: What specific patterns should trigger credential detection blocks? → A: Use hybrid secret scanning (GitHub Secret Scanning for continuous monitoring and validity checking + Gitleaks for pre-commit blocking with notebook metadata allowlist)
 - Q: What is the maximum acceptable notebook file size before requiring alternative storage? → A: 10 MB (warn at 5 MB)
 - Q: How should the decision tree be delivered to developers? → A: `just notebook create` command (part of unified ai-kit CLI) with interactive category selection
 - Q: Should the CLI be notebook-specific or general-purpose for all ai-kit operations? → A: Unified ai-kit CLI in `apps/cli/` with extensible command structure (notebook, dataset, streamlit, compliance, experiment subcommands) for consistent DX and future extensibility
@@ -36,8 +36,9 @@ A data scientist needs to create a new exploratory notebook to analyze model per
 **Acceptance Scenarios**:
 
 1. **Given** a developer creates a new notebook in `notebooks/exploratory/`, **When** they commit the notebook with cell outputs, **Then** the pre-commit hook automatically strips all outputs before commit
-2. **Given** a developer attempts to commit a notebook with hardcoded credentials, **When** the pre-commit hook runs, **Then** the commit is blocked with a clear error message indicating the security violation
-3. **Given** a developer creates a notebook, **When** they reference the notebook template, **Then** they see clear documentation on security requirements and how to use environment variables for credentials
+2. **Given** a developer attempts to commit a notebook with hardcoded credentials, **When** the pre-commit hook runs, **Then** the commit is blocked with a clear error message indicating the security violation (Gitleaks pre-commit blocking)
+3. **Given** a developer bypasses pre-commit hooks, **When** they push a commit with credentials, **Then** GitHub Secret Scanning detects the secret and creates an alert in the Security tab (defense in depth)
+4. **Given** a developer creates a notebook, **When** they reference the notebook template, **Then** they see clear documentation on security requirements and how to use environment variables for credentials
 
 ---
 
@@ -152,12 +153,18 @@ A compliance officer needs to generate technical documentation for a high-risk A
 #### Security Requirements (Non-Negotiable)
 
 - **FR-001**: System MUST prevent notebooks with cell outputs from being committed to version control
-- **FR-002**: System MUST block commits that contain hardcoded credentials, API keys, or sensitive data patterns using existing secret scanning tools (detect-secrets or gitleaks)
+- **FR-002**: System MUST block commits that contain hardcoded credentials, API keys, or sensitive data patterns using hybrid secret scanning (GitHub Secret Scanning for continuous monitoring and validity checking + Gitleaks for pre-commit blocking)
+- **FR-002a**: System MUST enable GitHub Secret Scanning in repository settings for continuous monitoring, validity checking, and detection of secrets that bypass pre-commit hooks (defense in depth)
 - **FR-003**: System MUST provide clear error messages when security violations are detected
 - **FR-004**: System MUST support environment variable usage for all credentials and sensitive configuration
 - **FR-005**: System MUST strip notebook outputs automatically before commit using pre-commit hooks
 - **FR-006**: System MUST require security review before notebooks can be published publicly
 - **FR-006a**: System MUST warn when notebook file size exceeds 5 MB and block commits when size exceeds 10 MB, with guidance to externalize data
+
+**Defense in Depth Rationale**: The hybrid secret scanning approach provides multiple failure points:
+- **Gitleaks** blocks secrets before commit (local, fast, immediate feedback)
+- **GitHub Secret Scanning** catches secrets that bypass pre-commit hooks (continuous monitoring, validity checking, 150+ provider patterns)
+- This ensures credentials are blocked even if developers skip pre-commit hooks or commit via web UI
 
 #### Directory Structure & Organization
 

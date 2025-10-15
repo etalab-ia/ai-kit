@@ -64,16 +64,16 @@
 #### Secret Scanning Migration (Hybrid Approach)
 
 - [x] T018 [P] [US1] Add `nbstripout` to root `pyproject.toml` dev dependencies
-- [ ] T019 [US1] **Enable GitHub Secret Scanning** in repository settings (Settings → Security → Code security and analysis → Secret scanning → Enable) - see `MIGRATION_SECRET_SCANNING.md` Phase 1
-- [ ] T020 [US1] **Review existing GitHub secret scanning alerts** and dismiss false positives or remediate true positives
+- [ ] T019 [US1] **Enable GitHub Secret Scanning** in repository settings (Settings → Security → Code security and analysis → Secret scanning → Enable) - see `MIGRATION_SECRET_SCANNING.md` Phase 1 (per FR-002, FR-002a)
+- [ ] T020 [US1] **Review existing GitHub secret scanning alerts** and dismiss false positives or remediate true positives (per FR-002a)
 - [ ] T021 [US1] **Remove detect-secrets** from `.pre-commit-config.yaml` (delete detect-secrets hook section)
 - [ ] T022 [US1] **Remove detect-secrets** from root `pyproject.toml` dev dependencies
 - [ ] T023 [US1] **Delete `.secrets.baseline`** file (465 lines eliminated)
-- [ ] T024 [US1] **Add Gitleaks** to `.pre-commit-config.yaml` (repo: https://github.com/gitleaks/gitleaks, rev: v8.18.0, id: gitleaks)
-- [ ] T025 [P] [US1] **Create `.gitleaks.toml`** configuration file with notebook metadata allowlist (see plan.md "Hybrid Secret Scanning Implementation" section for config)
+- [ ] T024 [US1] **Add Gitleaks** to `.pre-commit-config.yaml` (repo: https://github.com/gitleaks/gitleaks, rev: v8.18.0, id: gitleaks) (per FR-002)
+- [ ] T025 [P] [US1] **Create `.gitleaks.toml`** configuration file with notebook metadata allowlist (see plan.md "Hybrid Secret Scanning Implementation" section for config) (per FR-002)
 - [ ] T026 [US1] **Update `uv.lock`** after dependency changes (`uv lock`)
-- [ ] T027 [US1] **Test Gitleaks** with sample notebook containing fake secret (verify pre-commit blocks)
-- [ ] T028 [US1] **Test GitHub Secret Scanning** by pushing test commit with fake secret (verify alert appears)
+- [ ] T027 [US1] **Test Gitleaks** with sample notebook containing fake secret (verify pre-commit blocks) (per FR-002)
+- [ ] T028 [US1] **Test GitHub Secret Scanning** by pushing test commit with fake secret (verify alert appears) (per FR-002, FR-002a)
 
 #### Validation Hooks
 
@@ -86,12 +86,12 @@
 #### Documentation & Testing
 
 - [x] T034 [P] [US1] Update `.gitignore` with notebook execution artifacts patterns (`.ipynb_checkpoints/`, `**/*-checkpoint.ipynb`)
-- [ ] T035 [US1] **Update `docs/notebooks/governance.md`** with hybrid secret scanning approach (GitHub + Gitleaks, no baseline files)
-- [ ] T036 [US1] **Update `README.md`** security section to reference GitHub Secret Scanning (see `MIGRATION_SECRET_SCANNING.md` for content)
-- [ ] T037 [US1] **Update `CONTRIBUTING.md`** to remove detect-secrets instructions, add GitHub alert handling (see `MIGRATION_SECRET_SCANNING.md` for content)
-- [ ] T038 [US1] **Update `notebooks/README.md`** with secret scanning best practices (environment variables, no hardcoded secrets)
+- [ ] T035 [US1] **Update `docs/notebooks/governance.md`** with hybrid secret scanning approach (GitHub + Gitleaks, no baseline files) (per FR-002, FR-002a)
+- [ ] T036 [US1] **Update `README.md`** security section to reference GitHub Secret Scanning (see `MIGRATION_SECRET_SCANNING.md` for content) (per FR-002a)
+- [ ] T037 [US1] **Update `CONTRIBUTING.md`** to remove detect-secrets instructions, add GitHub alert handling (see `MIGRATION_SECRET_SCANNING.md` for content) (per FR-002a)
+- [ ] T038 [US1] **Update `notebooks/README.md`** with secret scanning best practices (environment variables, no hardcoded secrets) (per FR-004)
 - [x] T039 [US1] Test pre-commit hooks with sample notebook with outputs (verify strip)
-- [ ] T040 [US1] **Verify defense in depth**: Test that Gitleaks blocks locally AND GitHub detects if bypassed
+- [ ] T040 [US1] **Verify defense in depth**: Test that Gitleaks blocks locally AND GitHub detects if bypassed (per FR-002, FR-002a)
 
 **Checkpoint**: Security enforcement is active - notebooks cannot be committed with credentials or outputs
 
