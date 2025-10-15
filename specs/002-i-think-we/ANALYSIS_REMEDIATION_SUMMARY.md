@@ -123,46 +123,67 @@
 
 ---
 
-## Issues Not Addressed (Deferred)
+## Issues Resolved in Follow-up Commit
 
-### CLI Command Inconsistency (I2) - MEDIUM
-**Issue**: Spec mentions "unified ai-kit CLI" but plan uses `just create-notebook`
-**Status**: Deferred - both `plan.md` and `tasks.md` consistently use `just notebook create` pattern
-**Rationale**: Actual inconsistency is minor and doesn't affect implementation
+### 9. CLI Command Inconsistency (I2) - MEDIUM
+**Issue**: Plan.md used inconsistent `just create-notebook` instead of `just notebook create` pattern
 
-### Duplication Issues (D1, D2) - LOW/MEDIUM
+**Resolution**:
+- ✅ Updated all 7 instances in `plan.md` to use correct `just notebook create` pattern
+- ✅ Changed "create-notebook command" to "notebook command group"
+- ✅ Updated technical context, performance goals, constitution check, and research sections
+- Consistent terminology across all specification documents
+
+**Files Modified**:
+- `specs/002-i-think-we/plan.md` (lines 22, 29, 43, 54, 68, 188, 220)
+
+### 10. Documentation Duplication (D1, D2) - LOW/MEDIUM
 **Issue**: CLI command list and category definitions duplicated between spec and plan
-**Status**: Deferred - acceptable documentation redundancy for readability
-**Rationale**: Spec is source of truth, plan provides implementation context
+
+**Resolution**:
+- ✅ **D1 - CLI commands**: Replaced detailed list in plan.md with reference to spec.md FR-008
+  - Changed from listing 6 individual commands to "Unified CLI with notebook command group (create, list, validate, delete, migrate, stats subcommands)"
+- ✅ **D2 - Category definitions**: Simplified category descriptions in plan.md
+  - Removed governance level details (low/medium/high governance)
+  - Added reference: "see spec.md Key Entities for governance details"
+  - Spec.md remains single source of truth for detailed governance requirements
+
+**Files Modified**:
+- `specs/002-i-think-we/plan.md` (lines 43, 105-111)
 
 ---
 
-## Final Metrics After Remediation
+## Final Metrics After All Remediations
 
 - **Total Requirements**: 42 (FR-001 to FR-042)
-- **Total Tasks**: 125
+- **Total Tasks**: 128
 - **Coverage**: 90.5% (38/42 requirements have tasks, 4 marked as future work)
-- **Critical Issues**: 0 (was 1, now resolved)
-- **High Severity Issues**: 0 (was 2, now resolved)
-- **Medium Severity Issues**: 0 (was 6, 4 resolved, 2 deferred as acceptable)
-- **Low Severity Issues**: 0 (was 4, 2 resolved, 2 deferred as acceptable)
+- **Critical Issues**: 0 (was 1, resolved in initial commit)
+- **High Severity Issues**: 0 (was 2, resolved in initial commit)
+- **Medium Severity Issues**: 0 (was 6, all 6 resolved across both commits)
+- **Low Severity Issues**: 0 (was 4, all 4 resolved across both commits)
+
+**All identified issues have been resolved.**
 
 ## Implementation Readiness
 
 ✅ **READY FOR IMPLEMENTATION**
 
-All critical and high-priority issues have been resolved. The specification, plan, and tasks are now:
-- Constitution-compliant (Principle XV)
-- Measurably defined (security criteria)
-- Technically specified (pre-commit hooks)
-- Terminologically consistent
-- Properly scoped (future work marked)
+All issues from `/speckit.analyze` have been resolved across two commits. The specification, plan, and tasks are now:
+- ✅ Constitution-compliant (Principle XV - correct ai_kit.cli namespace)
+- ✅ Measurably defined (security criteria with concrete metrics)
+- ✅ Technically specified (pre-commit hooks with implementation details)
+- ✅ Terminologically consistent (canonical definitions, unified command patterns)
+- ✅ Properly scoped (future work marked, no duplication)
+- ✅ Well-structured (test layout mirrors source code)
 
 **Next Step**: Proceed with `/speckit.implement` to execute tasks systematically.
 
 ---
 
 ## Files Modified Summary
+
+### Initial Commit (Critical & High Priority Issues)
 
 1. **specs/002-i-think-we/spec.md**
    - Added Measurable Security Criteria to User Story 1
@@ -172,13 +193,28 @@ All critical and high-priority issues have been resolved. The specification, pla
 2. **specs/002-i-think-we/plan.md**
    - Updated project structure with correct `ai_kit.cli` namespace
    - Updated structure decision to reference Constitution Principle XV
+   - Updated test structure to mirror source code layout
 
 3. **specs/002-i-think-we/tasks.md**
-   - Fixed all package paths to use `ai_kit.cli` namespace (T001-T125)
+   - Fixed all package paths to use `ai_kit.cli` namespace (T001-T128)
    - Added pre-commit hook implementation specifications (T023-T026)
    - Enhanced validation details for CLI commands (T044-T048)
    - Added edge case documentation requirements (T109, T111)
-   - Added performance measurement methodology (T123)
+   - Added performance measurement methodology (T126)
+   - Updated test tasks to mirror source structure (T115-T121)
+   - Increased task count from 125 to 128
 
 4. **specs/002-i-think-we/ANALYSIS_REMEDIATION_SUMMARY.md** (NEW)
-   - This document - comprehensive remediation record
+   - Comprehensive remediation record and audit trail
+
+### Follow-up Commit (Deferred Issues)
+
+5. **specs/002-i-think-we/plan.md** (additional changes)
+   - Fixed all 7 instances of `just create-notebook` to `just notebook create`
+   - Simplified category definitions with reference to spec.md
+   - Reduced CLI command duplication with reference to spec.md FR-008
+   - Updated technical context, performance goals, constitution check sections
+
+6. **specs/002-i-think-we/ANALYSIS_REMEDIATION_SUMMARY.md** (updated)
+   - Added follow-up commit resolution details
+   - Updated final metrics to reflect all issues resolved

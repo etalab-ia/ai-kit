@@ -19,14 +19,14 @@ Implement Jupyter notebook governance infrastructure for ai-kit to balance explo
 - **papermill**: Parameterized notebook execution (for reporting category)
 - **nbconvert**: Convert notebooks to scripts/documentation
 - **uv**: Dependency management within monorepo workspace
-- **just**: Task runner for `create-notebook` command
+- **just**: Task runner for `notebook` command group
 
 **Storage**: File system (notebooks stored in `notebooks/` directory structure), git for version control  
 **Testing**: pytest for CLI command tests, pre-commit framework for hook validation  
 **Target Platform**: Developer workstations (macOS, Linux, Windows via WSL)  
 **Project Type**: Monorepo infrastructure (tooling + templates + pre-commit hooks)  
 **Performance Goals**: 
-- Notebook creation via `just create-notebook` < 30 seconds (SC-012)
+- Notebook creation via `just notebook create` < 30 seconds (SC-012)
 - Pre-commit hook execution < 5 seconds for typical notebook
 - Secret scanning complete within pre-commit timeout
 
@@ -40,7 +40,7 @@ Implement Jupyter notebook governance infrastructure for ai-kit to balance explo
 - 6 notebook categories + templates
 - ~10-15 notebook templates (2-3 per active category)
 - Pre-commit hook configuration for nbstripout + secret scanning + metadata validation
-- 1 CLI command (`just create-notebook`) with interactive prompts
+- Unified CLI with `notebook` command group (create, list, validate, delete, migrate, stats subcommands)
 - Documentation for compliance officers on git tagging workflow
 
 ## Constitution Check
@@ -51,7 +51,7 @@ Verify compliance with ai-kit constitution principles:
 
 - [x] **EU AI Act Compliance (Principle I)**: ✅ **COMPLIANT** - This feature enables EU AI Act compliance for notebooks used in high-risk AI systems. FR-030 to FR-035 require compliance and evaluation notebooks to document training data, evaluation metrics, risk assessments, and audit trails. Compliance officers (intrapreneurs/ALLiaNCE experts) review and tag notebooks for regulatory milestones.
 
-- [x] **RGAA Accessibility Compliance (Principle II)**: ✅ **N/A** - No UI components. This is infrastructure tooling (CLI commands, pre-commit hooks, templates). The `just create-notebook` command is CLI-based and accessible via terminal.
+- [x] **RGAA Accessibility Compliance (Principle II)**: ✅ **N/A** - No UI components. This is infrastructure tooling (CLI commands, pre-commit hooks, templates). The `just notebook` commands are CLI-based and accessible via terminal.
 
 - [x] **Security Homologation (Principle III)**: ✅ **COMPLIANT** - Feature directly supports homologation requirements. FR-001 to FR-006a enforce security (credential blocking, output stripping, size limits). Compliance notebooks (FR-034) support technical documentation for homologation dossiers. Audit trails via git tags enable security review.
 
@@ -65,7 +65,7 @@ Verify compliance with ai-kit constitution principles:
 
 - [x] **Extensibility and Innovation (Principle VIII)**: ✅ **COMPLIANT** - Template-based approach (FR-009) allows easy addition of new notebook categories. Pre-commit hook framework is extensible. Future experiment tracking integration anticipated (FR-040 to FR-042).
 
-- [x] **Developer Experience & Tooling (Principle IX)**: ✅ **COMPLIANT** - Uses standardized tooling: `just` for create-notebook command, `uv` for dependency management, `ruff` for linting (via nbqa). Integrates with existing monorepo structure. No TypeScript usage.
+- [x] **Developer Experience & Tooling (Principle IX)**: ✅ **COMPLIANT** - Uses standardized tooling: `just` for notebook command group, `uv` for dependency management, `ruff` for linting (via nbqa). Integrates with existing monorepo structure. No TypeScript usage.
 
 - [x] **Python-First Development (Principle X)**: ✅ **COMPLIANT** - All tooling is Python-based. Notebooks are Jupyter (Python-native). CLI command implemented in Python. No non-Python components.
 
@@ -102,13 +102,13 @@ specs/002-i-think-we/
 ```
 # Monorepo infrastructure additions for notebook support
 
-notebooks/                       # Top-level notebook directory (NEW)
-├── exploratory/                 # Rapid experimentation (low governance)
-├── tutorials/                   # Learning materials (documentation standards)
-├── evaluations/                 # Model performance assessment (medium governance)
-├── compliance/                  # EU AI Act & regulatory docs (high governance)
-├── reporting/                   # Parameterized stakeholder reports (medium governance)
-├── templates/                   # Starter notebooks (reference materials)
+notebooks/                       # Top-level notebook directory (NEW - see spec.md Key Entities for governance details)
+├── exploratory/                 # Rapid experimentation
+├── tutorials/                   # Learning materials
+├── evaluations/                 # Model performance assessment
+├── compliance/                  # EU AI Act & regulatory docs
+├── reporting/                   # Parameterized stakeholder reports
+├── templates/                   # Starter notebooks
 │   ├── exploratory-template.ipynb
 │   ├── tutorial-template.ipynb
 │   ├── evaluation-template.ipynb
@@ -122,7 +122,7 @@ notebooks/                       # Top-level notebook directory (NEW)
 ├── Add custom metadata validation hook
 
 justfile                         # Task runner commands (MODIFIED)
-└── Add create-notebook command
+└── Add notebook command group (just notebook <subcommand>)
 
 apps/cli/                        # Unified ai-kit CLI application (NEW)
 ├── pyproject.toml               # uv package configuration
@@ -185,7 +185,7 @@ docs/                            # Documentation (MODIFIED)
 3. **ruff + nbqa** for notebook linting (consistent with ai-kit standards)
 4. **papermill** for parameterized execution (industry standard from Netflix)
 5. **Custom pre-commit hook** for metadata validation (no existing tool)
-6. **Python CLI + just** for create-notebook command (testable, rich UX)
+6. **Python CLI + just** for notebook command group (testable, rich UX)
 7. **Hierarchical git tags** for compliance (`{category}/{identifier}-{date}`)
 8. **5 MB warning, 10 MB block** for notebook size limits
 9. **Minimal templates** with required metadata and guidance
@@ -217,7 +217,7 @@ All technical unknowns resolved. Ready for implementation.
    - State transitions and lifecycle
 
 2. **CLI Interface** (`contracts/cli-interface.md`):
-   - `just create-notebook` interactive flow
+   - `just notebook create` interactive flow
    - Pre-commit hook contracts (metadata validation, size check)
    - Integration with nbstripout and detect-secrets
    - Error codes and messages
