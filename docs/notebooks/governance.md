@@ -141,37 +141,110 @@ All notebooks must include metadata in the first markdown cell:
 
 ### Dependency Documentation
 
-Document all dependencies with versions:
+**All notebooks must document dependencies with exact versions** to ensure reproducibility.
+
+✅ **Correct approach**:
 ```markdown
 **Dependencies**:
-- pandas==2.1.0
-- scikit-learn==1.3.0
-- openai==1.3.0
+```
+pandas>=2.1.0
+scikit-learn>=1.3.0
+openai>=1.3.0
+```
+
+**Environment**:
+- Python: 3.12+
+- Workspace: ai-kit (uv workspace)
+```
+
+**Add to project dependencies**:
+```bash
+# Add to pyproject.toml
+uv add pandas scikit-learn openai
 ```
 
 ### Data Source Documentation
 
-Document data sources with versions and access methods:
+**Document all data sources with complete access information**:
+
 ```markdown
 **Data Sources**:
-- `data/faq-dataset-v2.csv` (2024-10-01)
-- OpenGateLLM API (production endpoint)
-- https://data.gouv.fr/dataset/xyz (accessed 2024-10-14)
+- Path: `data/faq-dataset-v2.csv`
+- Version/Date: 2024-10-01
+- Access method: Local file / API / Database
+- Size: ~2.5 MB
+- Schema: id (int), question (str), answer (str), category (str)
 ```
 
-### Parameterized Execution
+**Best practices**:
+- Include data version or snapshot date
+- Document access credentials location (env vars)
+- Note data refresh schedule for automated reports
+- Link to data documentation or schema
 
-For reporting notebooks, use papermill:
+### Environment Reproducibility
+
+**Use uv workspace for consistent environments**:
+
+```bash
+# Sync all dependencies
+uv sync
+
+# Run notebook with correct environment
+jupyter lab
+```
+
+**Python version** is pinned in `.python-version` (3.12+).
+
+### Parameterized Execution with Papermill
+
+**Reporting notebooks support parameterized execution** for automation:
+
+**1. Tag parameters cell**:
 ```python
-# Cell tagged with "parameters"
+# Cell tagged with "parameters" in notebook metadata
 start_date = '2024-01-01'
 end_date = '2024-01-31'
+output_format = 'html'
 ```
 
-Execute with:
+**2. Execute with papermill**:
 ```bash
-papermill input.ipynb output.ipynb -p start_date '2024-02-01'
+# Run with custom parameters
+papermill input.ipynb output.ipynb \
+  -p start_date '2024-02-01' \
+  -p end_date '2024-02-28' \
+  -p output_format 'pdf'
 ```
+
+**3. Convert to report format**:
+```bash
+# HTML report
+jupyter nbconvert output.ipynb --to html
+
+# PDF report (requires pandoc)
+jupyter nbconvert output.ipynb --to pdf
+```
+
+**Automation example**:
+```bash
+# Weekly automated report
+papermill reporting/weekly-metrics.ipynb \
+  output/metrics-$(date +%Y-%m-%d).ipynb \
+  -p start_date $(date -d '7 days ago' +%Y-%m-%d) \
+  -p end_date $(date +%Y-%m-%d)
+```
+
+### Code Quality with nbqa
+
+**Optional: Lint notebook code cells with ruff**:
+
+```bash
+# Manual linting (not enforced by pre-commit)
+pre-commit run nbqa-ruff --files notebooks/exploratory/my-notebook.ipynb
+```
+
+This helps maintain code quality but is **non-blocking** to allow exploratory work.
 
 ## Migration to Production
 

@@ -11,6 +11,18 @@ repos:
       # Run the formatter (automatically formats)
       - id: ruff-format
 
+  # Notebook linting with nbqa (optional, non-blocking)
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.7.1
+    hooks:
+      - id: nbqa-ruff
+        args: [--fix]
+        files: ^notebooks/.*\.ipynb$
+        # Non-blocking: don't fail on linting errors in notebooks
+        verbose: true
+        # Only warn, don't block commits
+        stages: [manual]
+
   # Notebook output stripping
   - repo: https://github.com/kynan/nbstripout
     rev: 0.6.1
