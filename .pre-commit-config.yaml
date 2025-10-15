@@ -37,6 +37,7 @@ repos:
       - id: detect-secrets
         args: ['--baseline', '.secrets.baseline']
         files: ^notebooks/.*\.ipynb$
+        exclude: ^\.secrets\.baseline$  # Don't scan baseline itself to avoid timestamp loop
 
   # Custom notebook validation hooks
   - repo: local
