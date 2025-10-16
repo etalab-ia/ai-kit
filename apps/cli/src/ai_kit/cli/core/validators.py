@@ -268,7 +268,26 @@ def main():
         print("Error: No notebook path provided")
         sys.exit(1)
 
+    # Resolve path - handle both absolute and relative paths
+    # When run via pre-commit with uv run --directory apps/cli,
+    # we need to resolve relative paths from the git root
     path = Path(notebook_path)
+
+    if not path.is_absolute():
+        # Try to find git root by looking for .git directory
+        current = Path.cwd()
+        git_root = None
+
+        # Walk up the directory tree to find .git
+        for parent in [current] + list(current.parents):
+            if (parent / ".git").exists():
+                git_root = parent
+                break
+
+        if git_root:
+            # Resolve path relative to git root
+            path = git_root / path
+        # If not in a git repo, use path as-is (will fail if doesn't exist)
 
     if mode == "metadata":
         result = validate_notebook_metadata(path)
