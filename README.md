@@ -12,7 +12,7 @@ A Python-first monorepo providing tools, templates, and libraries for building A
 
 - **Python**: 3.12+ (managed by uv)
 - **Node.js**: 22.x LTS (managed by Volta)
-- **Tools**: [uv](https://docs.astral.sh/uv/), [just](https://github.com/casey/just), [Volta](https://volta.sh/)
+- **Tools**: [uv](https://docs.astral.sh/uv/), [just](https://github.com/casey/just), [Volta](https://volta.sh/), [TruffleHog](https://github.com/trufflesecurity/trufflehog)
 
 ### Setup (< 10 minutes)
 
@@ -110,8 +110,10 @@ ai-kit/
 - **pnpm** (10.x+): Fast, efficient package manager (via Corepack)
 - **Turborepo** (2.5.x+): Monorepo build system with caching
 
-### Code Quality
+### Code Quality & Security
 - **pre-commit**: Git hooks for automated quality checks
+- **TruffleHog**: Secret scanning to prevent credential leaks
+- **GitHub Secret Scanning**: Push protection and continuous monitoring
 - **GitHub Actions**: CI/CD pipelines with strict package isolation
 
 ## Key Features
@@ -120,6 +122,7 @@ ai-kit/
 ✅ **Monorepo**: Single repository, multiple packages, shared virtual environment  
 ✅ **Fast**: Turborepo caching reduces build time by 95%  
 ✅ **Strict**: Package isolation catches undeclared dependencies  
+✅ **Secure**: Hybrid secret scanning (TruffleHog + GitHub) prevents credential leaks  
 ✅ **Automated**: Pre-commit hooks and CI/CD pipelines  
 ✅ **Cross-Platform**: Works on macOS, Linux, and Windows  
 ✅ **Specification-Driven**: Reference implementation of SpecKit methodology with traceable development workflows  
