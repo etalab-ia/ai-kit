@@ -64,7 +64,7 @@
 #### Secret Scanning Migration (Hybrid Approach - TruffleHog)
 
 - [x] T018 [P] [US1] Add `nbstripout` to root `pyproject.toml` dev dependencies
-- [ ] T019 [US1] **Enable GitHub Secret Scanning** in repository settings (Settings → Security → Code security and analysis → Secret scanning → Enable) - see `MIGRATION_SECRET_SCANNING.md` Phase 1 (per FR-002, FR-002a) **[MANUAL - USER ACTION REQUIRED]**
+- [x] T019 [US1] **Enable GitHub Secret Scanning** in repository settings (Settings → Security → Code security and analysis → Secret scanning → Enable) - see `MIGRATION_SECRET_SCANNING.md` Phase 1 (per FR-002, FR-002a) **[VERIFIED: Push protection is active]**
 - [ ] T020 [US1] **Review existing GitHub secret scanning alerts** and dismiss false positives or remediate true positives (per FR-002a) **[MANUAL - USER ACTION REQUIRED]**
 - [x] T021 [US1] **Remove detect-secrets** from `.pre-commit-config.yaml` (delete detect-secrets hook section)
 - [x] T022 [US1] **Remove detect-secrets** from root `pyproject.toml` dev dependencies
@@ -72,7 +72,7 @@
 - [x] T024 [US1] **Add TruffleHog** to `.pre-commit-config.yaml` (local hook with entry: `bash -c 'trufflehog git file://. --since-commit HEAD --results=verified,unknown --fail'`) (per FR-002)
 - [x] T025 [US1] **Install TruffleHog** system-wide (brew install trufflehog) (per FR-002)
 - [x] T026 [US1] **Test TruffleHog** with integration test in `apps/cli/tests/test_trufflehog_integration.py` (verify detection works) (per FR-002)
-- [ ] T027 [US1] **Test GitHub Secret Scanning** by pushing test commit with fake secret (verify alert appears) (per FR-002, FR-002a) **[REQUIRES T019-T020 COMPLETION]**
+- [x] T027 [US1] **Test GitHub Secret Scanning** by pushing test commit with fake secret (verify alert appears) (per FR-002, FR-002a) **[VERIFIED: Push protection blocked test token in commit 2d2c199]**
 
 #### Validation Hooks
 
@@ -85,12 +85,12 @@
 #### Documentation & Testing
 
 - [x] T034 [P] [US1] Update `.gitignore` with notebook execution artifacts patterns (`.ipynb_checkpoints/`, `**/*-checkpoint.ipynb`)
-- [ ] T035 [US1] **Update `docs/notebooks/governance.md`** with hybrid secret scanning approach (GitHub + TruffleHog, no baseline files) (per FR-002, FR-002a)
+- [x] T035 [US1] **Update `docs/notebooks/governance.md`** with hybrid secret scanning approach (GitHub + TruffleHog, no baseline files) (per FR-002, FR-002a)
 - [x] T036 [US1] **Update `README.md`** security section to reference GitHub Secret Scanning and TruffleHog (per FR-002a)
 - [x] T037 [US1] **Update `CONTRIBUTING.md`** to add TruffleHog setup and GitHub alert handling (per FR-002a)
-- [ ] T038 [US1] **Update `notebooks/README.md`** with secret scanning best practices (environment variables, no hardcoded secrets) (per FR-004)
+- [x] T038 [US1] **Update `notebooks/README.md`** with secret scanning best practices (environment variables, no hardcoded secrets) (per FR-004)
 - [x] T039 [US1] Test pre-commit hooks with sample notebook with outputs (verify strip)
-- [ ] T040 [US1] **Verify defense in depth**: Test that TruffleHog blocks locally AND GitHub detects if bypassed (per FR-002, FR-002a)
+- [x] T040 [US1] **Verify defense in depth**: Test that TruffleHog blocks locally AND GitHub detects if bypassed (per FR-002, FR-002a) **[VERIFIED: Both layers tested and working]**
 
 **Checkpoint**: Security enforcement is active - notebooks cannot be committed with credentials or outputs
 

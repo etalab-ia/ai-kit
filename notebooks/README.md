@@ -70,43 +70,104 @@ notebooks/
 
 ## Security Requirements
 
-### ✅ Required
+### ✅ Required: Environment Variables for Credentials
 
-- **Environment variables for credentials**:
-  ```python
-  import os
-  api_key = os.getenv("API_KEY")
-  ```
+**ALWAYS use environment variables for API keys, tokens, and passwords:**
 
-- **Metadata in first cell**:
-  ```markdown
-  **Category**: exploratory
-  **Purpose**: Analyze customer churn patterns
-  **Author**: Your Name
-  **Created**: 2024-10-15
-  **Data Sources**: data/customers.csv
-  **Dependencies**: pandas==2.1.0
-  ```
+```python
+import os
 
-- **External data references**:
-  ```python
-  df = pd.read_csv("data/dataset.csv")  # Not inline data
-  ```
+# ✅ Correct - use environment variables
+api_key = os.getenv("OPENGATELLM_API_KEY")
+db_password = os.getenv("DATABASE_PASSWORD")
+github_token = os.getenv("GITHUB_TOKEN")
+
+# Check if credentials are available
+if not api_key:
+    raise ValueError("OPENGATELLM_API_KEY environment variable not set")
+```
+
+**Set environment variables in your shell**:
+```bash
+# Add to ~/.zshrc or ~/.bashrc
+export OPENGATELLM_API_KEY="your-key-here"
+export DATABASE_PASSWORD="your-password-here"
+
+# Or use .env file (never commit this!)
+echo "OPENGATELLM_API_KEY=your-key-here" >> .env
+```
+
+**Load from .env file in notebooks**:
+```python
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # Load from .env file
+api_key = os.getenv("OPENGATELLM_API_KEY")
+```
+
+### ✅ Required: Metadata in First Cell
+
+```markdown
+**Category**: exploratory
+**Purpose**: Analyze customer churn patterns
+**Author**: Your Name
+**Created**: 2024-10-15
+**Data Sources**: data/customers.csv
+**Dependencies**: pandas==2.1.0
+```
+
+### ✅ Required: External Data References
+
+```python
+# ✅ Correct - reference external files
+df = pd.read_csv("data/dataset.csv")
+
+# ❌ Forbidden - inline data
+# df = pd.DataFrame({"col1": [1, 2, 3], ...})  # Use external files instead
+```
 
 ### ❌ Forbidden
 
-- **Hardcoded credentials** (blocked by pre-commit hook)
-- **Committed outputs** (stripped automatically)
-- **Files > 10 MB** (blocked by pre-commit hook)
+- **Hardcoded credentials** (blocked by TruffleHog and GitHub Secret Scanning)
+  ```python
+  # ❌ NEVER DO THIS
+  api_key = "sk-proj-abc123..."  # Will be blocked!
+  password = "my-secret-password"  # Will be blocked!
+  ```
+
+- **Committed outputs** (stripped automatically by nbstripout)
+
+- **Files > 10 MB** (blocked by size-check hook)
+
+### Secret Scanning Best Practices
+
+1. **Use environment variables** for ALL credentials
+2. **Never hardcode** API keys, tokens, or passwords
+3. **Add .env to .gitignore** (already configured)
+4. **Use descriptive variable names**: `OPENGATELLM_API_KEY` not `KEY`
+5. **Document required variables** in notebook metadata
+6. **Test without credentials** to ensure graceful error handling
 
 ## Pre-commit Hooks
 
 When you commit a notebook, these hooks run automatically:
 
-1. **nbstripout**: Strips all cell outputs
-2. **detect-secrets**: Scans for hardcoded credentials
-3. **metadata-validation**: Checks required metadata fields
-4. **size-check**: Warns at 5 MB, blocks at 10 MB
+1. **ruff check**: Lints Python code
+2. **ruff format**: Formats Python code
+3. **nbstripout**: Strips all cell outputs
+4. **TruffleHog**: Scans for hardcoded secrets (700+ secret types)
+5. **metadata-validation**: Checks required metadata fields
+6. **size-check**: Warns at 5 MB, blocks at 10 MB
+
+### Secret Scanning (Defense in Depth)
+
+**Two-layer protection** prevents credential leaks:
+
+**TruffleHog (Local)**: Blocks commits with secrets before they leave your machine
+**GitHub Secret Scanning (Remote)**: Blocks pushes with secrets and monitors repository
+
+If a secret is detected, you'll see an error message. **Never commit credentials!**
 
 ## Common Commands
 
