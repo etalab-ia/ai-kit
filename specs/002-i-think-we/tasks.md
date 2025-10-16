@@ -69,9 +69,9 @@
 - [x] T021 [US1] **Remove detect-secrets** from `.pre-commit-config.yaml` (delete detect-secrets hook section)
 - [x] T022 [US1] **Remove detect-secrets** from root `pyproject.toml` dev dependencies
 - [x] T023 [US1] **Delete `.secrets.baseline`** file (465 lines eliminated)
-- [ ] T024 [US1] **Add TruffleHog** to `.pre-commit-config.yaml` (local hook with entry: `bash -c 'trufflehog git file://. --since-commit HEAD --results=verified,unknown --fail'`) (per FR-002)
-- [ ] T025 [US1] **Install TruffleHog** system-wide (brew install trufflehog or curl install script) (per FR-002)
-- [ ] T026 [US1] **Test TruffleHog** with sample file containing fake secret (verify pre-commit blocks) (per FR-002)
+- [x] T024 [US1] **Add TruffleHog** to `.pre-commit-config.yaml` (local hook with entry: `bash -c 'trufflehog git file://. --since-commit HEAD --results=verified,unknown --fail'`) (per FR-002)
+- [x] T025 [US1] **Install TruffleHog** system-wide (brew install trufflehog) (per FR-002)
+- [x] T026 [US1] **Test TruffleHog** with integration test in `apps/cli/tests/test_trufflehog_integration.py` (verify detection works) (per FR-002)
 - [ ] T027 [US1] **Test GitHub Secret Scanning** by pushing test commit with fake secret (verify alert appears) (per FR-002, FR-002a) **[REQUIRES T019-T020 COMPLETION]**
 
 #### Validation Hooks
