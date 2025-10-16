@@ -61,7 +61,7 @@
 
 ### Implementation for User Story 1
 
-#### Secret Scanning Migration (Hybrid Approach)
+#### Secret Scanning Migration (Hybrid Approach - TruffleHog)
 
 - [x] T018 [P] [US1] Add `nbstripout` to root `pyproject.toml` dev dependencies
 - [ ] T019 [US1] **Enable GitHub Secret Scanning** in repository settings (Settings → Security → Code security and analysis → Secret scanning → Enable) - see `MIGRATION_SECRET_SCANNING.md` Phase 1 (per FR-002, FR-002a) **[MANUAL - USER ACTION REQUIRED]**
@@ -69,11 +69,10 @@
 - [x] T021 [US1] **Remove detect-secrets** from `.pre-commit-config.yaml` (delete detect-secrets hook section)
 - [x] T022 [US1] **Remove detect-secrets** from root `pyproject.toml` dev dependencies
 - [x] T023 [US1] **Delete `.secrets.baseline`** file (465 lines eliminated)
-- [x] T024 [US1] **Add Gitleaks** to `.pre-commit-config.yaml` (repo: https://github.com/gitleaks/gitleaks, rev: v8.18.0, id: gitleaks) (per FR-002)
-- [x] T025 [P] [US1] **Create `.gitleaks.toml`** configuration file with notebook metadata allowlist (see plan.md "Hybrid Secret Scanning Implementation" section for config) (per FR-002)
-- [x] T026 [US1] **Update `uv.lock`** after dependency changes (`uv lock`)
-- [x] T027 [US1] **Test Gitleaks** with sample notebook containing fake secret (verify pre-commit blocks) (per FR-002)
-- [ ] T028 [US1] **Test GitHub Secret Scanning** by pushing test commit with fake secret (verify alert appears) (per FR-002, FR-002a) **[REQUIRES T019-T020 COMPLETION]**
+- [ ] T024 [US1] **Add TruffleHog** to `.pre-commit-config.yaml` (local hook with entry: `bash -c 'trufflehog git file://. --since-commit HEAD --results=verified,unknown --fail'`) (per FR-002)
+- [ ] T025 [US1] **Install TruffleHog** system-wide (brew install trufflehog or curl install script) (per FR-002)
+- [ ] T026 [US1] **Test TruffleHog** with sample file containing fake secret (verify pre-commit blocks) (per FR-002)
+- [ ] T027 [US1] **Test GitHub Secret Scanning** by pushing test commit with fake secret (verify alert appears) (per FR-002, FR-002a) **[REQUIRES T019-T020 COMPLETION]**
 
 #### Validation Hooks
 
@@ -86,12 +85,12 @@
 #### Documentation & Testing
 
 - [x] T034 [P] [US1] Update `.gitignore` with notebook execution artifacts patterns (`.ipynb_checkpoints/`, `**/*-checkpoint.ipynb`)
-- [ ] T035 [US1] **Update `docs/notebooks/governance.md`** with hybrid secret scanning approach (GitHub + Gitleaks, no baseline files) (per FR-002, FR-002a)
-- [ ] T036 [US1] **Update `README.md`** security section to reference GitHub Secret Scanning (see `MIGRATION_SECRET_SCANNING.md` for content) (per FR-002a)
-- [ ] T037 [US1] **Update `CONTRIBUTING.md`** to remove detect-secrets instructions, add GitHub alert handling (see `MIGRATION_SECRET_SCANNING.md` for content) (per FR-002a)
+- [ ] T035 [US1] **Update `docs/notebooks/governance.md`** with hybrid secret scanning approach (GitHub + TruffleHog, no baseline files) (per FR-002, FR-002a)
+- [ ] T036 [US1] **Update `README.md`** security section to reference GitHub Secret Scanning and TruffleHog (see `MIGRATION_SECRET_SCANNING.md` for content) (per FR-002a)
+- [ ] T037 [US1] **Update `CONTRIBUTING.md`** to remove detect-secrets instructions, add TruffleHog setup and GitHub alert handling (see `MIGRATION_SECRET_SCANNING.md` for content) (per FR-002a)
 - [ ] T038 [US1] **Update `notebooks/README.md`** with secret scanning best practices (environment variables, no hardcoded secrets) (per FR-004)
 - [x] T039 [US1] Test pre-commit hooks with sample notebook with outputs (verify strip)
-- [ ] T040 [US1] **Verify defense in depth**: Test that Gitleaks blocks locally AND GitHub detects if bypassed (per FR-002, FR-002a)
+- [ ] T040 [US1] **Verify defense in depth**: Test that TruffleHog blocks locally AND GitHub detects if bypassed (per FR-002, FR-002a)
 
 **Checkpoint**: Security enforcement is active - notebooks cannot be committed with credentials or outputs
 
@@ -427,12 +426,12 @@ With multiple developers:
 **MVP Scope (US1 + US2)**: 67 tasks (Setup + Foundational + US1 + US2)
 **Full Feature**: 138 tasks
 
-**New Tasks for Hybrid Secret Scanning** (T019-T028, T035-T038, T040):
+**New Tasks for Hybrid Secret Scanning** (T019-T027, T035-T038, T040):
 - Enable GitHub Secret Scanning
 - Remove detect-secrets (pre-commit, dependencies, baseline file)
-- Add Gitleaks with notebook metadata allowlist
+- Add TruffleHog for pre-commit secret blocking
 - Update documentation (README, CONTRIBUTING, notebooks/README, governance.md)
-- Test defense in depth (Gitleaks blocks locally, GitHub detects if bypassed)
+- Test defense in depth (TruffleHog blocks locally, GitHub detects if bypassed)
 
 **Estimated Effort**:
 - MVP: 2.5-3.5 weeks (1 developer) - includes secret scanning migration
