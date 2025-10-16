@@ -7,6 +7,11 @@ readme = "README.md"
 license = { text = "MIT" }
 dependencies = [
     "ai-kit-core",
+    "click>=8.1.0",
+    "questionary>=2.0.0",
+    "rich>=13.0.0",
+    "nbformat>=5.9.0",
+    "ruamel.yaml>=0.18.0",
 ]
 
 [project.scripts]

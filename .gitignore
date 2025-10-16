@@ -42,7 +42,9 @@ pnpm-debug.log*
 lerna-debug.log*
 .pnpm-store/
 .turbo/
-*.tsbuildinfo
+
+# One-time enhancement scripts
+scripts/enhance_*.py
 
 # IDEs and Editors
 .vscode/
@@ -62,3 +64,7 @@ Thumbs.db
 *.tmp
 *.temp
 .cache/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+**/*-checkpoint.ipynb

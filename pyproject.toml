@@ -11,6 +11,10 @@ dev = [
     "pre-commit>=4.0.0",
     "ruff>=0.14.0",
     "pytest>=8.0.0",
+    "nbstripout>=0.6.0",
+    "papermill>=2.4.0",
+    "nbconvert>=7.0.0",
+    "nbqa>=1.7.0",
 ]
 
 [tool.uv.workspace]
@@ -34,7 +38,9 @@ select = [
     "C4",  # flake8-comprehensions
     "SIM", # flake8-simplify
 ]
-ignore = []
+ignore = [
+    "E711",  # Comparison to None - disabled for SQLAlchemy compatibility
+]
 
 [tool.ruff.lint.isort]
 known-first-party = ["ai_kit"]

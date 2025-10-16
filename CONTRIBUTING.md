@@ -38,6 +38,15 @@ Install the following tools:
    curl https://get.volta.sh | bash
    ```
 
+4. **TruffleHog** - Secret scanning tool (required for pre-commit hooks)
+   ```bash
+   # macOS
+   brew install trufflehog
+   
+   # Linux/macOS/Windows (WSL)
+   curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/main/scripts/install.sh | sh -s -- -b /usr/local/bin
+   ```
+
 ### Initial Setup
 
 ```bash
@@ -77,17 +86,40 @@ uv run ruff format --check .
 
 ### Pre-commit Hooks
 
-Pre-commit hooks run automatically on every commit:
+Pre-commit hooks run automatically on every commit to enforce code quality and security:
+
+**Hooks that run**:
+- **ruff check** - Linting
+- **ruff format** - Code formatting
+- **nbstripout** - Strip notebook outputs (for `.ipynb` files)
+- **TruffleHog** - Secret scanning (blocks commits with credentials)
+- **Notebook metadata validation** - Validates required metadata fields
+- **Notebook size check** - Warns at 5MB, blocks at 10MB
 
 ```bash
 # Manually run pre-commit on all files
 uv run pre-commit run --all-files
 
-# Skip hooks (NOT recommended)
+# Run specific hook
+uv run pre-commit run trufflehog --all-files
+
+# Skip hooks (NOT recommended - will fail in CI)
 git commit --no-verify
 ```
 
 **Note**: CI will catch skipped hooks, so it's better to fix issues locally.
+
+#### Secret Scanning
+
+TruffleHog automatically scans for hardcoded credentials:
+- **Blocks commits** containing API keys, tokens, passwords
+- **Detects** 700+ secret types (AWS keys, GitHub tokens, private keys, etc.)
+- **Defense in depth**: GitHub Secret Scanning also monitors pushes
+
+If TruffleHog blocks your commit:
+1. **Remove the secret** from your code
+2. **Use environment variables** instead: `os.getenv("API_KEY")`
+3. **Never commit** `.env` files with real credentials
 
 ### Code Style
 
@@ -206,7 +238,8 @@ All PRs must pass:
 - ✅ Formatting (ruff format --check)
 - ✅ Tests (pytest)
 - ✅ Build (uv build)
-- ✅ Pre-commit hooks
+- ✅ Pre-commit hooks (including TruffleHog secret scanning)
+- ✅ GitHub Secret Scanning (push protection)
 
 ## Monorepo Guidelines
 

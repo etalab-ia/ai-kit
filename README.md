@@ -12,7 +12,7 @@ A Python-first monorepo providing tools, templates, and libraries for building A
 
 - **Python**: 3.12+ (managed by uv)
 - **Node.js**: 22.x LTS (managed by Volta)
-- **Tools**: [uv](https://docs.astral.sh/uv/), [just](https://github.com/casey/just), [Volta](https://volta.sh/)
+- **Tools**: [uv](https://docs.astral.sh/uv/), [just](https://github.com/casey/just), [Volta](https://volta.sh/), [TruffleHog](https://github.com/trufflesecurity/trufflehog)
 
 ### Setup (< 10 minutes)
 
@@ -57,8 +57,22 @@ just clean
 ### Running the CLI
 
 ```bash
-# Run the example CLI
-uv run --package ai-kit-cli ai-kit "Your Name"
+# Show CLI help
+just cli --help
+
+# Notebook management (convenience wrapper)
+just notebook create        # Create a new notebook
+just notebook list          # List all notebooks
+just notebook stats         # Show notebook statistics
+just notebook validate notebooks/exploratory/my-notebook.ipynb
+
+# Parameterized execution and conversion
+just notebook run input.ipynb output.ipynb -p start_date=2024-01-01
+just notebook convert output.ipynb html
+
+# Or use generic CLI command
+just cli notebook create
+just cli notebook run input.ipynb output.ipynb -p key=value
 ```
 
 ## Monorepo Structure
@@ -66,9 +80,12 @@ uv run --package ai-kit-cli ai-kit "Your Name"
 ```
 ai-kit/
 ├── apps/                    # Deployable applications
-│   └── cli/                # Example CLI application
+│   └── cli/                # Unified CLI application
 ├── packages/                # Importable libraries
 │   └── core/               # Core library
+├── notebooks/               # Jupyter notebooks (exploratory, tutorials, evaluations, compliance, reporting)
+├── docs/                    # Documentation
+│   └── notebooks/          # Notebook governance guides
 ├── .github/workflows/       # CI/CD pipelines
 ├── pyproject.toml          # Root workspace configuration
 ├── package.json            # Turborepo configuration
@@ -93,8 +110,10 @@ ai-kit/
 - **pnpm** (10.x+): Fast, efficient package manager (via Corepack)
 - **Turborepo** (2.5.x+): Monorepo build system with caching
 
-### Code Quality
+### Code Quality & Security
 - **pre-commit**: Git hooks for automated quality checks
+- **TruffleHog**: Secret scanning to prevent credential leaks
+- **GitHub Secret Scanning**: Push protection and continuous monitoring
 - **GitHub Actions**: CI/CD pipelines with strict package isolation
 
 ## Key Features
@@ -103,6 +122,7 @@ ai-kit/
 ✅ **Monorepo**: Single repository, multiple packages, shared virtual environment  
 ✅ **Fast**: Turborepo caching reduces build time by 95%  
 ✅ **Strict**: Package isolation catches undeclared dependencies  
+✅ **Secure**: Hybrid secret scanning (TruffleHog + GitHub) prevents credential leaks  
 ✅ **Automated**: Pre-commit hooks and CI/CD pipelines  
 ✅ **Cross-Platform**: Works on macOS, Linux, and Windows  
 ✅ **Specification-Driven**: Reference implementation of SpecKit methodology with traceable development workflows  
@@ -130,6 +150,7 @@ Learn more about SpecKit at [github.com/speckit/speckit](https://github.com/spec
 - **CI Testing**: [.github/CI_TESTING.md](./.github/CI_TESTING.md)
 - **Package READMEs**: See individual package directories
 - **Constitution**: [.specify/memory/constitution.md](./.specify/memory/constitution.md) - Core principles and governance
+- **Notebook Governance**: [docs/notebooks/governance.md](./docs/notebooks/governance.md) - Jupyter notebook policies and security requirements
 
 ## Architecture
 
