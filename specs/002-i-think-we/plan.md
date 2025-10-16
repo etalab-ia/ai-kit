@@ -11,7 +11,7 @@ Implement Jupyter notebook governance infrastructure for ai-kit to balance explo
 
 ## Technical Context
 
-**Language/Version**: Python 3.11+ (aligns with ai-kit monorepo standard)  
+**Language/Version**: Python 3.12+ (aligns with ai-kit monorepo standard)  
 **Primary Dependencies**: 
 - **nbstripout**: Pre-commit hook for stripping notebook outputs
 - **GitHub Secret Scanning**: Native secret detection (continuous monitoring, free for public repos)
@@ -254,7 +254,7 @@ All technical unknowns resolved. Ready for implementation.
    - Compliance officer instructions
 
 4. **Agent Context** (`.windsurf/rules/specify-rules.md`):
-   - Updated with Python 3.11+, file system storage, monorepo infrastructure
+   - Updated with Python 3.12+, file system storage, monorepo infrastructure
    - Enables AI agent to understand project context
 
 **Constitution Re-Check**: ✅ Still compliant (no design changes affecting principles)

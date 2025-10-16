@@ -38,7 +38,7 @@ just setup
 ### Common Issues
 
 #### Older Python Version
-**Issue**: System Python is 3.11 or older
+**Issue**: System Python is older than 3.12
 
 **Solution**: uv will automatically install Python 3.12.10
 ```bash
@@ -265,7 +265,7 @@ services:
 
 ### Older Python Version on System
 
-**Issue**: System has Python 3.11 or older
+**Issue**: System has Python older than 3.12
 
 **Solution**: uv installs Python 3.12.10 automatically
 ```bash

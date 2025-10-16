@@ -198,7 +198,7 @@ repos:
         },
         "language_info": {
             "name": "python",
-            "version": "3.11.0"
+            "version": "3.12.0"
         }
     },
     "nbformat": 4,
