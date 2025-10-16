@@ -86,8 +86,8 @@
 
 - [x] T034 [P] [US1] Update `.gitignore` with notebook execution artifacts patterns (`.ipynb_checkpoints/`, `**/*-checkpoint.ipynb`)
 - [ ] T035 [US1] **Update `docs/notebooks/governance.md`** with hybrid secret scanning approach (GitHub + TruffleHog, no baseline files) (per FR-002, FR-002a)
-- [ ] T036 [US1] **Update `README.md`** security section to reference GitHub Secret Scanning and TruffleHog (see `MIGRATION_SECRET_SCANNING.md` for content) (per FR-002a)
-- [ ] T037 [US1] **Update `CONTRIBUTING.md`** to remove detect-secrets instructions, add TruffleHog setup and GitHub alert handling (see `MIGRATION_SECRET_SCANNING.md` for content) (per FR-002a)
+- [x] T036 [US1] **Update `README.md`** security section to reference GitHub Secret Scanning and TruffleHog (per FR-002a)
+- [x] T037 [US1] **Update `CONTRIBUTING.md`** to add TruffleHog setup and GitHub alert handling (per FR-002a)
 - [ ] T038 [US1] **Update `notebooks/README.md`** with secret scanning best practices (environment variables, no hardcoded secrets) (per FR-004)
 - [x] T039 [US1] Test pre-commit hooks with sample notebook with outputs (verify strip)
 - [ ] T040 [US1] **Verify defense in depth**: Test that TruffleHog blocks locally AND GitHub detects if bypassed (per FR-002, FR-002a)
