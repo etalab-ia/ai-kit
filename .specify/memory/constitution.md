@@ -1,34 +1,59 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version Change: 1.8.1 → 1.9.0
-Rationale: MINOR version bump - Added new Principle XV: Package Naming Consistency to establish mandatory ai_kit namespace for all monorepo packages and applications.
+Version Change: 1.9.0 → 1.10.0
+Rationale: MINOR version bump - Expanded Principle I (EU AI Act Compliance) with French Government High-Risk Use Cases section, Risk Assessment Workflow, and High-Risk AI Mandatory Artifacts. This provides concrete guidance for ALLiaNCE incubations based on domain expert input on EU AI Act compliance.
 
-Added Sections:
-- Principle XV: Package Naming Consistency
-  * Mandates ai_kit namespace for all Python packages
-  * Defines structure: apps/<app-name>/src/ai_kit/<app-name>/
-  * Defines structure: packages/<package-name>/src/ai_kit/<package-name>/
-  * Requires consistent imports: from ai_kit.cli import commands
-  * Prevents namespace fragmentation (ai_kit_cli, notebook_tools, etc.)
-  * Ensures clear ownership and architectural coherence
+Modified Sections:
+- Principle I: EU AI Act Compliance (NON-NEGOTIABLE)
+  * Added "French Government High-Risk Use Cases" section with two categories:
+    - Category A (Primary ALLiaNCE Scope): French State services (agent-facing + citizen-facing) - Legal assistance, social benefits eligibility, speech-to-text transcription
+    - Category B (Advisory Scope): Food safety, energy/critical infrastructure, defense systems
+  * Clarified ai-kit scope: French State services (l'État), not territorial collectivities or hospitals
+  * Added concrete examples from ALLiaNCE incubations: Conseil d'État assistant, employment law assistants, OpenGateLLM transcription
+  * Added "Risk Assessment Workflow" with 5-step process for risk classification
+  * Added "Transcription Audio Risk Assessment Decision Tree" for context-dependent systems
+  * Added "High-Risk AI Mandatory Artifacts" section specifying required documentation:
+    - Risk Management Documentation
+    - Data Governance Plan
+    - Technical Documentation (model cards, performance metrics)
+    - Human Oversight Design
+    - Audit Trail System
+    - Instructions for Deployers
+    - Incident Response Plan
+    - Context Classification Document (for dual-risk systems)
+  * Clarified ai-kit responsibilities for each High-Risk category (audit logging, bias testing, explainability tools)
+  * Added OpenGateLLM-specific guidance for transcription compliance
 
-Modified Principles: N/A (new principle added)
+Added Sections: N/A (expanded existing Principle I)
 
 Removed Sections: N/A
 
 Templates Requiring Updates:
-- ⚠️ specs/002-i-think-we/tasks.md - Update all CLI paths from apps/cli/src/ai_kit_cli/ to apps/cli/src/ai_kit/cli/
-- ⚠️ specs/002-i-think-we/plan.md - Update project structure section with corrected paths
-- ⚠️ specs/002-i-think-we/data-model.md - Update CLI configuration paths if referenced
-- ⚠️ specs/002-i-think-we/contracts/cli-interface.md - Update CLI paths in examples
-- ⚠️ specs/002-i-think-we/quickstart.md - Update CLI paths in code examples
+- ✅ .specify/templates/spec-template.md - COMPLETED: Added "EU AI Act Risk Classification" section with:
+  * Risk level determination (Prohibited/High-Risk/Limited/Minimal)
+  * Annex III reference if High-Risk
+  * Context-dependent classification table for multi-use-case systems
+  * High-Risk compliance trigger checklist
+  * Scope change monitoring requirements
+- ✅ .specify/templates/plan-template.md - COMPLETED: Updated "Constitution Check" and added:
+  * Detailed EU AI Act risk classification validation sub-checklist
+  * "High-Risk AI Mandatory Artifacts Checklist" section with 8 artifact categories
+  * Documentation location guidance for each artifact type
+  * Compliance status tracking and gap identification
+- ⚠️ .specify/templates/tasks-template.md - Add task categories for High-Risk AI compliance:
+  * Risk management documentation tasks
+  * Data governance and bias testing tasks
+  * Audit trail implementation tasks
+  * Human oversight UI/UX tasks
+  * Deployer instructions documentation tasks
 
 Follow-up TODOs:
-- Update tasks.md with corrected package paths (apps/cli/src/ai_kit/cli/)
-- Update all design documents for feature 002-i-think-we
-- Verify no other features use incorrect package naming
-- Update any existing code that violates Principle XV
+- Create OpenGateLLM Compliance Guide documenting transcription risk classification
+- Update existing feature specs to include EU AI Act risk classification
+- Create example High-Risk AI project demonstrating mandatory artifacts
+- Develop bias testing and explainability tool templates for ai-kit
+- Create audit logging and human oversight UI pattern library
 -->
 
 # ai-kit Constitution
@@ -44,6 +69,91 @@ ai-kit projects MUST comply with the EU Artificial Intelligence Act, the first c
 - **High-Risk AI**: Systems listed in Annex III or used as safety components require strict compliance
 - **Limited Risk AI**: Transparency obligations (e.g., chatbots must disclose they are AI)
 - **Minimal Risk**: Unregulated (e.g., spam filters, AI-enabled games)
+
+**French Government High-Risk Use Cases**:
+
+The following use cases are common in French Government AI services and typically fall under **High-Risk AI** classification per EU AI Act Annex III:
+
+**A. French State Services (Primary ALLiaNCE Scope)**:
+
+Includes both agent-facing services for State public servants (agents publics d'État) and citizen-facing public services.
+
+- **Legal Assistance Systems** (Annex III, Point 8):
+  - AI systems assisting judicial or administrative authorities in legal research, interpretation, or case analysis
+  - Examples: Conseil d'État legal assistant, employment law response assistants (droit de réponse au travail)
+  - **Critical Requirements**: Human oversight mandatory, decisions must remain with human authorities, full audit trail of AI recommendations, transparency about AI limitations in legal reasoning
+  - **Deployer Obligation**: Legal professionals must validate all AI-generated legal analysis before use
+  - **ai-kit Responsibilities**: Provide audit logging, human-in-the-loop UI patterns, explainability tools for legal reasoning
+
+- **Social Benefits Eligibility Systems** (Annex III, Point 5(b)):
+  - AI systems evaluating eligibility for public assistance, benefits, or social services
+  - AI systems providing guidance on citizen entitlements and rights (ayants droit)
+  - Examples: Benefits eligibility calculators, rights information assistants, social aid attribution systems
+  - **Critical Requirements**: Non-discrimination testing, explainability of eligibility decisions, human review for denials, clear appeal mechanisms, representative training data across socio-economic groups
+  - **Deployer Obligation**: Social workers must verify AI eligibility determinations, especially for denials
+  - **ai-kit Responsibilities**: Provide bias testing tools, explainability frameworks, human review workflows, appeal tracking systems
+
+- **Speech-to-Text & Audio Transcription Systems** (Context-Dependent Risk):
+  - AI systems for automatic transcription of speech to text
+  - Examples: OpenGateLLM transcription functionality, meeting minutes automation, accessibility services
+
+  **Risk Classification (Context-Dependent)**:
+
+  - **Limited Risk** (Most Common):
+    - General transcription for internal meetings, notes, documentation
+    - Accessibility services (subtitling, assistive technologies)
+    - Public information dissemination
+    - **Requirements**: Transparency obligations (disclose AI use), accuracy standards, privacy protections
+
+  - **High-Risk** (Administrative/Legal Contexts):
+    - Transcription feeding into administrative decision-making processes
+    - Transcription of official proceedings (judicial, regulatory hearings)
+    - Transcription used as evidence or official record in benefits eligibility, legal determinations
+    - **Requirements**: Full High-Risk AI compliance (risk management, data governance, human oversight, audit trails, technical documentation)
+
+  **Critical Requirements (All Contexts)**:
+  - Accuracy standards appropriate to use case (higher for administrative/legal contexts)
+  - Human review mandatory for High-Risk contexts (official records, legal proceedings)
+  - Privacy protections for recorded speech data (GDPR compliance)
+  - Clear disclosure when AI transcription is used
+  - Data retention and deletion policies
+  - No speaker identification/biometric analysis without explicit legal basis
+
+  **OpenGateLLM Integration**:
+  - ai-kit MUST provide risk assessment guidance for OpenGateLLM transcription use cases
+  - Teams MUST classify their transcription use case (Limited vs. High-Risk) in `spec.md`
+  - High-Risk transcription projects MUST activate full compliance workflow
+  - Document transcription accuracy requirements and validation procedures in `plan.md`
+
+**B. Critical Infrastructure & Specialized Sectors (Advisory Scope)**:
+
+The following High-Risk categories are less common in ALLiaNCE incubations but may be encountered when advising other administrations:
+
+- **Food Safety & Supply Chain** (Annex III, Point 2):
+  - AI systems managing food safety components (e.g., food traceability)
+  - AI systems controlling critical food supply chain operations
+  - **Ministries Concerned**: Agriculture, Economy
+  - **Note**: ALLiaNCE does not typically incubate these systems but may provide ai-kit guidance to responsible administrations
+
+- **Energy & Critical Infrastructure** (Annex III, Point 2):
+  - AI systems managing energy production, distribution, or grid stability
+  - AI systems controlling critical infrastructure safety components
+  - **Ministries Concerned**: Ecological Transition, Economy
+  - **Note**: ALLiaNCE does not typically incubate these systems but may provide ai-kit guidance to responsible administrations
+
+- **Defense & Security Systems** (Annex III, Point 1):
+  - AI systems for weapons systems, military applications, or defense infrastructure
+  - **Ministries Concerned**: Armed Forces (Armées), Interior (Intérieur)
+  - **Note**: Outside ALLiaNCE scope; specialized defense AI frameworks apply
+
+**Scope Clarification**:
+- ai-kit is primarily designed for **French State digital services** (Category A), serving both:
+  - **Agent-facing services**: Tools and systems for State public servants (agents publics d'État)
+  - **Citizen-facing services**: Public-facing digital services for citizens
+- Primary mission concerns the State (l'État), not territorial collectivities (collectivités territoriales) or hospitals
+- Category B systems (critical infrastructure) require specialized compliance frameworks beyond ai-kit's scope
+- Teams working on Category B systems should consult sector-specific AI regulations and ANSSI guidance
+- ai-kit MAY provide foundational compliance tools but is NOT sufficient alone for critical infrastructure AI
 
 **Requirements for High-Risk AI Systems**:
 - Establish risk management system throughout the AI system's lifecycle
@@ -71,6 +181,116 @@ ai-kit projects MUST comply with the EU Artificial Intelligence Act, the first c
 - Document risk assessments for systems that may be high-risk
 - Keep records of AI system lifecycle events
 - Provide transparency about AI capabilities and limitations
+
+**Risk Assessment Workflow**:
+
+All ai-kit projects MUST conduct risk classification assessment at project inception:
+
+1. **Identify Use Case**: Map project to Annex III categories using EU AI Act Compliance Checker
+   - Review "French Government High-Risk Use Cases" section above for common patterns
+   - Special attention: Context-dependent systems (e.g., transcription) require use case analysis
+   - Use decision trees provided below for common dual-risk scenarios
+
+2. **Document Classification**: Record risk level (Prohibited/High-Risk/Limited/Minimal) in `spec.md`
+   - Include rationale for classification
+   - For context-dependent systems, document all intended use cases and their individual risk levels
+   - Reference specific Annex III points that apply
+
+3. **High-Risk Trigger**: If High-Risk, activate mandatory compliance workflow:
+   - Establish risk management system (document in `plan.md`)
+   - Define data governance requirements (document in `data-model.md`)
+   - Plan human oversight mechanisms (document in `contracts/`)
+   - Prepare technical documentation for homologation dossier
+   - Define accuracy, robustness, and cybersecurity targets
+   - Plan for quality management system
+
+4. **Compliance Validation**: Include risk classification in Constitution Check section of all design artifacts
+   - Verify classification remains accurate as system evolves
+   - Document any scope changes that affect risk level
+
+5. **Ongoing Monitoring**: Re-assess risk classification when system capabilities or use cases evolve
+   - Quarterly review for production systems
+   - Immediate re-assessment if new features or use cases added
+   - Document classification changes and trigger compliance updates if moving to higher risk category
+
+**Transcription Audio Risk Assessment Decision Tree**:
+
+For speech-to-text and audio transcription systems, use this decision tree to determine risk level:
+
+1. **Is the transcription used to inform administrative decisions?**
+   - YES → Likely High-Risk, continue to Q2
+   - NO → Likely Limited Risk, verify with Q3
+
+2. **Does the transcription feed into systems that determine:**
+   - Citizen eligibility for benefits/services?
+   - Legal or regulatory outcomes?
+   - Official administrative records?
+   - YES to any → **High-Risk AI** (Annex III, Point 5 or 8)
+   - NO to all → Continue to Q3
+
+3. **Is the transcription used for:**
+   - Internal team collaboration?
+   - Accessibility/subtitling?
+   - General documentation?
+   - YES → **Limited Risk AI** (transparency obligations only)
+
+**When in doubt**: Classify as High-Risk and conduct full compliance assessment. It is safer to over-comply than under-comply.
+
+**High-Risk AI Mandatory Artifacts**:
+
+For High-Risk AI systems, ai-kit projects MUST produce the following documentation and deliverables:
+
+- **Risk Management Documentation**:
+  - Lifecycle risk assessment (inception, development, deployment, maintenance phases)
+  - Risk mitigation strategies with implementation details
+  - Residual risk acceptance documentation
+  - Document in `plan.md` and maintain in `docs/risk-management/`
+
+- **Data Governance Plan**:
+  - Training/validation/testing data quality assurance procedures
+  - Bias testing methodology and results
+  - Representativeness validation across relevant population segments
+  - Data provenance and lineage documentation
+  - Document in `data-model.md` and maintain datasets documentation
+
+- **Technical Documentation**:
+  - System architecture and component descriptions
+  - Model cards (for ML models): architecture, training data, performance metrics, limitations
+  - Performance benchmarks and accuracy targets
+  - Known limitations and failure modes
+  - Document in `plan.md`, `research.md`, and technical specifications
+
+- **Human Oversight Design**:
+  - Mechanisms for human intervention in AI decision process
+  - Override capabilities and escalation procedures
+  - Training requirements for human overseers
+  - Document in `contracts/` and UI/UX specifications
+
+- **Audit Trail System**:
+  - Automatic logging of AI decisions, inputs, outputs, and human interventions
+  - Log retention policies compliant with legal requirements
+  - Audit query and reporting capabilities
+  - Document in `contracts/` and implementation specifications
+
+- **Instructions for Deployers**:
+  - Clear guidance on proper use and limitations
+  - Human oversight requirements and procedures
+  - Monitoring and maintenance recommendations
+  - Incident response procedures
+  - Document in `quickstart.md` and operational documentation
+
+- **Incident Response Plan**:
+  - Procedures for handling AI failures or unexpected behaviors
+  - Bias incident detection and remediation
+  - Compliance breach reporting procedures
+  - Document in operational documentation and `plan.md`
+
+- **Context Classification Document** (for context-dependent systems):
+  - All intended use cases and contexts
+  - Risk classification for each context
+  - Controls to prevent Limited Risk system from being used in High-Risk context
+  - Monitoring to detect scope creep into High-Risk territory
+  - Document in `spec.md` and operational procedures
 
 **Rationale**: The EU AI Act is becoming a global standard for AI governance, similar to GDPR for data protection. French Government AI services must comply as they operate within the EU. Compliance ensures AI systems are safe, transparent, and respect fundamental rights. Non-compliance can result in significant penalties (up to €35M or 7% of global turnover for prohibited AI). Proactive compliance protects citizens and builds trust in government AI services.
 
@@ -727,4 +947,4 @@ Any deviation from these principles MUST be documented with:
 - Plan to return to compliance if possible
 - Approval from project stakeholders
 
-**Version**: 1.9.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-14
+**Version**: 1.10.0 | **Ratified**: 2025-10-11 | **Last Amended**: 2025-10-16

@@ -33,7 +33,13 @@
 
 Verify compliance with ai-kit constitution principles:
 
-- [ ] **EU AI Act Compliance (Principle I)**: Has the AI system been classified according to EU AI Act risk categories? Are requirements for high-risk AI systems addressed (risk management, data governance, documentation, human oversight)?
+- [ ] **EU AI Act Compliance (Principle I)**: 
+  - [ ] AI system classified according to EU AI Act risk categories (Prohibited/High-Risk/Limited/Minimal)
+  - [ ] Risk classification documented in `spec.md` with Annex III reference if High-Risk
+  - [ ] For context-dependent systems (e.g., transcription): all use cases classified individually
+  - [ ] If High-Risk, Risk Assessment Workflow (5-step process) activated
+  - [ ] If High-Risk, all mandatory artifacts planned (see checklist below)
+  - [ ] Scope change monitoring process defined to detect risk elevation
 - [ ] **RGAA Accessibility Compliance (Principle II)**: Do all UI components meet RGAA 4 criteria? Is automated accessibility testing included? Does the UX work on mobile, tablet, and desktop?
 - [ ] **Security Homologation (Principle III)**: Is security risk assessment planned? Are homologation dossier requirements addressed? Is the homologation authority identified? Are security measures documented for RGS compliance?
 - [ ] **Open Source & Digital Commons (Principle IV)**: Is the code published under an open source license? Are open source and sovereign solutions privileged over proprietary alternatives?
@@ -49,6 +55,70 @@ Verify compliance with ai-kit constitution principles:
 - [ ] **Streamlit-to-Production Bridge (Principle XIV)**: If using Streamlit, is there a migration path to Reflex? Are ProConnect and DSFR integrations planned?
 
 **Violations Requiring Justification**: [List any principle violations with rationale, or state "None"]
+
+### High-Risk AI Mandatory Artifacts Checklist
+
+*Complete this section ONLY if the feature is classified as High-Risk AI in spec.md*
+
+If this feature is High-Risk AI, verify that the following mandatory artifacts are planned and documented:
+
+- [ ] **Risk Management Documentation**:
+  - [ ] Lifecycle risk assessment planned (inception, development, deployment, maintenance)
+  - [ ] Risk mitigation strategies defined
+  - [ ] Residual risk acceptance process identified
+  - [ ] Documentation location: `plan.md` (this file) and `docs/risk-management/`
+
+- [ ] **Data Governance Plan**:
+  - [ ] Training/validation/testing data quality assurance procedures defined
+  - [ ] Bias testing methodology specified
+  - [ ] Representativeness validation approach documented
+  - [ ] Data provenance and lineage tracking planned
+  - [ ] Documentation location: `data-model.md`
+
+- [ ] **Technical Documentation**:
+  - [ ] System architecture documented
+  - [ ] Model cards planned (architecture, training data, performance metrics, limitations)
+  - [ ] Performance benchmarks and accuracy targets defined
+  - [ ] Known limitations and failure modes documented
+  - [ ] Documentation location: `plan.md`, `research.md`, technical specs
+
+- [ ] **Human Oversight Design**:
+  - [ ] Human intervention mechanisms designed
+  - [ ] Override capabilities and escalation procedures defined
+  - [ ] Training requirements for human overseers documented
+  - [ ] Documentation location: `contracts/` and UI/UX specifications
+
+- [ ] **Audit Trail System**:
+  - [ ] Automatic logging of AI decisions, inputs, outputs planned
+  - [ ] Human intervention logging designed
+  - [ ] Log retention policies defined (compliant with legal requirements)
+  - [ ] Audit query and reporting capabilities specified
+  - [ ] Documentation location: `contracts/` and implementation specs
+
+- [ ] **Instructions for Deployers**:
+  - [ ] Proper use guidance planned
+  - [ ] Limitations clearly documented
+  - [ ] Human oversight requirements specified
+  - [ ] Monitoring and maintenance recommendations defined
+  - [ ] Incident response procedures documented
+  - [ ] Documentation location: `quickstart.md` and operational docs
+
+- [ ] **Incident Response Plan**:
+  - [ ] AI failure handling procedures defined
+  - [ ] Bias incident detection and remediation planned
+  - [ ] Compliance breach reporting procedures specified
+  - [ ] Documentation location: operational docs and `plan.md`
+
+- [ ] **Context Classification Document** (if context-dependent system):
+  - [ ] All intended use cases and contexts documented
+  - [ ] Risk classification for each context specified
+  - [ ] Controls to prevent Limited Risk → High-Risk migration designed
+  - [ ] Scope creep monitoring process defined
+  - [ ] Documentation location: `spec.md` and operational procedures
+
+**High-Risk AI Compliance Status**: [All artifacts planned / Partial - see gaps below / Not applicable]
+
+**Gaps or Deferred Items**: [List any mandatory artifacts not yet planned with justification]
 
 ## Project Structure
 
